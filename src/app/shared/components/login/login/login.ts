@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
-import { createLinkedSignal } from '@angular/core/primitives/signals';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +33,8 @@ export class Login {
         next: (response) => {
           if (response.success && response.data && response.data.token) {
             this.authService.saveToken(response.data.token);
-            
+            this.authService.saveUser(response.data);
+
             // Navigate based on role
             const userRole = this.authService.getUserRole();
             if (userRole === 'ADMIN') {

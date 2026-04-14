@@ -17,7 +17,7 @@ export class AuthService {
 
   login(credentials: LoginRequest): Observable<ApiResponse<LoginResponse>> {
     return this.http.post<ApiResponse<LoginResponse>>(
-      `${this.apiUrl}/login`,
+      `${this.apiUrl}/api/login`,
       credentials,
       { withCredentials: true }
     );
@@ -25,7 +25,7 @@ export class AuthService {
 
   register(userData: RegisterRequest): Observable<ApiResponse<UserResponse>> {
     return this.http.post<ApiResponse<UserResponse>>(
-      `${this.apiUrl}/register`,
+      `${this.apiUrl}/api/register`,
       userData,
       { withCredentials: true }
     );
