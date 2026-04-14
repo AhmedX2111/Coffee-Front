@@ -24,7 +24,7 @@ export interface ApiResponse<T> {
   timestamp: string;
 }
 
-export interface LoginResponse {
+export interface LoginResponse extends UserResponse {
   token: string;
 }
 
