@@ -1,33 +1,35 @@
-export interface AuthResponse {
-  token: string;
-  refreshToken: string;
-  user: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: 'customer' | 'branch_manager' | 'super_admin';
-  };
-}
-
 export interface LoginRequest {
   email: string;
   password: string;
 }
 
 export interface RegisterRequest {
+  name: string;
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
   phone: string;
-  role: 'customer' | 'branch_manager' | 'super_admin';
 }
 
-export interface TokenPayload {
-  sub: string;
+export interface UserResponse {
   email: string;
+  name: string;
   role: string;
-  iat: number;
-  exp: number;
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  message: string;
+  data: T;
+  errors: any;
+  timestamp: string;
+}
+
+export interface LoginResponse {
+  token: string;
+}
+
+export interface RegisterResponse {
+  email: string;
+  name: string;
+  role: string;
 }
