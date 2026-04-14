@@ -7,8 +7,12 @@ import { AdminGuard } from './core/guards/admin.guard';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'auth/login',
+    redirectTo: 'home',
     pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./shared/components/login/login/login').then(m => m.Login)
   },
   {
     path: 'auth',
