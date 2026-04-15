@@ -1,9 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import {  Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LoginRequest, LoginResponse, RegisterRequest, UserResponse } from '../models/auth.model';
-import { User } from '../models/user.model';
 import { ApiResponse } from '../models/response.model';
 
 @Injectable({

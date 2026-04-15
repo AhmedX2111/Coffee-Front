@@ -1,0 +1,166 @@
+<div class=" min-h-[80vh] flex items-center justify-center px-4 py-12">
+  <div class="max-w-md w-full space-y-12 animate-in fade-in zoom-in-95 duration-700">
+    <div class="text-center space-y-4">
+      <div
+        class="w-20 h-20 bg-primary rounded-3xl flex items-center justify-center mx-auto shadow-xl shadow-primary/20">
+      </div>
+      <h1 class="text-4xl font-display font-bold">Create Account</h1>
+      <p class="text-primary/60">Join Brew & Bite and start earning rewards.</p>
+    </div>
+
+    <form class="space-y-6"  [formGroup]="signupForm" (ngSubmit)="signupSubmit()">
+        <div class="space-y-2"> <!-- Full Name Field -->
+          <label for="name" class="text-sm font-bold text-primary/60 ml-1">Full Name</label>
+          <input id="name" type="text" placeholder="John Doe" class="input-field "  formControlName="name" 
+           [ngClass]="{
+              'border-red-500': ( signupF['name'].invalid && (signupF['name'].dirty || signupF['name'].touched)),
+              'border-secondary': !( signupF['name'].invalid && (signupF['name'].dirty || signupF['name'].touched))
+            }">
+        @if (signupF['name'].invalid && (signupF['name'].dirty || signupF['name'].touched)) {
+            <div class="text-red-500 text-sm mt-2 ">
+               @if (signupF['name'].hasError('minlength')) {
+                <div>Name must be at least 3 characters long.</div>
+              }
+              @if (signupF['name'].hasError('required')) {
+                <div>Name is required.</div>
+              }
+             @if (signupF['name'].hasError('maxLength')) {
+                <div>Name must be at most 20 characters long.</div>
+              }
+             
+             
+            </div>
+              } 
+        </div>    <!-- end of name Field -->
+      <div class="space-y-2">
+        <label for="phone" class="text-sm font-bold text-primary/60 ml-1">Phone Number</label>
+        <input id="phone" type="tel" placeholder="01234567890" class="input-field" formControlName="phone" minlength="11" maxlength="11"
+         [ngClass]="{
+              'border-red-500': ( signupF['phone'].invalid && (signupF['phone'].dirty || signupF['phone'].touched)),
+              'border-secondary': !( signupF['phone'].invalid && (signupF['phone'].dirty || signupF['phone'].touched))
+            }" (keypress)="blockArabic($event)"
+        >
+        @if (signupF['phone'].invalid && (signupF['phone'].dirty || signupF['phone'].touched)) {
+            <div class="text-red-500 text-sm mt-2 ">
+               @if (signupF['phone'].hasError('minlength')) {
+                <div>Phone number must be at least 11 characters long.</div>
+              }
+              @if (signupF['phone'].hasError('required')) {
+                <div>Phone number is required.</div>
+              }
+             @if (signupF['phone'].hasError('maxLength')) {
+                <div>Phone number must be at most 11 characters long.</div>
+              }
+              @if (signupF['phone'].hasError('maxLength')) {
+                <div>Phone number must be at most 11 characters long.</div>
+              }
+              @if (signupF['phone'].hasError('pattern')) {
+                <div>Phone number is not valid it must start with 010 or 011 or 012 or 015.</div>
+              }
+            </div>
+              } 
+      
+      </div>
+      <div class="space-y-2">
+        <label for="email" class="text-sm font-bold text-primary/60 ml-1">Email Address</label>
+        <input id="email" type="email" placeholder="name@example.com" class="input-field" formControlName="email"
+        [ngClass]="{
+              'border-red-500': ( signupF['email'].invalid && (signupF['email'].dirty || signupF['email'].touched)),
+              'border-secondary': !( signupF['email'].invalid && (signupF['email'].dirty || signupF['email'].touched))
+            }"
+        >
+      
+         @if (signupF['email'].invalid && (signupF['email'].dirty || signupF['email'].touched)) {
+            <div class="text-red-500 text-sm mt-2 ">
+                @if (signupF['email'].hasError('email') && signupF['email'].hasError('pattern')) {
+                  <div>Email address is not valid.</div>
+                }
+              @if (signupF['email'].hasError('required')) {
+                <div>Email address is required.</div>
+              }
+           
+            
+            </div>
+              } 
+      </div>
+
+      <div class="space-y-2">
+        <label for="password" class="text-sm font-bold text-primary/60 ml-1">Password</label>
+       <div   class="relative">
+        <input id="password" type="password" placeholder="••••••••" class="input-field" formControlName="password"
+         [type]="hidePassword ? 'password' : 'text'"
+        [ngClass]="{
+              'border-red-500': ( signupF['password'].invalid && (signupF['password'].dirty || signupF['password'].touched)),
+              'border-secondary': !( signupF['password'].invalid && (signupF['password'].dirty || signupF['password'].touched))
+            }"
+            >
+       <button
+    type="button"
+    (click)="togglePassword()"
+    class="absolute top-1/2 -translate-y-1/2 right-0 flex items-center px-4 text-gray-400 hover:text-blue-600 transition-colors"
+    tabindex="-1"
+  >
+    <!-- Eye Icon (Modern Angular @if) -->
+    @if (hidePassword) {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="w-5 h-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+      />
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+      />
+    </svg>
+    } @else {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="w-5 h-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"
+      />
+    </svg>
+    }
+  </button>
+  </div>
+       @if (signupF['password'].invalid && (signupF['password'].dirty || signupF['password'].touched)) {
+            <div class="text-red-500 text-sm mt-2 ">
+               @if (signupF['password'].hasError('minlength')) {
+                <div>Password must be at least 6 characters long.</div>
+              }
+              @if (signupF['password'].hasError('required')) {
+                <div>Password is required.</div>
+              }
+            </div>
+              }
+      </div>
+
+
+      <button type="submit" class="btn-primary w-full py-4 text-lg shadow-lg shadow-primary/20" [disabled]="!signupForm.valid">
+        Create Account
+      </button>
+    </form>
+
+    <p class="text-center text-sm text-primary/60">
+      Already have an account?
+      <a routerLink="/login" class="font-bold text-primary hover:underline">Sign in instead</a>
+    </p>
+  </div>
+</div>

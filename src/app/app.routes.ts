@@ -5,14 +5,18 @@ import { BranchManagerGuard } from './core/guards/branch-manager.guard';
 import { AdminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
-  {
+  /*{
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
-  },
+  },*/
   {
     path: 'login',
     loadComponent: () => import('./shared/components/login/login/login').then(m => m.Login)
+  },
+  {
+    path: 'signup',
+    loadComponent: () => import('./shared/components/signup/signup').then((m) => m.Signup),
   },
   {
     path: 'auth',
@@ -21,7 +25,7 @@ export const routes: Routes = [
   },
   {
     path: 'customer',
-    canActivate: [AuthGuard, CustomerGuard],
+   /*  canActivate: [AuthGuard, CustomerGuard], */
     loadChildren: () =>
       import('./features/customer/customer.routes').then(
         (m) => m.CUSTOMER_ROUTES
