@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -41,11 +41,11 @@ export class Login {
             const userRole = this.authService.getUserRole();
             console.log(userRole);
             if (userRole === 'ADMIN') {
-              this.router.navigate(['/admin/dashboard']);
-            } else if (userRole === 'BRANCH_MANAGER') {
-              this.router.navigate(['/branch-manager/dashboard']);
+              this.router.navigate(['/super-admin/']);
+            } else if (userRole === 'MANAGER') {
+              this.router.navigate(['/branch-manager/']);
             } else {
-              this.router.navigate(['/customer/dashboard']);
+              this.router.navigate(['/customer/']);
             }
           }
           console.log('Login successful:', response);

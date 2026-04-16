@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -37,7 +37,7 @@ signupSubmit() {
      this.signupForm.reset();
       },
     error: (error) => {
-    
+     console.log(error);
       this.toastService.error('Registration failed. Please try again.', 'Error');
     },
   });

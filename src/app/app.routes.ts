@@ -5,7 +5,7 @@ import { BranchManagerGuard } from './core/guards/branch-manager.guard';
 import { AdminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
-  
+
   {
     path: 'auth',
     loadChildren: () =>
@@ -20,7 +20,6 @@ export const routes: Routes = [
   },
   {
     path: 'branch-manager',
-    canActivate: [AuthGuard, BranchManagerGuard],
     loadChildren: () =>
       import('./features/branch-manager/branch-manager.routes').then(
         (m) => m.BRANCH_MANAGER_ROUTES
@@ -28,7 +27,6 @@ export const routes: Routes = [
   },
   {
     path: 'super-admin',
-    canActivate: [AuthGuard, AdminGuard],
     loadChildren: () =>
       import('./features/super-admin/super-admin.routes').then(
         (m) => m.SUPER_ADMIN_ROUTES
