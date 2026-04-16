@@ -1,31 +1,21 @@
-import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  Router,
-} from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+/**
+ * Functional Auth Guard — protects routes that require authentication.
+ *
+ * Usage:
+ *   { path: 'dashboard', canActivate: [authGuard], component: DashboardComponent }
+ */
+export const authGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.authService.hasToken()) {
-      return true;
-    }
-
-    // Not logged in, redirect to login
-    this.router.navigate(['/auth/login'], {
-      queryParams: { returnUrl: state.url },
-    });
-    return false;
+  if (authService.hasToken()) {
+    return true;
   }
-}
+
+  // Preserve the attempted URL so we can redirect back after login (optional)
+  return router.createUrlTree(['/auth/login']);
+};

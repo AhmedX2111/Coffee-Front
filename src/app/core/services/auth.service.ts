@@ -77,10 +77,10 @@ export class AuthService {
   }
 
   isBranchManager(): boolean {
-    return this.getUserRole() === 'BRANCH_MANAGER';
+    return this.getUserRole() === 'MANAGER';
   }
 
   isCustomer(): boolean {
-    return this.getUserRole() === 'CUSTOMER';
+    return this.getUserRole() === 'USER';
   }
 }
