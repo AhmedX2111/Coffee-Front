@@ -15,19 +15,24 @@ export class AuthService {
   private userKey = 'user_data';
 
   login(credentials: LoginRequest): Observable<ApiResponse<LoginResponse>> {
-    return this.http.post<ApiResponse<LoginResponse>>(
-      `${this.apiUrl}/api/login`,
-      credentials,
-      { withCredentials: true }
-    );
+    return this.http.post<ApiResponse<LoginResponse>>(`${this.apiUrl}/api/login`, credentials, {
+      withCredentials: true,
+    });
   }
 
   register(userData: RegisterRequest): Observable<ApiResponse<UserResponse>> {
-    return this.http.post<ApiResponse<UserResponse>>(
-      `${this.apiUrl}/api/register`,
-      userData,
-      { withCredentials: true }
-    );
+    return this.http.post<ApiResponse<UserResponse>>(`${this.apiUrl}/api/register`, userData, {
+      withCredentials: true,
+    });
+  }
+
+  private decodeToken(token: string): any {
+    try {
+      const payload = token.split('.')[1];
+      return JSON.parse(atob(payload));
+    } catch (e) {
+      return null;
+    }
   }
 
   saveToken(token: string): void {
@@ -57,7 +62,10 @@ export class AuthService {
   }
 
   getUserRole(): string | null {
-    return this.getUser()?.role || null;
+    const token = this.getToken();
+    if (!token) return null;
+    const decode = this.decodeToken(token);
+    return decode?.role || null;
   }
 
   hasToken(): boolean {
