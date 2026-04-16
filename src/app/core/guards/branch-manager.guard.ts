@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
@@ -7,13 +7,14 @@ import {
 } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BranchManagerGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
-
+  private toast = inject(ToastrService);
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -27,7 +28,8 @@ export class BranchManagerGuard implements CanActivate {
       return true;
     }
 
-    this.router.navigate(['/']);
+    this.router.navigate(['/auth/']);
+    this.toast.error('You are not authorized to access this page.', 'Unauthorized');
     return false;
   }
 }
