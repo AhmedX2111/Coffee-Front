@@ -1,0 +1,38 @@
+<aside class="w-64 h-screen bg-[#2D1B0D] text-[#EAD8C3] flex flex-col p-4">
+      <div class="flex items-center gap-3 mb-10 px-2">
+        <div class="bg-[#EAD8C3] p-2 rounded-lg">
+          <i class="ph-coffee text-[#2D1B0D] text-xl"></i>
+        </div>
+        <span class="text-xl font-bold">BrewMaster</span>
+      </div>
+
+      <nav class="flex-1 space-y-2">
+        @for(menu of menuItems; track menu.label){
+        <div
+             [class.bg-[#FDF6E9]]="menu.active" 
+             [class.text-[#2D1B0D]]="menu.active"
+             class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer hover:bg-[#3d2918] transition-all"
+             [class.hover:bg-[#FDF6E9]]="menu.active">
+          <div class="flex items-center gap-3">
+            <i [class]="menu.icon + ' text-lg'"></i>
+            <span class="font-medium">{{ menu.label }}</span>
+          </div>
+        </div>}
+        @empty{
+            <h1 class="text-danger">No Data Found</h1>
+        }
+      </nav>
+
+      <div class="bg-[#3d2918] rounded-2xl p-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-[#EAD8C3] text-[#2D1B0D] flex items-center justify-center font-bold">
+            AD
+          </div>
+          <div class="flex flex-col overflow-hidden">
+            <span class="text-sm font-semibold truncate">Super Admin</span>
+            <span class="text-xs opacity-60 truncate">admin&#64;brewmaster.com</span>
+          </div>
+        </div>
+        <i class="ph-sign-out text-lg cursor-pointer"></i>
+      </div>
+    </aside>

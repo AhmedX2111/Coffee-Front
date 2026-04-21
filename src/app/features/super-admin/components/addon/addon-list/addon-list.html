@@ -1,0 +1,91 @@
+<div class="space-y-6">
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+      <h2 class="text-2xl font-bold">Addons</h2>
+      <p class="text-primary/60">
+        Manage extras and customizations for your products.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3">
+
+        <div class="relative">
+        <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-primary/40">
+          search
+        </span>
+
+        <input
+          type="text"
+          placeholder="Search addons..."
+          class="pl-10 pr-4 py-2 bg-surface border border-secondary rounded-xl text-sm focus:ring-2 focus:ring-primary w-64"
+        />
+      </div>
+
+
+      <button class="btn-primary whitespace-nowrap">
+        <span class="material-icons text-sm">add</span>
+        Add Addon
+      </button>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <table class="w-full text-left">
+
+        <thead class="bg-secondary/50 border-b border-secondary/30">
+        <tr>
+          <th class="px-6 py-4 text-xs font-bold text-primary/50 uppercase tracking-wider">
+            Addon Name
+          </th>
+          <th class="px-6 py-4 text-xs font-bold text-primary/50 uppercase tracking-wider">
+            Price
+          </th>
+          <th class="px-6 py-4 text-xs font-bold text-primary/50 uppercase tracking-wider">
+            Connected to Categories
+          </th>
+          <th class="px-6 py-4 text-xs font-bold text-primary/50 uppercase tracking-wider text-center">
+            Actions
+          </th>
+        </tr>
+      </thead>
+
+
+      <tbody class="divide-y divide-secondary/40">
+         @for(addon of addons(); track addon.id){
+        <tr class="hover:bg-secondary/20 transition-colors">
+          <td class="px-6 py-4 font-bold text-sm">{{addon.name}}</td>
+          <td class="px-6 py-4 text-sm font-bold text-primary/70">{{addon.price}}</td>
+          <td class="px-6 py-4 text-sm font-bold text-primary/70"></td>
+          <td class="px-6 py-4 text-center"> 
+            <div class="flex items-center justify-center gap-2">
+                <button
+                class="p-2 hover:bg-secondary/20 rounded-full transition-colors text-primary/70"
+              >
+                <span class="material-icons text-sm text-center">more_vert</span>
+              </button>
+
+              <button
+                class="p-2 hover:bg-red-50 rounded-full transition-colors text-danger"
+              >
+                <span class="material-icons text-sm rotate-45" (click)="deleteAddon(addon.id)">add</span>
+              </button>
+            </div>
+          </td>
+        </tr>}@empty{
+            <p>No data Found</p>
+        }
+      </tbody>
+    </table>
+
+    <div class="p-12 text-center">
+      <span class="material-icons text-5xl mx-auto text-secondary mb-4 block">
+        add
+      </span>
+      <p class="text-primary/50 font-medium">
+        No addons found matching your search.
+      </p>
+    </div>
+
+  </div>
+</div>
