@@ -1,0 +1,23 @@
+.hero-section {
+  box-shadow: 0 10px 40px rgba(63, 35, 5, 0.2);
+}
+
+.cta-section {
+  box-shadow: 0 10px 40px rgba(63, 35, 5, 0.15);
+}
+
+/* Animations */
+.animate-in {
+  animation: slideInLeft 1s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

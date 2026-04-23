@@ -1,3 +1,58 @@
+// API Response Types
+export interface ProductResponse {
+  id: number;
+  name: string;
+  description: string;
+  basePrice: number;
+  categoryId: number;
+  imageUrl: string;
+  isFeatured: boolean;
+}
+
+export interface CategoryResponse {
+  id: number;
+  name: string;
+  description: string;
+  icon?: string;
+}
+
+export interface ProductDetailResponse {
+  id: number;
+  name: string;
+  description: string;
+  basePrice: number;
+  imageUrl: string;
+  sizes: ProductSize[];
+  addOns: AddOn[];
+}
+
+export interface ProductSize {
+  id: number;
+  name: string;
+  priceModifier: number;
+}
+
+export interface AddOn {
+  id: number;
+  name: string;
+  price: number;
+}
+
+// Request Types
+export interface ProductCustomizationRequest {
+  productId: number;
+  selectedSizeId: number;
+  selectedAddOnIds: number[];
+}
+
+export interface PriceCalculationResponse {
+  basePrice: number;
+  sizeModifier: number;
+  addOnsTotal: number;
+  totalPrice: number;
+}
+
+// Local Models (backward compatibility)
 export interface Product {
   id: string;
   name: string;
@@ -6,7 +61,7 @@ export interface Product {
   image: string;
   category: Category;
   sizes: Size[];
-  addOns: AddOn[];
+  addOns: AddOnLegacy[];
   isAvailable: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -18,7 +73,7 @@ export interface Size {
   priceModifier: number;
 }
 
-export interface AddOn {
+export interface AddOnLegacy {
   id: string;
   name: string;
   price: number;

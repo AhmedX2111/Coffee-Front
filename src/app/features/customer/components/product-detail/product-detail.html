@@ -1,0 +1,168 @@
+<div class="product-detail-page py-8">
+  <div class="container mx-auto px-4">
+    <!-- Back Button -->
+    <button 
+      class="flex items-center gap-2 text-primary mb-8 hover:opacity-70 transition-opacity"
+      (click)="goBack()">
+      <span class="material-icons">arrow_back</span>
+      <span>Back to Menu</span>
+    </button>
+
+    @if (isLoading()) {
+      <div class="flex justify-center py-12">
+        <div class="loader"></div>
+      </div>
+    } @else if (product()) {
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Product Image -->
+        <div class="flex items-center justify-center">
+          <div class="card p-6 w-full">
+            <div class="aspect-square bg-gradient-to-br from-primary/10 to-secondary/10 rounded-xl overflow-hidden">
+              <img 
+                [src]="product()!.imageUrl" 
+                [alt]="product()!.name"
+                class="w-full h-full object-cover"
+                (error)="onImageError($event)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Info & Customization -->
+        <div>
+          <!-- Header -->
+          <h1 class="text-4xl font-display font-bold text-primary mb-2">
+            {{ product()!.name }}
+          </h1>
+          <p class="text-primary/70 mb-6">{{ product()!.description }}</p>
+
+          <!-- Base Price -->
+          <div class="mb-8">
+            <p class="text-sm text-primary/60">Base Price</p>
+            <p class="text-3xl font-bold text-primary">\$ {{ product()!.basePrice.toFixed(2) }}</p>
+          </div>
+
+          <!-- Size Selection -->
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold text-primary mb-4 flex items-center gap-2">
+              <span class="material-icons">local_cafe</span> Select Size
+            </h2>
+            <div class="space-y-3">
+              @for (size of product()!.sizes; track size.id) {
+                <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all"
+                       [class.border-primary]="selectedSize() === size.id"
+                       [class.bg-primary/5]="selectedSize() === size.id"
+                       [class.border-primary/20]="selectedSize() !== size.id">
+                  <input 
+                    type="radio" 
+                    name="size" 
+                    [value]="size.id"
+                    [(ngModel)]="selectedSizeId"
+                    (change)="onSizeChange()"
+                    class="w-4 h-4"
+                  />
+                  <span class="ml-4 flex-1">
+                    <span class="font-medium text-primary">{{ size.name }}</span>
+                  </span>
+                  <span class="text-primary/70">
+                    @if (size.priceModifier > 0) {
+                      +\$ {{ size.priceModifier.toFixed(2) }}
+                    } @else if (size.priceModifier < 0) {
+                      -\$ {{ Math.abs(size.priceModifier).toFixed(2) }}
+                    } @else {
+                      No change
+                    }
+                  </span>
+                </label>
+              }
+            </div>
+          </div>
+
+          <!-- Add-ons Selection -->
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold text-primary mb-4 flex items-center gap-2">
+              <span class="material-icons">add_circle_outline</span> Custom Add-ons
+            </h2>
+            <div class="space-y-3">
+              @for (addon of product()!.addOns; track addon.id) {
+                <label class="flex items-center p-4 border-2 border-primary/20 rounded-lg cursor-pointer hover:border-primary/40 transition-all">
+                  <input 
+                    type="checkbox" 
+                    [value]="addon.id"
+                    [(ngModel)]="selectedAddOnIds"
+                    (change)="onAddOnsChange()"
+                    class="w-4 h-4"
+                  />
+                  <span class="ml-4 flex-1">
+                    <span class="font-medium text-primary">{{ addon.name }}</span>
+                  </span>
+                  <span class="text-primary font-semibold">+\$ {{ addon.price.toFixed(2) }}</span>
+                </label>
+              }
+            </div>
+          </div>
+
+          <!-- Price Breakdown -->
+          <div class="card bg-secondary/20 p-6 mb-8">
+            <h3 class="text-lg font-semibold text-primary mb-4">Price Breakdown</h3>
+            <div class="space-y-2 mb-4">
+              <div class="flex justify-between text-primary/70">
+                <span>Base Price:</span>
+                <span>\$ {{ priceBreakdown().basePrice.toFixed(2) }}</span>
+              </div>
+              @if (priceBreakdown().sizeModifier !== 0) {
+                <div class="flex justify-between text-primary/70">
+                  <span>Size Modifier:</span>
+                  <span>{{ priceBreakdown().sizeModifier > 0 ? '+' : '' }}\$ {{ priceBreakdown().sizeModifier.toFixed(2) }}</span>
+                </div>
+              }
+              @if (priceBreakdown().addOnsTotal > 0) {
+                <div class="flex justify-between text-primary/70">
+                  <span>Add-ons:</span>
+                  <span>+\$ {{ priceBreakdown().addOnsTotal.toFixed(2) }}</span>
+                </div>
+              }
+            </div>
+            <div class="border-t-2 border-primary/20 pt-4 flex justify-between items-center">
+              <span class="text-xl font-bold text-primary">Total Price:</span>
+              <span class="text-3xl font-bold text-primary">\$ {{ priceBreakdown().totalPrice.toFixed(2) }}</span>
+            </div>
+          </div>
+
+          <!-- Quantity Selector -->
+          <div class="mb-8">
+            <label class="block text-primary font-semibold mb-3">Quantity</label>
+            <div class="flex items-center border-2 border-primary/20 rounded-lg w-fit">
+              <button 
+                class="px-4 py-2 text-primary hover:bg-primary/10 transition-colors"
+                (click)="decreaseQuantity()"
+                [disabled]="quantity() <= 1">
+                <span class="material-icons">remove</span>
+              </button>
+              <span class="px-6 py-2 font-semibold text-primary min-w-[60px] text-center">
+                {{ quantity() }}
+              </span>
+              <button 
+                class="px-4 py-2 text-primary hover:bg-primary/10 transition-colors"
+                (click)="increaseQuantity()">
+                <span class="material-icons">add</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Add to Cart Button -->
+          <button 
+            class="btn-primary w-full py-4 text-lg"
+            (click)="addToCart()">
+            <span class="material-icons">shopping_cart</span>
+            <span>Add to Cart - \$ {{ (priceBreakdown().totalPrice * quantity()).toFixed(2) }}</span>
+          </button>
+        </div>
+      </div>
+    } @else {
+      <div class="text-center py-12">
+        <p class="text-primary/70">Product not found.</p>
+      </div>
+    }
+  </div>
+</div>
