@@ -1,0 +1,28 @@
+.featured-section {
+  background: linear-gradient(135deg, rgba(63, 35, 5, 0.05) 0%, rgba(223, 215, 191, 0.1) 100%);
+}
+
+.loader {
+  border: 3px solid rgba(63, 35, 5, 0.1);
+  border-radius: 50%;
+  border-top: 3px solid #3F2305;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { 
+    transform: rotate(0deg); 
+  }
+  100% { 
+    transform: rotate(360deg); 
+  }
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

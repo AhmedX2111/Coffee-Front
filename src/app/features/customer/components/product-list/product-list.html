@@ -1,0 +1,51 @@
+<div class="products-section py-8">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-display font-bold text-primary mb-8">Our Menu</h2>
+
+    @if (isLoading()) {
+      <div class="flex justify-center py-12">
+        <div class="loader"></div>
+      </div>
+    } @else if (products().length > 0) {
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        @for (product of products(); track product.id) {
+          <div class="product-card card hover:shadow-lg transition-all cursor-pointer"
+               (click)="viewProductDetails(product.id)">
+            <div class="aspect-video bg-gradient-to-br from-primary/10 to-secondary/10 relative overflow-hidden">
+              <img 
+                [src]="product.imageUrl" 
+                [alt]="product.name"
+                class="w-full h-full object-cover"
+                (error)="onImageError($event)"
+              />
+              @if (product.isFeatured) {
+                <div class="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                  FEATURED
+                </div>
+              }
+            </div>
+
+            <div class="p-5">
+              <h3 class="text-lg font-semibold text-primary mb-2">{{ product.name }}</h3>
+              <p class="text-sm text-primary/70 mb-4 line-clamp-2">{{ product.description }}</p>
+              <div class="flex justify-between items-center">
+                <span class="text-2xl font-bold text-primary">
+                  $ {{ product.basePrice.toFixed(2) }}
+                </span>
+                <button 
+                  class="btn-secondary px-4 py-2 text-sm"
+                  (click)="addToCart(product); $event.stopPropagation()">
+                  Customize & Add
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="text-center py-12">
+        <p class="text-primary/70 text-lg">No products available in this category.</p>
+      </div>
+    }
+  </div>
+</div>
