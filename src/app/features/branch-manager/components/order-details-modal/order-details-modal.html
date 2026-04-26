@@ -4,12 +4,10 @@
 
   <div class="bg-white rounded-2xl p-5 w-[350px] shadow-lg relative">
 
-    <!-- Close -->
     <button (click)="close()" class="absolute top-3 right-3">
       ✖
     </button>
 
-    <!-- Header -->
     <h2 class="text-xl font-bold mb-1">
       Order {{order.orderNumber}}
     </h2>
@@ -18,7 +16,6 @@
       {{order.createdAt || 'No Time'}}
     </p>
 
-    <!-- Pickup -->
     <div class="mb-4">
       @if(order.type === 'ORDER_NOW'){
         <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm">
@@ -31,7 +28,6 @@
       }
     </div>
 
-    <!-- Products -->
     <div class="space-y-3">
       @for(item of order.products; track $index){
 
@@ -46,7 +42,6 @@
             Quantity: {{item.quantity}}
           </p>
 
-          <!-- Addons -->
           @if(item.addons.length > 0){
             <div class="mt-2 flex flex-wrap gap-2">
               @for(addon of item.addons; track $index){
@@ -62,7 +57,6 @@
       }
     </div>
 
-    <!-- Total -->
     <div class="mt-4 bg-[#4A2C13] text-white p-3 rounded-xl flex justify-between font-bold">
       <span>Total</span>
       <span>{{order.totalPrice}} EGP</span>
