@@ -1,0 +1,14 @@
+<div class="product-catalog">
+  <!-- Hero Section with Featured Products -->
+  <app-featured-products></app-featured-products>
+
+  <!-- Category Browsing -->
+  <app-category-browsing 
+    (categorySelected)="onCategorySelected($event)">
+  </app-category-browsing>
+
+  <!-- Product List for Selected Category -->
+  @if (selectedCategoryId()) {
+    <app-product-list [categoryId]="selectedCategoryId()!"></app-product-list>
+  }
+</div>

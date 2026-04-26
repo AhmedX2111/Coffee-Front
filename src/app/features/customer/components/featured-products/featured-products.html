@@ -1,0 +1,47 @@
+<div class="featured-section py-12">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-8">
+      <h2 class="text-4xl font-display font-bold text-primary mb-4">Featured Delights</h2>
+      <p class="text-lg text-primary/70">Handpicked favorites from our expert baristas.</p>
+    </div>
+
+    @if (isLoading()) {
+      <div class="flex justify-center py-12">
+        <div class="loader"></div>
+      </div>
+    } @else if (featuredProducts().length > 0) {
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        @for (product of featuredProducts(); track product.id) {
+          <div class="card hover:shadow-lg transition-shadow cursor-pointer"
+               (click)="viewProduct(product.id)">
+            <div class="aspect-video bg-gradient-to-br from-primary/10 to-secondary/10 relative overflow-hidden">
+              <img 
+                [src]="product.imageUrl" 
+                [alt]="product.name"
+                class="w-full h-full object-cover"
+                (error)="onImageError($event)"
+              />
+              <div class="absolute top-3 right-3 bg-secondary text-primary px-3 py-1 rounded-full text-sm font-medium">
+                $ {{ product.basePrice.toFixed(2) }}
+              </div>
+            </div>
+
+            <div class="p-5">
+              <h3 class="text-lg font-semibold text-primary mb-2">{{ product.name }}</h3>
+              <p class="text-sm text-primary/70 mb-4 line-clamp-2">{{ product.description }}</p>
+              <button 
+                class="btn-secondary w-full"
+                (click)="viewProduct(product.id); $event.stopPropagation()">
+                View Details
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="text-center py-12">
+        <p class="text-primary/70">No featured products available at the moment.</p>
+      </div>
+    }
+  </div>
+</div>

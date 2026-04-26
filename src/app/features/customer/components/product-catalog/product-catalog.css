@@ -1,0 +1,4 @@
+.product-catalog {
+  background: linear-gradient(180deg, rgba(242, 234, 211, 0.5) 0%, rgba(245, 245, 245, 0.5) 100%);
+  min-height: 100vh;
+}

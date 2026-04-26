@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,10 @@ import { AuthService } from '../../../../core/services/auth.service';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login {
+export class Login implements OnInit {
+  ngOnInit(): void {
+    localStorage.clear();
+  }
 
   private toastr = inject(ToastrService);
   private fb = inject(FormBuilder);
@@ -33,20 +36,27 @@ export class Login {
 
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
-          this.toastr.success('Login successful 🎉', 'Success');
           if (response.success && response.data && response.data.token) {
             this.authService.saveToken(response.data.token);
             this.authService.saveUser(response.data);
 
-            const userRole = this.authService.getUserRole();
-            console.log(userRole);
-            if (userRole === 'ADMIN') {
-              this.router.navigate(['/super-admin/']);
-            } else if (userRole === 'MANAGER') {
-              this.router.navigate(['/branch-manager/']);
-            } else {
-              this.router.navigate(['/customer/']);
-            }
+            // Show success toast
+            this.toastr.success('Login successful 🎉', 'Success', {
+              timeOut: 1000, // Toast will disappear after 3 seconds
+            });
+
+            // Delay navigation by 3 seconds
+            setTimeout(() => {
+              const userRole = this.authService.getUserRole();
+              console.log(userRole);
+              if (userRole === 'ADMIN') {
+                this.router.navigate(['/super-admin/']);
+              } else if (userRole === 'MANAGER') {
+                this.router.navigate(['/branch-manager/']);
+              } else {
+                this.router.navigate(['/customer/']);
+              }
+            }, 1000);
           }
           console.log('Login successful:', response);
         },
