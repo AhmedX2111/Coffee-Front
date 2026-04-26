@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './aside.css',
 })
 export class Aside {
+  
 menuItems = [
     { label: 'Dashboard', icon: 'ph-squares-four', active: false },
     { label: 'Branches', icon: 'ph-map-pin', active: false },

@@ -1,50 +1,56 @@
+<!-- add-addon.html -->
 <main class="p-12 bg-[#F8F8F8] min-h-[calc(100vh-120px)]">
-    <div class="max-w-3xl mx-auto">
-        <div class="flex items-center gap-4 mb-8">
-            <button class="p-2 hover:bg-gray-200 rounded-full transition-colors">
-                <i class="ph-caret-left font-bold"></i>
-            </button>
-            <h1 class="text-2xl font-bold text-[#2D1B0D]">Add New Addon</h1>
-        </div>
-
-        <div class="bg-white rounded-[32px] p-10 shadow-sm border border-gray-100">
-            <form class="space-y-8" [formGroup]="addonForm" (ngSubmit)="submitAddon()">
-                <div class="space-y-2">
-                    <label class="text-sm font-bold text-[#2D1B0D]">Addon Name</label>
-                    <input type="text" placeholder="e.g. Extra Shot"
-                        class="w-full p-4 bg-[#F5F5F5] border-none rounded-xl placeholder:text-gray-400"
-                        formControlName="name">
-                    @if(addonForm.controls['name'].invalid && addonForm.controls['name'].touched){
-                    @if(addonForm.controls['name'].errors?.['required']){
-                    <p class="text-danger">Name Required</p>
-                    } @if(addonForm.controls['name'].errors?.['minlength']){
-                    <p class="text-danger">Name less than 5 characters</p>
-                    }
-                    }
-                </div>
-
-                <div class="space-y-2">
-                    <label class="text-sm font-bold text-[#2D1B0D]">Price ($)</label>
-                    <input type="number" placeholder="0.00"
-                        class="w-full p-4 bg-[#F5F5F5] border-none rounded-xl placeholder:text-gray-400" min="0"
-                        formControlName="price">
-
-                    @if(addonForm.controls['price'].invalid && addonForm.controls['price'].touched){
-                    @if(addonForm.controls['price'].errors?.['required']){
-                    <p class="text-danger">price Required</p>
-                    } @if(addonForm.controls['price'].errors?.['min']){
-                    <p class="text-danger">Price should not be less than 0</p>
-                    }
-                    }
-                </div>
-
-                <div class="flex gap-4 pt-4">
-                    <button type="submit" [disabled]="addonForm.invalid"
-                        class="flex-1 py-4 bg-[#2D1B0D] text-white font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed">
-                        Save Addon
-                    </button>
-                </div>
-            </form>
-        </div>
+  <div class="max-w-3xl mx-auto">
+    <div class="flex items-center gap-4 mb-8">
+      <button class="p-2 hover:bg-gray-200 rounded-full transition-colors" (click)="goBack()">
+        <i class="ph-caret-left font-bold"></i>
+      </button>
+      <h1 class="text-2xl font-bold text-[#2D1B0D]">
+        {{ isEditMode ? 'Edit Addon' : 'Add New Addon' }}
+      </h1>
     </div>
+
+    <div class="bg-white rounded-[32px] p-10 shadow-sm border border-gray-100">
+      <form class="space-y-8" [formGroup]="addonForm" (ngSubmit)="submitAddon()">
+        <!-- Name field -->
+        <div class="space-y-2">
+          <label class="text-sm font-bold text-[#2D1B0D]">Addon Name</label>
+          <input type="text" placeholder="e.g. Extra Shot"
+            class="w-full p-4 bg-[#F5F5F5] border-none rounded-xl placeholder:text-gray-400"
+            formControlName="name">
+          @if(addonForm.controls['name'].invalid && addonForm.controls['name'].touched){
+            @if(addonForm.controls['name'].errors?.['required']){
+              <p class="text-danger">Name Required</p>
+            }
+            @if(addonForm.controls['name'].errors?.['minlength']){
+              <p class="text-danger">Name must be at least 5 characters</p>
+            }
+          }
+        </div>
+
+        <!-- Price field -->
+        <div class="space-y-2">
+          <label class="text-sm font-bold text-[#2D1B0D]">Price ($)</label>
+          <input type="number" placeholder="0.00"
+            class="w-full p-4 bg-[#F5F5F5] border-none rounded-xl placeholder:text-gray-400" min="0"
+            formControlName="price">
+          @if(addonForm.controls['price'].invalid && addonForm.controls['price'].touched){
+            @if(addonForm.controls['price'].errors?.['required']){
+              <p class="text-danger">Price Required</p>
+            }
+            @if(addonForm.controls['price'].errors?.['min']){
+              <p class="text-danger">Price should not be less than 0</p>
+            }
+          }
+        </div>
+
+        <div class="flex gap-4 pt-4">
+          <button type="submit" [disabled]="addonForm.invalid"
+            class="flex-1 py-4 bg-[#2D1B0D] text-white font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed">
+            {{ isEditMode ? 'Update Addon' : 'Save Addon' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </main>

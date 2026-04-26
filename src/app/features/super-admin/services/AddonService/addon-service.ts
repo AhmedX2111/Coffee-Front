@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AddonRequest } from '../models/addon-request';
 import { Observable } from 'rxjs';
-import { ApiResponse } from '../../../core/models/auth.model';
-import { environment } from '../../../../environments/environment';
-import { AddonResponse } from '../models/addon-response';
+import { ApiResponse } from '../../../../core/models/auth.model';
+import { environment } from '../../../../../environments/environment';
+import { AddonResponse } from '../../models/addon-response';
+import { AddonRequest } from '../../models/addon-request';
 
 @Injectable({
   providedIn: 'root',
@@ -25,17 +25,10 @@ export class AddonService {
     return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/api/addon/${id}`)
   }
 
-    getAddonById(id: number): Observable<ApiResponse<AddonResponse>> {
-    return this.http.get<ApiResponse<AddonResponse>>(
-      `${this.apiUrl}/api/addon/${id}`
-    );
-  }
-
-  // ✅ UPDATE (جديدة)
-  updateAddon(id: number, request: AddonRequest): Observable<ApiResponse<AddonResponse>> {
-    return this.http.put<ApiResponse<AddonResponse>>(
-      `${this.apiUrl}/api/addon/${id}`,
-      request
-    );
-  }
+updateAddon(id: number, request: AddonRequest): Observable<ApiResponse<AddonResponse>> {
+  return this.http.put<ApiResponse<AddonResponse>>(
+    `${this.apiUrl}/api/addon/${id}`,
+    request
+  );
+}
 }
