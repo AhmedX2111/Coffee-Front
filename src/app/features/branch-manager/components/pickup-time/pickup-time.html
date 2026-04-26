@@ -1,0 +1,12 @@
+        @if(order.type==="ORDER_NOW"){
+        <div
+            class="flex items-center justify-center gap-2 bg-green-600 text-white py-2 rounded-full font-medium text-sm">
+            <span class="material-icons text-sm italic">bolt</span>
+            Pickup Now
+        </div>
+    }@if(order.type==="PRE_ORDER"){
+        <div
+            class="flex items-center justify-center gap-2 bg-[#FF6D00] text-white py-2 rounded-full font-medium text-sm">
+            <span class="material-icons text-[18px]">schedule</span>
+            <span class="fmaterial-icons text-sm italic">Pickup at {{order.pickupTime | date:'shortTime'}}</span>
+        </div> }

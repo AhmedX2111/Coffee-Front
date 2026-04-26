@@ -7,12 +7,8 @@ export const BRANCH_MANAGER_ROUTES: Routes = [
     children:[
         {
             path:'',
-            loadComponent:() => import('../branch-manager/components/active-orders/active-orders').then((m)=>m.ActiveOrders)
+            loadComponent:() => import('./components/order-card/order-card').then((m)=>m.OrderCard)
         },
-        {
-            path:'branch-profile',
-            loadComponent:() => import('../branch-manager/components/branch-profile/branch-profile').then((m)=>m.BranchProfile)
-        }
     ]
    }
 ];

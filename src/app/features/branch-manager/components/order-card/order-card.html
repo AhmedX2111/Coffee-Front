@@ -1,0 +1,49 @@
+<div class="p-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    @for(order of orders(); track order.id){
+      <div class="card bg-white rounded-2xl shadow-md hover:shadow-lg transition p-5 flex flex-col gap-4">
+        <div class="flex justify-between items-start">
+          <div>
+            <h3 class="text-xl font-bold">{{order.orderNumber}}</h3>
+            <div class="flex items-center gap-1 text-gray-500 text-sm mt-1">
+              <span class="material-icons text-xs">schedule</span>
+              {{order.createdAt}}
+            </div>
+          </div>
+          <span class="text-lg font-bold">{{order.totalPrice}} EGP</span>
+        </div>
+        <div class="space-y-3">
+          <app-pickup-time [order]="order"></app-pickup-time>
+          <button 
+            (click)="openModal(order)"
+            class="w-full bg-secondary/30 text-primary py-2 rounded-xl flex items-center justify-center gap-2 hover:bg-secondary/50 transition mt-2">      
+            <span class="material-icons text-lg">visibility</span>
+            View Details
+          </button>
+        </div>
+        <div class="mt-2">
+          <p class="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-2">
+            Order Status
+          </p>
+          <div class="grid grid-cols-2 gap-2">
+            <button class="bg-yellow-400 text-primary font-bold py-2 rounded-lg flex items-center justify-center gap-1 text-sm">
+              <span class="spinner material-icons text-sm animate-pulse">hourglass_empty</span>
+              In Progress
+            </button>
+            <button class="bg-primary text-white py-2 rounded-lg text-sm font-medium">
+              Completed
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+
+<app-order-details-modal
+ @if(selectedOrder){} 
+ [order]="selectedOrder()!" 
+ [isOpen]="isModalOpen()" 
+ [close]="closeModal"> 
+</app-order-details-modal>

@@ -1,0 +1,68 @@
+@if(isOpen){
+
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-2xl p-5 w-[350px] shadow-lg relative">
+
+    <button (click)="close()" class="absolute top-3 right-3">
+      ✖
+    </button>
+
+    <h2 class="text-xl font-bold mb-1">
+      Order {{order.orderNumber}}
+    </h2>
+
+    <p class="text-gray-500 text-sm mb-3">
+      {{order.createdAt || 'No Time'}}
+    </p>
+
+    <div class="mb-4">
+      @if(order.type === 'ORDER_NOW'){
+        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm">
+          Pickup Now
+        </div>
+      } @else {
+        <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm">
+          Pickup at {{order.pickupTime | date:'shortTime'}}
+        </div>
+      }
+    </div>
+
+    <div class="space-y-3">
+      @for(item of order.products; track $index){
+
+        <div class="bg-[#F5E6D3] p-3 rounded-xl">
+
+          <div class="flex justify-between font-bold">
+            <span>{{item.productName}}</span>
+            <span>{{item.itemTotalPrice}} EGP</span>
+          </div>
+
+          <p class="text-sm text-gray-500">
+            Quantity: {{item.quantity}}
+          </p>
+
+          @if(item.addons.length > 0){
+            <div class="mt-2 flex flex-wrap gap-2">
+              @for(addon of item.addons; track $index){
+                <span class="bg-white px-2 py-1 rounded text-xs shadow">
+                  {{addon}}
+                </span>
+              }
+            </div>
+          }
+
+        </div>
+
+      }
+    </div>
+
+    <div class="mt-4 bg-[#4A2C13] text-white p-3 rounded-xl flex justify-between font-bold">
+      <span>Total</span>
+      <span>{{order.totalPrice}} EGP</span>
+    </div>
+
+  </div>
+</div>
+
+}
