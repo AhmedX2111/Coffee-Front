@@ -13,10 +13,18 @@ export interface OrderResponse {
   totalPrice: number;
   createdAt: string;
   type: OrderType;
+  status: OrderStatus;
   pickupTime: string | null;
   products: OrderItem[];
 }
 export enum OrderType {
   ORDER_NOW = 'ORDER_NOW',
   PRE_ORDER = 'PRE_ORDER'
+}
+export enum OrderStatus {
+  PENDING = 'PENDING',
+  PREPARING = 'PREPARING',
+  READY = 'READY',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED'
 }
