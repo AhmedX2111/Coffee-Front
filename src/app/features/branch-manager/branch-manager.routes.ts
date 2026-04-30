@@ -9,6 +9,10 @@ export const BRANCH_MANAGER_ROUTES: Routes = [
             path:'',
             loadComponent:() => import('./components/order-card/order-card').then((m)=>m.OrderCard)
         },
+        {
+            path:'completed-orders',
+            loadComponent:() => import('./components/completed-orders/completed-orders').then((m) => m.CompletedOrders)
+        }
     ]
    }
 ];

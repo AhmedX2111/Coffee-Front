@@ -13,3 +13,4 @@ export class OrderDetailsModal {
   @Input() isOpen: boolean = false;
   @Input() close!: () => void;
 }
+ 

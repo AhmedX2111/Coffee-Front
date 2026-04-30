@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../../core/models/auth.model';
-import { OrderResponse } from '../../models/OrderItem';
+import { OrderResponse, OrderStatus } from '../../models/OrderItem';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,21 @@ export class OrderService {
   
   constructor(private http:HttpClient){}
 
-  getOrdersForOneBranch():Observable<ApiResponse<OrderResponse[]>>{
-      return this.http.get<ApiResponse<OrderResponse[]>>(`${this.apiUrl}/api/orders/getOrdersBranch`)
-  }
+  getOrdersForOneBranch(search: string = ''):Observable<ApiResponse<OrderResponse[]>>{
+    return this.http.get<ApiResponse<OrderResponse[]>>(`${this.apiUrl}/api/orders/getOrdersBranch?search=${search}`)
+}
+
+  changeStatus(id: number, status: OrderStatus) {
+  return this.http.put<any>(
+    `${this.apiUrl}/api/orders/changeStatus/${id}?orderStatus=${status}`,
+    {}
+  );
+}
+
+// order-service.ts
+getOrdersReadyForOneBranch(search: string = ''): Observable<ApiResponse<OrderResponse[]>> {
+    return this.http.get<ApiResponse<OrderResponse[]>>(
+      `${this.apiUrl}/api/orders/getOrdersBranchReady?search=${search}`
+    );
+}
 }

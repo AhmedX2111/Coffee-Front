@@ -1,22 +1,18 @@
 <main class="p-4 md:p-6 lg:p-8 bg-[#F8F8F8] min-h-screen">
 
-  <!-- Search Component -->
-  <app-search-branches-order
+  <app-search-branches-order 
     [branches]="branches()"
     (branchChanged)="onBranchChange($event)"
     (searchChanged)="onSearch($event)">
   </app-search-branches-order>
 
-  <!-- ========================= -->
-  <!-- 📱 Mobile View (Cards) -->
-  <!-- ========================= -->
+
   <div class="md:hidden space-y-4 mt-4">
 
     @for(order of orders(); track order.orderNumber){
 
       <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
 
-        <!-- Header -->
         <div class="flex justify-between items-center mb-2">
           <span class="font-bold text-[#2D1B0D] text-sm">
             #{{order.orderNumber}}
@@ -32,17 +28,14 @@
           </span>
         </div>
 
-        <!-- Customer -->
         <div class="text-sm font-semibold text-[#2D1B0D]">
           {{order.userName}}
         </div>
 
-        <!-- Branch -->
         <div class="text-xs text-gray-400">
           {{order.branchName}}
         </div>
 
-        <!-- Bottom -->
         <div class="flex justify-between items-center mt-3">
           <span class="font-bold text-[#2D1B0D]">
             {{order.totalPrice}} EGP
@@ -53,7 +46,6 @@
           </span>
         </div>
 
-        <!-- Type -->
         <div class="mt-2 text-xs text-gray-500">
           Type: {{order.type}}
         </div>
@@ -63,14 +55,10 @@
 
   </div>
 
-  <!-- ========================= -->
   <!-- 💻 Desktop View (Table) -->
-  <!-- ========================= -->
   <div class="hidden md:block mt-6 bg-white rounded-[24px] shadow-sm border border-gray-100 overflow-x-auto">
 
     <table class="w-full text-left border-collapse min-w-[700px]">
-
-      <!-- Header -->
       <thead>
         <tr class="text-xs font-bold text-gray-400 uppercase tracking-widest">
           <th class="px-4 md:px-6 lg:px-8 py-4 md:py-5">Order ID</th>
@@ -82,8 +70,6 @@
           <th class="px-4 md:px-6 lg:px-8 py-4 md:py-5">Date</th>
         </tr>
       </thead>
-
-      <!-- Body -->
       <tbody class="divide-y divide-gray-50">
 
         @for(order of orders(); track order.orderNumber){
