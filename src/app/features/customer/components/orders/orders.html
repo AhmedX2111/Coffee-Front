@@ -1,0 +1,112 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="flex justify-between items-center mb-12">
+    <h1 class="text-5xl font-display font-bold">Your Orders</h1>
+  </div>
+
+  <!-- Loading Skeleton -->
+  @if (isLoading()) {
+    <div class="space-y-6">
+      @for (skeleton of [1,2,3]; track skeleton) {
+        <div class="card p-8 animate-pulse">
+          <div class="flex flex-col md:flex-row justify-between gap-8">
+            <div class="space-y-4">
+              <div class="h-4 w-32 bg-secondary/40 rounded-full"></div>
+              <div class="h-6 w-48 bg-secondary/40 rounded-full"></div>
+              <div class="h-4 w-40 bg-secondary/20 rounded-full"></div>
+            </div>
+            <div class="space-y-3 flex-grow max-w-md">
+              <div class="h-4 w-full bg-secondary/20 rounded-full"></div>
+              <div class="h-4 w-3/4 bg-secondary/20 rounded-full"></div>
+            </div>
+            <div class="space-y-4 text-right">
+              <div class="h-8 w-24 bg-secondary/40 rounded-full ml-auto"></div>
+              <div class="h-10 w-32 bg-secondary/20 rounded-xl ml-auto"></div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  <!-- Orders List -->
+  } @else if (orders().length > 0) {
+    <div class="space-y-6">
+      @for (order of orders(); track order.id) {
+        <div class="card p-8 hover:shadow-md transition-all">
+          <div class="flex flex-col md:flex-row justify-between gap-8">
+
+            <!-- Left: Order Info -->
+            <div class="space-y-4">
+              <div class="flex items-center gap-4">
+                <span class="text-sm font-bold text-primary/40 uppercase tracking-widest">
+                  {{ order.orderNumber }}
+                </span>
+                <span
+                  [class.bg-yellow-100]="order.status === 'PREPARING'"
+                  [class.text-yellow-700]="order.status === 'PREPARING'"
+                  [class.bg-blue-100]="order.status === 'PENDING'"
+                  [class.text-blue-700]="order.status === 'PENDING'"
+                  [class.bg-green-100]="order.status === 'COMPLETED'"
+                  [class.text-green-700]="order.status === 'COMPLETED'"
+                  [class.bg-red-100]="order.status === 'CANCELLED'"
+                  [class.text-red-700]="order.status === 'CANCELLED'"
+                  class="px-3 py-1 rounded-full text-xs font-bold"
+                >
+                  {{ order.status }}
+                </span>
+              </div>
+              <h3 class="text-2xl font-bold">{{ order.branchName }}</h3>
+              <p class="text-primary/60 flex items-center gap-2">
+                <mat-icon class="text-sm">calendar_today</mat-icon>
+                {{ order.createdAt | date:'medium' }}
+              </p>
+            </div>
+
+            <!-- Middle: Items -->
+            <div class="flex-grow max-w-md">
+              <div class="space-y-2">
+                @for (item of order.items; track item.id) {
+                  <div class="flex justify-between text-sm">
+                    <span class="text-primary/60">
+                      {{ item.quantity }}x {{ item.productName }}
+                    </span>
+                    <span class="font-medium">$ {{ item.totalPrice.toFixed(2) }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Right: Total & Action -->
+            <div class="text-right space-y-4">
+              <div class="text-3xl font-display font-bold">
+                $ {{ order.totalPrice.toFixed(2) }}
+              </div>
+              <a
+                [routerLink]="['/customer/order-details', order.id]"
+                class="btn-secondary w-full md:w-auto"
+              >
+                View Details
+              </a>
+            </div>
+
+          </div>
+        </div>
+      }
+    </div>
+
+  <!-- Empty State -->
+  } @else {
+    <div class="py-24 text-center space-y-6">
+      <div class="w-32 h-32 bg-secondary/20 rounded-full flex items-center justify-center mx-auto">
+        <mat-icon class="text-6xl text-primary/20">receipt_long</mat-icon>
+      </div>
+      <h2 class="text-3xl font-display font-bold">No orders yet</h2>
+      <p class="text-primary/60 max-w-md mx-auto">
+        You haven't placed any orders yet. Start your first order now!
+      </p>
+      <a routerLink="/customer/menu" class="btn-primary mx-auto w-fit px-12">
+        Order Now
+      </a>
+    </div>
+  }
+
+</div>

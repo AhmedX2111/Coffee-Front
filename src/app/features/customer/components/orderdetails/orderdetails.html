@@ -1,0 +1,174 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+  <!-- Back Link -->
+  <a routerLink="/customer/orders"
+     class="inline-flex items-center gap-2 text-primary/60 hover:text-primary transition-colors mb-8">
+    <mat-icon>arrow_back</mat-icon>
+    Back to Orders
+  </a>
+
+  <!-- Loading Skeleton -->
+  @if (isLoading()) {
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div class="lg:col-span-2 card p-8 space-y-6 animate-pulse">
+        <div class="h-8 w-48 bg-secondary/40 rounded-full"></div>
+        <div class="h-4 w-64 bg-secondary/20 rounded-full"></div>
+        <div class="h-4 w-56 bg-secondary/20 rounded-full"></div>
+        <div class="space-y-4 pt-4">
+          @for (s of [1,2]; track s) {
+            <div class="h-20 bg-secondary/20 rounded-2xl"></div>
+          }
+        </div>
+      </div>
+      <div class="card p-8 space-y-4 animate-pulse">
+        <div class="h-6 w-40 bg-secondary/40 rounded-full"></div>
+        <div class="h-4 w-full bg-secondary/20 rounded-full"></div>
+        <div class="h-4 w-3/4 bg-secondary/20 rounded-full"></div>
+        <div class="h-12 w-full bg-secondary/40 rounded-xl mt-4"></div>
+      </div>
+    </div>
+
+  <!-- Order Not Found -->
+  } @else if (!order()) {
+    <div class="py-24 text-center">
+      <mat-icon class="text-6xl text-primary/20">error_outline</mat-icon>
+      <h2 class="text-2xl font-display font-bold mt-4">Order not found</h2>
+      <a routerLink="/customer/orders" class="btn-secondary mt-6 mx-auto">
+        Return to Orders
+      </a>
+    </div>
+
+  <!-- Order Detail -->
+  } @else {
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+      <!-- Left: Order Info -->
+      <div class="lg:col-span-2 space-y-8">
+        <div class="card p-8 space-y-6">
+
+          <!-- Header -->
+          <div class="flex flex-wrap justify-between items-center gap-4">
+            <div class="space-y-1">
+              <span class="text-sm font-bold text-primary/40 uppercase tracking-widest">
+                Order ID
+              </span>
+              <h1 class="text-3xl font-display font-bold">
+                {{ order()!.orderNumber }}
+              </h1>
+            </div>
+            <span
+              [class.bg-yellow-100]="order()!.status === 'PREPARING'"
+              [class.text-yellow-700]="order()!.status === 'PREPARING'"
+              [class.bg-blue-100]="order()!.status === 'PENDING'"
+              [class.text-blue-700]="order()!.status === 'PENDING'"
+              [class.bg-green-100]="order()!.status === 'COMPLETED'"
+              [class.text-green-700]="order()!.status === 'COMPLETED'"
+              [class.bg-red-100]="order()!.status === 'CANCELLED'"
+              [class.text-red-700]="order()!.status === 'CANCELLED'"
+              class="px-4 py-2 rounded-full text-sm font-bold"
+            >
+              {{ order()!.status }}
+            </span>
+          </div>
+
+          <!-- Date & Branch -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 py-6 border-y border-black/5">
+            <div class="space-y-1">
+              <span class="text-xs font-bold text-primary/40 uppercase tracking-widest">
+                Date & Time
+              </span>
+              <p class="font-medium">{{ order()!.createdAt | date:'medium' }}</p>
+            </div>
+            <div class="space-y-1">
+              <span class="text-xs font-bold text-primary/40 uppercase tracking-widest">
+                Branch
+              </span>
+              <p class="font-medium">{{ order()!.branchName }}</p>
+            </div>
+          </div>
+
+          <!-- Order Items -->
+          <div class="space-y-6">
+            <h2 class="text-xl font-bold">Order Items</h2>
+            <div class="space-y-4">
+              @for (item of order()!.items; track item.id) {
+                <div class="flex gap-4 items-center p-4 bg-background rounded-2xl border border-black/5">
+
+                  <!-- Item Info -->
+                  <div class="flex-grow">
+                    <h4 class="font-bold">{{ item.productName }}</h4>
+                    <div class="flex flex-wrap gap-2 mt-1">
+                      <span class="text-xs text-primary/60">
+                        Size: {{ item.size }}
+                      </span>
+                      @for (addon of item.addons; track addon.id) {
+                        <span class="text-xs text-primary/40">• {{ addon.name }}</span>
+                      }
+                    </div>
+                    @if (item.notes) {
+                      <p class="text-xs text-primary/40 italic mt-1">"{{ item.notes }}"</p>
+                    }
+                  </div>
+
+                  <!-- Quantity & Price -->
+                  <div class="text-right flex-shrink-0">
+                    <div class="font-bold">{{ item.quantity }}x</div>
+                    <div class="text-sm text-primary/60">
+                      $ {{ item.totalPrice.toFixed(2) }}
+                    </div>
+                  </div>
+
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Order Notes -->
+          @if (order()!.notes) {
+            <div class="space-y-2 pt-4">
+              <h3 class="text-sm font-bold text-primary/40 uppercase tracking-widest">
+                Order Notes
+              </h3>
+              <p class="text-primary/60 italic">"{{ order()!.notes }}"</p>
+            </div>
+          }
+
+        </div>
+      </div>
+
+      <!-- Right: Payment Summary -->
+      <div class="space-y-6">
+        <div class="card p-8 space-y-6 sticky top-24">
+          <h2 class="text-2xl font-display font-bold">Payment Summary</h2>
+
+          <div class="space-y-4">
+            <div class="flex justify-between text-primary/60">
+              <span>Subtotal</span>
+              <span>$ {{ order()!.totalPrice.toFixed(2) }}</span>
+            </div>
+            <div class="flex justify-between text-primary/60">
+              <span>Delivery Fee</span>
+              <span>$ 0.00</span>
+            </div>
+            <div class="border-t border-black/5 pt-4 flex justify-between text-2xl font-bold">
+              <span>Total Paid</span>
+              <span>$ {{ order()!.totalPrice.toFixed(2) }}</span>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="bg-secondary/10 p-4 rounded-xl flex items-center gap-3">
+            <mat-icon class="text-primary">check_circle</mat-icon>
+            <div class="text-sm">
+              <span class="block font-bold">Payment Successful</span>
+              <span class="text-primary/60">Paid via Cash on Delivery</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  }
+
+</div>

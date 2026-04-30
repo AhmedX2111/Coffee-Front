@@ -42,13 +42,13 @@
 }
 
 .toast-success {
-  background-color: #DFD7BF !important; 
+  background-color: #DFD7BF !important;
   color: #3F2305 !important;
   border-left: 5px solid #3F2305;
 }
 
 .toast-error {
-  background-color: #F2EAD3 !important; 
+  background-color: #F2EAD3 !important;
   color: #3F2305 !important;
   border-left: 5px solid #b91c1c;
 }
