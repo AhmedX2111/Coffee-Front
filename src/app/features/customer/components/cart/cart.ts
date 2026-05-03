@@ -23,29 +23,29 @@ export class CartPage implements OnInit {
     name: "Caramel Macchiato",
     imageUrl: "https://placehold.co/400",
     size: {
-      id: 2,
+      id: 5,
       name: "Large",
-      price: 5.80
+      price: 70
     },
     addons: [
       {
         id: 1,
-        name: "Whipped Cream",
-        price: 0.50
+        name: "Milk",
+        price: 5
       }
     ],
     quantity: 1
   },
   {
     cartItemId: "def-456",
-    productId: 3,
-    productSizeId: 4,
+    productId: 2,
+    productSizeId: 1,
     name: "Croissant",
     imageUrl: "https://placehold.co/400",
     size: {
-      id: 4,
-      name: "Regular",
-      price: 3.20
+      id: 1,
+      name: "Single",
+      price: 25
     },
     addons: [],
     quantity: 2
