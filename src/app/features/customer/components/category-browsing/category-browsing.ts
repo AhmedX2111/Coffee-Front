@@ -103,12 +103,12 @@ export class CategoryBrowsing implements OnInit {
   private loadCategories(): void {
     this.isLoading.set(true);
     this.productService.getAllCategories().subscribe({
-      next: (response) => {
-        if (response.data) {
-          this.categories.set(response.data);
+      next: (categories) => {
+        if (Array.isArray(categories)) {
+          this.categories.set(categories);
           // Select first category by default
-          if (response.data.length > 0) {
-            this.selectCategory(response.data[0].id);
+          if (categories.length > 0) {
+            this.selectCategory(categories[0].id);
           }
         }
         this.isLoading.set(false);

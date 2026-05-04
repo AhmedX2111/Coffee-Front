@@ -2,7 +2,7 @@ import { Component, inject, input, ChangeDetectionStrategy, signal, effect } fro
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProductBrowsingService } from '../../../../core/services/product-browsing.service';
-import { ProductResponse } from '../../../../core/models/product.model';
+import { ProductCardResponse } from '../../../../core/models/product.model';
 
 @Component({
   selector: 'app-product-list',
@@ -18,7 +18,7 @@ export class ProductList {
 
   categoryId = input.required<number>();
 
-  products = signal<ProductResponse[]>([]);
+  products = signal<ProductCardResponse[]>([]);
   isLoading = signal(false);
 
   constructor() {
@@ -49,7 +49,7 @@ export class ProductList {
     this.router.navigate(['/customer/product', productId]);
   }
 
-  addToCart(product: ProductResponse): void {
+  addToCart(product: ProductCardResponse): void {
     // Navigate to product details with a flag to open customization
     this.router.navigate(['/customer/product', product.id], {
       queryParams: { customize: true },
