@@ -24,10 +24,15 @@ export class OrderService {
   );
 }
 
-// order-service.ts
 getOrdersReadyForOneBranch(search: string = ''): Observable<ApiResponse<OrderResponse[]>> {
     return this.http.get<ApiResponse<OrderResponse[]>>(
       `${this.apiUrl}/api/orders/getOrdersBranchReady?search=${search}`
+    );
+}
+
+getOrdersCompletedForOneBranch(search: string = ''): Observable<ApiResponse<OrderResponse[]>> {
+    return this.http.get<ApiResponse<OrderResponse[]>>(
+      `${this.apiUrl}/api/orders/getOrdersBranchCompleted?search=${search}`
     );
 }
 }

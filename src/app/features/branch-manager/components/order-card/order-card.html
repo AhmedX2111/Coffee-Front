@@ -1,52 +1,72 @@
-<div class="p-6">
-<app-search-orders (searchChange)="getOrdersForOneBranch($event)"></app-search-orders>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-    @for(order of orders(); track order.id){
-    <div class="card bg-white rounded-2xl shadow-md hover:shadow-lg transition p-5 flex flex-col gap-4">
-      <div class="flex justify-between items-start">
-        <div>
-          <h3 class="text-xl font-bold">{{order.orderNumber}}</h3>
-          <div class="flex items-center gap-1 text-gray-500 text-sm mt-1">
-            <span class="material-icons text-xs">schedule</span>
-            {{order.createdAt}}
+<div class="w-full min-h-screen bg-gray-50">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+    <div class="mb-6 sm:mb-8">
+      <app-search-orders (searchChange)="getOrdersForOneBranch($event)"></app-search-orders>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mt-3">
+      @for(order of orders(); track order.id){
+      <div
+        class="card bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col gap-3 sm:gap-4 p-4 sm:p-5 hover:-translate-y-1">
+        <div class="flex justify-between items-start gap-2 flex-wrap">
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg sm:text-xl font-bold text-gray-800 truncate" [title]="order.orderNumber">
+              {{order.orderNumber}}
+            </h3>
+            <div class="flex items-center gap-1 text-gray-500 text-xs sm:text-sm mt-1">
+              <span class="material-icons text-sm sm:text-base">schedule</span>
+              <span class="truncate">{{order.createdAt}}</span>
+            </div>
+          </div>
+          <div class="flex-shrink-0 bg-primary/10 px-2 sm:px-3 py-1 rounded-lg">
+            <span class="text-base sm:text-lg font-bold text-primary">{{order.totalPrice}} EGP</span>
           </div>
         </div>
-        <span class="text-lg font-bold">{{order.totalPrice}} EGP</span>
-      </div>
-      <div class="space-y-3">
-        <app-pickup-time [order]="order"></app-pickup-time>
+        <div class="w-full">
+          <app-pickup-time [order]="order"></app-pickup-time>
+        </div>
         <button (click)="openModal(order)"
-          class="w-full bg-secondary/30 text-primary py-2 rounded-xl flex items-center justify-center gap-2 hover:bg-secondary/50 transition mt-2">
-          <span class="material-icons text-lg">visibility</span>
-          View Details
+          class="w-full bg-secondary/30 text-primary font-semibold py-2.5 sm:py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-secondary/50 transition-all duration-200 active:scale-95 min-h-[44px]">
+          <span class="material-icons text-base sm:text-lg">visibility</span>
+          <span class="text-sm sm:text-base">View Details</span>
         </button>
-      </div>
-      <div class="mt-2 w-full">
-        <p class="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-2">
-          Order Status
-        </p>
-        <div class="grid grid-cols-2 gap-2">
-          @if(order.status==="PENDING"){
-          <button class="col-span-2 bg-primary text-white py-2 rounded-lg text-sm font-medium w-full" (click)="changeStatus(order.id , OrderStatus.PREPARING)">
-            Received
-          </button>
-        }@if(order.status==="PREPARING"){
-          <button
-            class="bg-yellow-400 text-primary font-bold py-2 rounded-lg flex items-center justify-center gap-1 text-sm">
-            <span class="spinner material-icons text-sm animate-pulse">hourglass_empty</span>
-            In Progress
-          </button>
-          <button class="bg-primary text-white py-2 rounded-lg text-sm font-medium" (click)="changeStatus(order.id , OrderStatus.READY)">
-            Completed
-          </button>
-        }
+        <div class="mt-1 w-full">
+          <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-2">
+            Order Status
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            @if(order.status === "PENDING") {
+            <button
+              class="col-span-1 sm:col-span-2 bg-primary text-white py-2.5 sm:py-3 rounded-lg text-sm sm:text-base font-medium w-full transition-all duration-200 hover:bg-primary-dark active:scale-95 min-h-[44px]"
+              (click)="changeStatus(order.id , OrderStatus.PREPARING)">
+              Received
+            </button>
+            }@if(order.status === "PREPARING") {
+            <button
+              class="bg-yellow-400 text-primary font-bold py-2.5 sm:py-3 rounded-lg flex items-center justify-center gap-1 text-sm sm:text-base transition-all duration-200 active:scale-95 min-h-[44px]">
+              <span class="spinner material-icons text-sm sm:text-base animate-pulse">hourglass_empty</span>
+              <span>In Progress</span>
+            </button>
+            <button
+              class="bg-primary text-white py-2.5 sm:py-3 rounded-lg text-sm sm:text-base font-medium transition-all duration-200 hover:bg-primary-dark active:scale-95 min-h-[44px]"
+              (click)="changeStatus(order.id , OrderStatus.READY)">
+              Ready
+            </button>
+            }
+          </div>
         </div>
       </div>
+      }@empty {
+      <div class="col-span-full text-center py-12 sm:py-16 lg:py-20">
+        <div class="flex flex-col items-center justify-center gap-4">
+          <span class="material-icons text-5xl sm:text-6xl text-gray-300">inbox</span>
+          <p class="text-gray-500 text-base sm:text-lg">No orders found</p>
+          <p class="text-gray-400 text-sm">Try adjusting your search criteria</p>
+        </div>
+      </div>
+      }
     </div>
-    }
   </div>
 </div>
-
-
-<app-order-details-modal [order]="selectedOrder()!" [isOpen]="isModalOpen()" [close]="closeModal">
+<app-order-details-modal [order]="selectedOrder()!" [isOpen]="isModalOpen()" [close]="closeModal"
+  [ngClass]="{'modal-mobile-fullscreen': isModalOpen()}">
 </app-order-details-modal>
