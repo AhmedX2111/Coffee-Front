@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ProductCatalog } from '../product-catalog/product-catalog';
 import { ProductBrowsingService } from '../../../../core/services/product-browsing.service';
+import { CartService } from '../../services/cart-service';
 
 @Component({
   selector: 'app-landing',
@@ -15,6 +16,7 @@ import { ProductBrowsingService } from '../../../../core/services/product-browsi
 })
 export class Landing implements OnInit {
   private router = inject(Router);
+  private cartService = inject(CartService);
   productService = inject(ProductBrowsingService);
 
   showTimePicker = signal(false);
@@ -35,11 +37,13 @@ export class Landing implements OnInit {
   confirmPreOrder(): void {
     const time = `${this.selectedHour()}:${this.selectedMinute()} ${this.selectedPeriod()}`;
     console.log(`Pre-order set for: ${time}`);
+    this.cartService.setOrderType('PRE_ORDER', time);
     this.showTimePicker.set(false);
     this.scrollToProducts();
   }
 
   navigateToMenu(): void {
+    this.cartService.setOrderType('ORDER_NOW');
     this.scrollToProducts();
   }
 

@@ -2,12 +2,16 @@ import { Injectable, signal, computed } from '@angular/core';
 import { CartItem } from '../models';
 
 const CART_KEY = 'brew_and_bite_cart';
+const TYPE_KEY = 'brew_and_bite_order_type';
+const TIME_KEY = 'brew_and_bite_pickup_time';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
 
   // ─── State ────────────────────────────────────────────────────────
   items = signal<CartItem[]>(this.loadFromStorage());
+  orderType = signal<string>(localStorage.getItem(TYPE_KEY) || 'ORDER_NOW');
+  pickupTime = signal<string | null>(localStorage.getItem(TIME_KEY));
 
   // ─── Computed ─────────────────────────────────────────────────────
   count = computed(() =>
@@ -64,6 +68,27 @@ export class CartService {
   // ─── Clear Cart ───────────────────────────────────────────────────
   clearCart(): void {
     this.updateState([]);
+    this.clearOrderType();
+  }
+
+  setOrderType(type: string, time: string | null = null): void {
+    this.orderType.set(type);
+    localStorage.setItem(TYPE_KEY, type);
+    
+    if (time) {
+      this.pickupTime.set(time);
+      localStorage.setItem(TIME_KEY, time);
+    } else {
+      this.pickupTime.set(null);
+      localStorage.removeItem(TIME_KEY);
+    }
+  }
+
+  private clearOrderType(): void {
+    this.orderType.set('ORDER_NOW');
+    this.pickupTime.set(null);
+    localStorage.removeItem(TYPE_KEY);
+    localStorage.removeItem(TIME_KEY);
   }
 
   // ─── Build PlaceOrderRequest items ────────────────────────────────
