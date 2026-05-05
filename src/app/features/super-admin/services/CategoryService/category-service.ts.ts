@@ -17,27 +17,27 @@ export class CategoryService {
     return this.http.post<ApiResponse<AdminCategoryResponse>>(`${this.apiUrl}/api/category`,Category);
   }
 
-  /* 
+  
 // get all categories
-  getAllCategories():Observable<ApiResponse<AdminBranchResponse[]>>{
-    return this.http.get<ApiResponse<AdminBranchResponse[]>>(`${this.apiUrl}/api/category`)
+  getAllCategories():Observable<ApiResponse<AdminCategoryResponse[]>>{
+    return this.http.get<ApiResponse<AdminCategoryResponse[]>>(`${this.apiUrl}/api/category`)
   }
 // get one category by id
-  getOneCategory(id : String):Observable<ApiResponse<AdminBranchResponse>>{
-    return this.http.get<ApiResponse<AdminBranchResponse>>(`${this.apiUrl}/api/branch/${id}`)
+  getOneCategory(id : String):Observable<ApiResponse<AdminCategoryResponse>>{
+    return this.http.get<ApiResponse<AdminCategoryResponse>>(`${this.apiUrl}/api/category/${id}`)
   }
 
-// delete branch
-  deleteBranch(id: String):Observable<ApiResponse<void>>{
-    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/api/branch/${id}`)
+// delete category
+  deleteCategory(id: String):Observable<ApiResponse<void>>{
+    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/api/category/${id}`)
   }
 
-// update branch
- updateBranch(id: String, request: AdminBranchRequest): Observable<ApiResponse<AdminBranchResponse>> {
-  return this.http.put<ApiResponse<AdminBranchResponse>>(
-    `${this.apiUrl}/api/branch/${id}`,
+// update category
+ updateCategory(id: String, request: AdminCategoryRequest): Observable<ApiResponse<AdminCategoryResponse>> {
+  return this.http.put<ApiResponse<AdminCategoryResponse>>(
+    `${this.apiUrl}/api/category/${id}`,
     request
   );
-}  */
+} 
 
 } 
