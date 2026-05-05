@@ -1,33 +1,42 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { OrderResponse, OrderStatus } from '../../models/OrderItem';
 import { OrderService } from '../../services/OrderService/order-service';
-import { OrderResponse } from '../../models/OrderItem';
+import { DatePipe, CurrencyPipe } from '@angular/common';
 import { OrderDetailsModal } from '../order-details-modal/order-details-modal';
 import { SearchOrders } from '../search-orders/search-orders';
+import { OrdersTable } from '../orders-table/orders-table';
 
-@Component({ 
+@Component({
   selector: 'app-completed-orders',
-  imports: [OrderDetailsModal , SearchOrders],
+  imports: [OrderDetailsModal , SearchOrders , DatePipe , CurrencyPipe , OrdersTable],
   templateUrl: './completed-orders.html',
   styleUrl: './completed-orders.css',
 })
-export class CompletedOrders implements OnInit {
+export class CompletedOrders {
+
   orders = signal<OrderResponse[]>([]);
   selectedOrder = signal<OrderResponse | null>(null);
   isModalOpen = signal(false);
+
   constructor(private orderService: OrderService) {}
+
   ngOnInit(): void {
-    this.getOrdersReadyForOneBranchById();
+    this.getOrdersCompletedForOneBranchById();
   }
-  getOrdersReadyForOneBranchById(search: string = '') {
-    this.orderService.getOrdersReadyForOneBranch(search).subscribe((res) => {
+
+  getOrdersCompletedForOneBranchById(search: string = '') {
+    this.orderService.getOrdersCompletedForOneBranch(search).subscribe((res) => {
       this.orders.set(res.data);
     });
   }
+
   openModal(order: OrderResponse) {
     this.selectedOrder.set(order);
     this.isModalOpen.set(true);
   }
+
   closeModal = () => {
     this.isModalOpen.set(false);
   };
+
 }

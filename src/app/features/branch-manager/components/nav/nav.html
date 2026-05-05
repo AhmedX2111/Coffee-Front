@@ -1,18 +1,44 @@
-<nav class="bg-primary px-6 py-3 flex items-center justify-between shadow-md">
-  <div class="flex items-center gap-3">
-    <div class="bg-secondary p-2 rounded-lg">
-      <span class="material-icons text-primary">coffee</span>
+<nav class="bg-primary px-4 md:px-6 py-3 shadow-md">
+  <div class="flex items-center justify-between gap-3">
+    <div class="flex items-center gap-3">
+      <div class="bg-secondary p-2 rounded-lg">
+        <span class="material-icons text-primary">coffee</span>
+      </div>
+      <div class="text-surface">
+        <h1 class="text-xl font-bold leading-tight">Brew Haven</h1>
+        <p class="text-xs opacity-80 font-sans">Branch Manager</p>
+      </div>
     </div>
-    <div class="text-surface">
-      <h1 class="text-xl font-bold leading-tight">Brew Haven</h1>
-      <p class="text-xs opacity-80 font-sans">Branch Manager</p>
-    </div>
-  </div>
-
-  <div class="flex items-center gap-4">
-    <button class="bg-secondary text-primary px-4 py-2 rounded-xl font-semibold flex items-center gap-2 transition-all hover:bg-secondary/90 active:scale-95">
-      <span class="material-icons text-sm">shopping_bag</span>
-      Active Orders
+    <button 
+      class="md:hidden text-surface p-2 rounded-lg hover:bg-secondary hover:text-primary transition-all"
+      (click)="toggleMenu()">
+      <span class="material-icons">{{ isMenuOpen ? 'close' : 'menu' }}</span>
     </button>
+
+    <div class="hidden md:flex flex-wrap items-center gap-2 md:gap-4">
+      @for (item of navItems; track item.path) {
+        <a [routerLink]="'/branch-manager/' + item.path"
+           routerLinkActive="bg-secondary text-primary shadow-sm"
+           [routerLinkActiveOptions]="{exact: item.exact}"
+           class="text-surface px-4 py-2 rounded-xl font-medium flex items-center gap-2 transition-all hover:bg-secondary hover:text-primary">
+          <span class="material-icons text-sm">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </div>
   </div>
+  @if (isMenuOpen) {
+    <div class="md:hidden mt-4 pt-4 border-t border-secondary/30 flex flex-col gap-2">
+      @for (item of navItems; track item.path) {
+        <a [routerLink]="'/branch-manager/' + item.path"
+           routerLinkActive="bg-secondary text-primary shadow-sm"
+           [routerLinkActiveOptions]="{exact: item.exact}"
+           class="text-surface px-4 py-2 rounded-xl font-medium flex items-center gap-2 transition-all hover:bg-secondary hover:text-primary"
+           (click)="closeMenu()">
+          <span class="material-icons text-sm">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </div>
+  }
 </nav>

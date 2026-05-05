@@ -12,5 +12,7 @@ export interface OrderItemRequest {
 export interface PlaceOrderRequest {
   branchId: number;
   notes?: string;
+  type?: string; 
+  pickupTime?: string;
   items: OrderItemRequest[];
 }

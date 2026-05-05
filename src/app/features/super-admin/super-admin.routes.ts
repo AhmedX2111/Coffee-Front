@@ -6,9 +6,14 @@ export const SUPER_ADMIN_ROUTES: Routes = [
     loadComponent: () => import('../super-admin/layout-admin/layout-admin').then((m) => m.Layout),
     children: [
       {
-        path: '',
+        path: 'dashboard',
         loadComponent: () =>
           import('../super-admin/components/dashboard/dashboard').then((m) => m.Dashboard),
+      },
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
       },
       {
         path: 'addon-list',

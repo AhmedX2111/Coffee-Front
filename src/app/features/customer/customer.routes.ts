@@ -17,6 +17,11 @@ export const CUSTOMER_ROUTES: Routes = [
           import('../customer/components/product-detail/product-detail').then(m => m.ProductDetail),
       },
       {
+        path: 'menu',
+        loadComponent: () =>
+          import('../customer/components/product-catalog/product-catalog').then(m => m.ProductCatalog),
+      },
+      {
         path: 'cart',
         loadComponent: () =>
           import('../customer/components/cart/cart').then(m => m.CartPage),

@@ -17,6 +17,11 @@
            
              class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer hover:bg-[#3d2918] hover:text-[#FDF6E9] transition-all"
             >
+        <a
+             [routerLink]="[menu.route]"
+             routerLinkActive="bg-[#FDF6E9] text-[#2D1B0D]"
+             [routerLinkActiveOptions]="{ exact: true }"
+             class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer hover:bg-[#3d2918] transition-all">
           <div class="flex items-center gap-3">
             <i [class]="menu.icon + ' text-lg'"></i>
             <span class="font-medium">{{ menu.label }}</span>

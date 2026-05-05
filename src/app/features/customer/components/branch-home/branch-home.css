@@ -1,0 +1,11 @@
+.hero-section {
+  box-shadow: 0 10px 40px rgba(63, 35, 5, 0.2);
+}
+
+.categories-section {
+  background: linear-gradient(135deg, rgba(242, 234, 211, 0.5) 0%, rgba(245, 245, 245, 0.5) 100%);
+}
+
+.cta-section {
+  box-shadow: 0 10px 40px rgba(63, 35, 5, 0.15);
+}

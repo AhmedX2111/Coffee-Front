@@ -5,18 +5,17 @@
         <span class="material-icons text-xl">check_circle</span>
       </div>
       <div>
-        <h1 class="text-3xl font-bold text-primary">Completed Orders</h1>
+        <h1 class="text-3xl font-bold text-primary">Ready Orders</h1>
         <p class="text-primary/70 text-sm">View your order history</p>
       </div>
     </div>
-    <app-search-orders (searchChange)="getOrdersCompletedForOneBranchById($event)"></app-search-orders>
+    <app-search-orders (searchChange)="getOrdersReadyForOneBranchById($event)"></app-search-orders>
   </div>
-
   <app-orders-table [orders]="orders()"
-                    [showCompleteButton]="false"
-                    (viewOrder)="openModal($event)">
+                    [showCompleteButton]="true"
+                    (viewOrder)="openModal($event)"
+                    (completeOrder)="onCompleteOrder($event)">
   </app-orders-table>
 </div>
-
 <app-order-details-modal [order]="selectedOrder()!" [isOpen]="isModalOpen()" [close]="closeModal">
 </app-order-details-modal>
