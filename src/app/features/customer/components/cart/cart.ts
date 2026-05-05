@@ -3,11 +3,12 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart-service';
 import { CartItem } from '../../models';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule,MatIconModule],
   templateUrl: './cart.html',
   styleUrl: './cart.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
