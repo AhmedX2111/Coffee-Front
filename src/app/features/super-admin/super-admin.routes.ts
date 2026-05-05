@@ -43,17 +43,17 @@ export const SUPER_ADMIN_ROUTES: Routes = [
 
       // branches routes
        {
-        path: 'branchs',
+        path: 'branches',
         loadComponent: () =>
           import('./components/branches/list-branch/list-branch').then((m) => m.ListBranch),
       },
        { // add new branch
-        path: 'branchs/add',
+        path: 'branches/add',
         loadComponent: () =>
           import('./components/branches/add-branch/add-branch').then((m) => m.AddBranch),
       },// edit branch
        {
-        path: 'branchs/update/:id',
+        path: 'branches/update/:id',
         loadComponent: () =>
           import('./components/branches/add-branch/add-branch').then((m) => m.AddBranch),
       },
