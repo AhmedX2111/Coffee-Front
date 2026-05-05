@@ -42,7 +42,7 @@ isLoading = signal(false);
     const id = this.router.snapshot.paramMap.get('id');
     if (id) {
       this.isEditMode = true;
-    //  this.editData(id);
+      this.editData(id);
       this.categoryId = id;
     }
   }
@@ -52,11 +52,11 @@ isLoading = signal(false);
       this.availableAddons.set(res.data);
     });
   }
-
-  /* editData(categoryId: String) {
+// get one category from db
+  editData(categoryId: String) {
     this.categoryService.getOneCategory(categoryId).subscribe({
       next: (response) => {
-        // console.log('get one branch' , response);
+         console.log('get one category' , response);
         // 1. Fill the form with data
         this.categoryForm.patchValue(response.data);
 
@@ -64,7 +64,7 @@ isLoading = signal(false);
        // this.branchForm.get('branchAdmin')?.disable();
       }
     })
-  } */
+  }
 
   submitCategory() {
 
@@ -87,7 +87,7 @@ isLoading = signal(false);
       addonList: this.selectedAddonIds(), // Get values from the signal
     };
     if (this.isEditMode) {
-    /*   this.categoryService.updateCategory(this.categoryId, formValue).subscribe({
+      this.categoryService.updateCategory(this.categoryId, payload).subscribe({
         next: (res) => {
           if (res.success) {
             this.toastr.success(res.message);
@@ -101,7 +101,7 @@ isLoading = signal(false);
           const msg = err.error?.message || 'Something went wrong';
           this.toastr.error(msg);
         },
-      }); */
+      });
     } else {
       this.categoryService.addCategory(payload).subscribe({
         next: (res) => {
