@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-aside',
@@ -17,4 +17,10 @@ menuItems = [
     { label: 'Staff & Roles', icon: 'ph-users', active: false },
     { label: 'Orders', icon: 'ph-receipt', active: false },
   ];
+
+  isMenuOpen = signal(false);
+
+  toggleMenu() {
+    this.isMenuOpen.set(!this.isMenuOpen());
+  }
 }

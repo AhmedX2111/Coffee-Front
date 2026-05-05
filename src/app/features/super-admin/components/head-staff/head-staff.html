@@ -1,22 +1,23 @@
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div>
-        <h1 class="text-3xl font-bold text-[#2D1B0D]">Staff & Roles</h1>
-        <p class="text-gray-500 mt-1">Manage user accounts, assign roles, and branch managers.</p>
-      </div>
-
-      <div class="flex items-center gap-3">
-        <div class="relative">
-          <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
-          <input 
-            type="text" 
-            placeholder="Search users..." 
-            class="pl-10 pr-4 py-2.5 bg-white border border-gray-100 rounded-xl shadow-sm w-64 focus:ring-2 focus:ring-[#2D1B0D] outline-none transition-all"
-          >
-        </div>
-        
-        <button class="flex items-center gap-2 bg-[#2D1B0D] text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-[#3d2612] transition-colors shadow-sm">
-          <span class="material-icons text-lg">person_add</span>
-          Create Manager Account
-        </button>
-      </div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 p-1">
+  <div class="space-y-1">
+    <h1 class="text-2xl md:text-3xl font-bold text-[#2D1B0D]">Staff & Roles</h1>
+    <p class="text-sm md:text-base text-gray-500">
+      Manage user accounts, assign roles, and branch managers.
+    </p>
+  </div>
+  <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+    <div class="relative flex-grow sm:flex-grow-0">
+      <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+        search
+      </span>
+      <input type="text" placeholder="Search users..."
+      (input)="onSearch($event)"
+        class="w-full sm:w-64 pl-10 pr-4 py-2.5 bg-white border border-gray-100 rounded-xl shadow-sm focus:ring-2 focus:ring-[#2D1B0D] outline-none transition-all text-sm">
     </div>
+    <button
+      class="flex items-center justify-center gap-2 bg-[#2D1B0D] text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-[#3d2612] transition-colors shadow-sm whitespace-nowrap active:scale-95 transition-transform text-sm md:text-base">
+      <span class="material-icons text-lg">person_add</span>
+      Create Manager Account
+    </button>
+  </div>
+</div>
