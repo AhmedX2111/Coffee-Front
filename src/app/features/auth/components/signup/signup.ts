@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { RegisterRequest } from '../../../../core/models/auth.model';
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +23,7 @@ constructor(private fb: FormBuilder, private authService: AuthService ,  private
     phone: ['' ,[ Validators.required ,Validators.minLength(11), Validators.maxLength(11) , Validators.pattern('^(010|011|012|015)[0-9]{8}$')]],
     email: ['' , [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
     password: ['' , [Validators.required , Validators.minLength(6)]],
-  });
+  }); 
 } // end of constructor
 
 signupSubmit() {

@@ -35,6 +35,41 @@ export const SUPER_ADMIN_ROUTES: Routes = [
         loadComponent: () =>
           import('./components/branches-order/branches-order').then((m) => m.BranchesOrder),
       },
+
+      // branches routes
+       {
+        path: 'branchs',
+        loadComponent: () =>
+          import('./components/branches/list-branch/list-branch').then((m) => m.ListBranch),
+      },
+       { // add new branch
+        path: 'branchs/add',
+        loadComponent: () =>
+          import('./components/branches/add-branch/add-branch').then((m) => m.AddBranch),
+      },// edit branch
+       {
+        path: 'branchs/update/:id',
+        loadComponent: () =>
+          import('./components/branches/add-branch/add-branch').then((m) => m.AddBranch),
+      },
+
+      // categories routes
+     
+       {
+        path: 'categories',
+        loadComponent: () =>
+          import('./components/categories/category-list/category-list').then((m) => m.CategoryList),
+      },
+       { // add new category
+        path: 'categories/add',
+        loadComponent: () =>
+          import('./components/categories/category/category').then((m) => m.Category),
+      },// edit category
+       {
+        path: 'categories/update/:id',
+        loadComponent: () =>
+          import('./components/categories/category/category').then((m) => m.Category),
+      },
     ],
   },
 ];
