@@ -1,0 +1,225 @@
+<!-- add-branch.html -->
+<main class="p-12 bg-[#F8F8F8] min-h-[calc(100vh-120px)]">
+  <div class="max-w-3xl mx-auto">
+    <div class="flex items-center gap-4 mb-8">
+      <button class="p-2 hover:bg-gray-200 rounded-full transition-colors">
+        <!--   (click)="goBack()" -->
+        <i class="ph-caret-left font-bold"></i>
+      </button>
+      <h1 class="text-2xl font-bold text-[#2D1B0D]">
+        {{ isEditMode ? 'Edit Branch' : 'Add New Branch' }}
+      </h1>
+    </div>
+
+    <div class="bg-white rounded-[32px] p-10 shadow-sm border border-gray-100">
+      <form class="space-y-8" [formGroup]="branchForm" (ngSubmit)="submitBranch()">
+        <!-- Name field -->
+        <div class="space-y-2">
+          <label class="text-sm font-bold text-primary/60 mb-2 block ml-1">Branch Name</label>
+          <input type="text" placeholder="e.g. Downtown Location" class="input-field " formControlName="name" [ngClass]="{
+              'border-red-500': ( branchForm.controls['name'].invalid && (branchForm.controls['name'].dirty || branchForm.controls['name'].touched)),
+              'border-secondary': !( branchForm.controls['name'].invalid && (branchForm.controls['name'].dirty || branchForm.controls['name'].touched))
+            }">
+          @if(branchForm.controls['name'].invalid && branchForm.controls['name'].touched){
+          @if(branchForm.controls['name'].errors?.['required']){
+          <p class="text-danger">Name Required</p>
+          }
+          @if(branchForm.controls['name'].errors?.['minlength']){
+          <p class="text-danger">Name must be at least 5 characters</p>
+          }
+          }
+        </div>
+
+        <!-- Location Address field -->
+        <div class="space-y-2">
+          <label class="text-sm font-bold text-primary/60 ml-1 mb-2 block">Location Address</label>
+          <input type="text" placeholder="e.g. 123 Main Street" class="input-field " [ngClass]="{
+              'border-red-500': ( branchForm.controls['address'].invalid && (branchForm.controls['address'].dirty || branchForm.controls['address'].touched)),
+              'border-secondary': !( branchForm.controls['address'].invalid && (branchForm.controls['address'].dirty || branchForm.controls['address'].touched))
+            }" formControlName="address">
+          @if(branchForm.controls['address'].invalid && branchForm.controls['address'].touched){
+          @if(branchForm.controls['address'].errors?.['required']){
+          <p class="text-danger">Address Required</p>
+          }
+          @if(branchForm.controls['address'].errors?.['minlength']){
+          <p class="text-danger">Address must be at least 5 characters</p>
+          }
+          }
+
+        </div>
+
+        <div class="space-y-2">
+          <label for="phone" class="text-sm font-bold text-primary/60 ml-1 mb-2 block">Phone Number</label>
+          <input id="phone" type="tel" placeholder="01234567890" class="input-field" formControlName="phone"
+            minlength="11" maxlength="11" [ngClass]="{
+              'border-red-500': ( branchForm.controls['phone'].invalid && (branchForm.controls['phone'].dirty || branchForm.controls['phone'].touched)),
+              'border-secondary': !( branchForm.controls['phone'].invalid && (branchForm.controls['phone'].dirty || branchForm.controls['phone'].touched))
+            }">
+          <!--(keypress)="blockArabic($event)"-->
+          @if (branchForm.controls['phone'].invalid && (branchForm.controls['phone'].dirty ||
+          branchForm.controls['phone'].touched)) {
+          <div class="text-red-500 text-sm mt-2 ">
+            @if (branchForm.controls['phone'].hasError('minlength')) {
+            <div>Phone number must be at least 11 characters long.</div>
+            }
+            @if (branchForm.controls['phone'].hasError('required')) {
+            <div>Phone number is required.</div>
+            }
+            @if (branchForm.controls['phone'].hasError('maxLength')) {
+            <div>Phone number must be at most 11 characters long.</div>
+            }
+            @if (branchForm.controls['phone'].hasError('pattern')) {
+            <div>Phone number is not valid it must start with 010 or 011 or 012 or 015.</div>
+            }
+          </div>
+          }
+
+        </div>
+
+
+        <h2 class="text-xl font-bold">Manager Information</h2>
+        <!--  manager fields -->
+        @if(!isEditMode){
+        <div formGroupName="branchAdmin">
+          <div class="grid grid-cols-2 gap-2">
+            <!--  manager name field -->
+            <div class="space-y-2">
+              <label class="text-sm font-bold text-primary/60 ml-1 mb-2 block">Manager Name</label>
+              <input type="text" placeholder="e.g. 123 Main Street"
+                class="w-full p-4 bg-[#F5F5F5] border-none rounded-xl placeholder:text-gray-400" formControlName="name"
+                class="input-field " [ngClass]="{
+              'border-red-500': ( managerControls['name'].invalid && (managerControls['name'].dirty || managerControls['name'].touched)),
+              'border-secondary': !( managerControls['name'].invalid && (managerControls['name'].dirty || managerControls['name'].touched))
+            }">
+              @if(managerControls['name'].invalid && managerControls['name'].touched){
+              @if(managerControls['name'].errors?.['required']){
+              <p class="text-danger">Manager Name Required</p>
+              }
+              @if(managerControls['name'].errors?.['minlength']){
+              <p class="text-danger">Manager Name must be at least 3 characters</p>
+              }
+              }
+
+            </div>
+            <!--  manager phone field -->
+            <div class="space-y-2">
+              <label for="phone" class="text-sm font-bold text-primary/60 ml-1 mb-2 block">Phone Number</label>
+              <input id="phone" type="tel" placeholder="01234567890" class="input-field" formControlName="phone"
+                minlength="11" maxlength="11" [ngClass]="{
+              'border-red-500': ( managerControls['phone'].invalid && (managerControls['phone'].dirty || managerControls['phone'].touched)),
+              'border-secondary': !( managerControls['phone'].invalid && (managerControls['phone'].dirty || managerControls['phone'].touched))
+            }">
+              @if (managerControls['phone'].invalid && (managerControls['phone'].dirty ||
+              managerControls['phone'].touched)) {
+              <div class="text-red-500 text-sm mt-2 ">
+                @if (managerControls['phone'].hasError('minlength')) {
+                <div>Phone number must be at least 11 characters long.</div>
+                }
+                @if (managerControls['phone'].hasError('required')) {
+                <div>Phone number is required.</div>
+                }
+                @if (managerControls['phone'].hasError('minlength')) {
+                <div>Phone number must be at most 11 characters long.</div>
+                }
+                @if (managerControls['phone'].hasError('maxLength')) {
+                <div>Phone number must be at most 11 characters long.</div>
+                }
+                @if (managerControls['phone'].hasError('pattern')) {
+                <div>Phone number is not valid it must start with 010 or 011 or 012 or 015.</div>
+                }
+              </div>
+              }
+
+            </div> <!-- end of  manager phone field -->
+            <div class="space-y-2">
+              <label for="email" class="text-sm font-bold text-primary/60 ml-1 mb-2 block">Email Address</label>
+              <input id="email" type="email" placeholder="name@example.com" class="input-field" formControlName="email"
+                [ngClass]="{
+              'border-red-500': ( managerControls['email'].invalid && (managerControls['email'].dirty || managerControls['email'].touched)),
+              'border-secondary': !( managerControls['email'].invalid && (managerControls['email'].dirty || managerControls['email'].touched))
+            }">
+
+              @if (managerControls['email'].invalid && (managerControls['email'].dirty ||
+              managerControls['email'].touched)) {
+              <div class="text-red-500 text-sm mt-2 ">
+                @if (managerControls['email'].hasError('email') && managerControls['email'].hasError('pattern')) {
+                <div>Email address is not valid.</div>
+                }
+                @if (managerControls['email'].hasError('required')) {
+                <div>Email address is required.</div>
+                }
+
+
+              </div>
+              }
+            </div> <!-- end of manager email field -->
+
+            <div class="space-y-2">
+              <label for="password" class="text-sm font-bold text-primary/60 ml-1 mb-2 block">Password</label>
+              <div class="relative">
+                <input id="password" type="password" placeholder="••••••••" class="input-field"
+                  formControlName="password" [type]="hidePassword ? 'password' : 'text'" [ngClass]="{
+              'border-red-500': ( managerControls['password'].invalid && (managerControls['password'].dirty || managerControls['password'].touched)),
+              'border-secondary': !( managerControls['password'].invalid && (managerControls['password'].dirty || managerControls['password'].touched))
+            }">
+                <button type="button" (click)="togglePassword()"
+                  class="absolute top-1/2 -translate-y-1/2 right-0 flex items-center px-4 text-gray-400 hover:text-blue-600 transition-colors"
+                  tabindex="-1">
+                  <!-- Eye Icon (Modern Angular @if) -->
+                  @if (hidePassword) {
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  } @else {
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                  </svg>
+                  }
+                </button>
+              </div>
+              @if (managerControls['password'].invalid && (managerControls['password'].dirty ||
+              managerControls['password'].touched)) {
+              <div class="text-red-500 text-sm mt-2 ">
+                @if (managerControls['password'].hasError('minlength')) {
+                <div>Password must be at least 6 characters long.</div>
+                }
+                @if (managerControls['password'].hasError('required')) {
+                <div>Password is required.</div>
+                }
+              </div>
+              }
+            </div> <!-- end of manager password field -->
+          </div>
+        </div><!-- branch admin form group -->
+        }@else {
+        <!-- <pre>{{ branchForm.value | json }}</pre> -->
+
+       
+          <div class="flex items-center gap-4 mb-4">
+            <h3 class="text-lg font-bold text-primary/60 mb-1">Manager Name:</h3>
+            <p>{{managerControls['name']?.value}} </p>
+          </div>
+          <div class="flex items-center gap-4 mb-3">
+            <h3 class="text-lg font-bold text-primary/60 mb-1">Manager Email:</h3>
+            <p>{{managerControls['email']?.value}} </p>
+          </div>
+       
+        }
+
+
+        <div class="flex gap-4 pt-4">
+          <button type="submit" [disabled]="branchForm.invalid"
+            class="flex-1 py-4 bg-[#2D1B0D] text-white font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed">
+            {{ isEditMode ? 'Update Branch' : 'Save Branch' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>

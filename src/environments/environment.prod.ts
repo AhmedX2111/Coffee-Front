@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://api.coffeeapp.com/api',
+  apiBaseUrl: 'localhost:8080/api',
   authEndpoint: '/auth',
   customerEndpoint: '/customer',
   branchManagerEndpoint: '/branch-manager',
