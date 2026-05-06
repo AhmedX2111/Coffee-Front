@@ -1,0 +1,87 @@
+<div class="space-y-6 px-5 py-5">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold">Branches</h2>
+            <p class="text-primary/60">
+                Manage your branches and their details.
+            </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+
+            <div class="relative">
+                <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-primary/40">
+                    search
+                </span>
+
+                <input type="text" placeholder="Search branches..."
+                    class="pl-10 pr-4 py-2 bg-surface border border-secondary rounded-xl text-sm focus:ring-2 focus:ring-primary w-64" />
+            </div>
+
+
+            <a [routerLink]="['/super-admin/branchs/add']" class="btn-primary whitespace-nowrap">
+                <span class="material-icons text-sm">add</span>
+                Add Branch
+            </a>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <table class="w-full text-left">
+
+            <thead class="bg-secondary/50 border-b border-secondary/30">
+                <tr>
+                    <th class="px-6 py-4 text-xs font-bold text-primary/50 uppercase tracking-wider">
+                        Branch Name
+                    </th>
+                    <th class="px-6 py-4 text-xs font-bold text-primary/50 uppercase tracking-wider">
+                        Location
+                    </th>
+                    <th class="px-6 py-4 text-xs font-bold text-primary/50 uppercase tracking-wider">
+                        Connected to Manager
+                    </th>
+                    <th class="px-6 py-4 text-xs font-bold text-primary/50 uppercase tracking-wider text-center">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+
+
+            <tbody class="divide-y divide-secondary/40">
+                @for(branch of branches(); track branch.id){
+                <tr class="hover:bg-secondary/20 transition-colors">
+                    <td class="px-6 py-4 font-bold text-sm">{{branch.name}}</td>
+                    <td class="px-6 py-4 text-sm font-bold text-primary/70">{{branch.address}}</td>
+                    <td class="px-6 py-4 text-sm font-bold text-primary/70">{{branch.branchAdmin.name}}</td>
+                    <td class="px-6 py-4 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                            <!-- <button class="p-2 hover:bg-secondary/20 rounded-full transition-colors text-primary/70"
+                             (click)="editBranch(branch.id)"   > 
+                                <span class="material-icons text-sm">edit</span>
+                            </button> -->
+                            <a [routerLink]="['/super-admin/branchs/update/', branch.id]"
+                                class="p-2 hover:bg-secondary/20 rounded-full transition-colors text-primary/70 inline-block">
+                                <span class="material-icons text-sm">edit</span>
+                            </a>
+
+                            <button class="p-2 hover:bg-red-50 rounded-full transition-colors text-danger"
+                                (click)="deleteBranch(branch.id)">
+                                <span class="material-icons text-sm">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>}@empty{
+                <div class="p-12 text-center">
+                    <span class="material-icons text-5xl mx-auto text-secondary mb-4 block">
+                        add
+                    </span>
+                    <p class="text-primary/50 font-medium">
+                        No branches found matching your search.
+                    </p>
+                </div>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<!-- add-category.html -->
+<main class="p-12 bg-[#F8F8F8] min-h-[calc(100vh-120px)]">
+  <div class="max-w-3xl mx-auto">
+    <div class="flex items-center gap-4 mb-8">
+      <button class="p-2 hover:bg-gray-200 rounded-full transition-colors">
+        <!--   (click)="goBack()" -->
+        <i class="ph-caret-left font-bold"></i>
+      </button>
+      <h1 class="text-2xl font-bold text-[#2D1B0D]">
+        {{  'Add New Category' }} <!-- isEditMode ? 'Edit Branch' : -->
+      </h1>
+    </div>
+
+    <div class="bg-white rounded-[32px] p-10 shadow-sm border border-gray-100">
+      <form class="space-y-8" [formGroup]="categoryForm" (ngSubmit)="submitCategory()">
+        <!--category Name field   -->
+        <div class="space-y-2">
+          <label class="text-sm font-bold text-primary/60 mb-2 block ml-1">Category Name</label>
+          <input type="text" placeholder="e.g. Downtown Location" class="input-field " formControlName="name" [ngClass]="{
+              'border-red-500': ( categoryForm.controls['name'].invalid && (categoryForm.controls['name'].dirty || categoryForm.controls['name'].touched)),
+              'border-secondary': !( categoryForm.controls['name'].invalid && (categoryForm.controls['name'].dirty || categoryForm.controls['name'].touched))
+            }">
+          @if(categoryForm.controls['name'].invalid && categoryForm.controls['name'].touched){
+          @if(categoryForm.controls['name'].errors?.['required']){
+          <p class="text-danger">Name Required</p>
+          }
+          @if(categoryForm.controls['name'].errors?.['minlength']){
+          <p class="text-danger">Name must be at least 5 characters</p>
+          }
+          }
+        </div>
+
+        <!-- category image url field -->
+        <div class="space-y-2">
+          <label class="text-sm font-bold text-primary/60 ml-1 mb-2 block">Category Image URL</label>
+          <input type="text" placeholder="e.g. https://example.com/image.jpg" class="input-field " formControlName="imageUrl" [ngClass]="{
+              'border-red-500': ( categoryForm.controls['imageUrl'].invalid && (categoryForm.controls['imageUrl'].dirty || categoryForm.controls['imageUrl'].touched)),
+              'border-secondary': !( categoryForm.controls['imageUrl'].invalid && (categoryForm.controls['imageUrl'].dirty || categoryForm.controls['imageUrl'].touched))
+            }">
+          @if(categoryForm.controls['imageUrl'].invalid && categoryForm.controls['imageUrl'].touched){
+          @if(categoryForm.controls['imageUrl'].errors?.['required']){
+
+          <p class="text-danger">Image URL Required</p>
+          }
+          @if(categoryForm.controls['description'].errors?.['minlength']){
+          <p class="text-danger">Description must be at least 5 characters</p>
+          }
+          }
+
+        </div>
+
+        <div class="space-y-2">
+         <app-multi-selected 
+      [options]="addonOptions()"
+      [(selectedValues)]="selectedAddonIds"
+      placeholder="Pick Addons"
+    />
+
+    <div style="margin-top: 20px;">
+      <strong>Current Selection:</strong> {{ selectedAddonIds() | json }}
+    </div>
+            </div>
+           
+
+
+        <div class="flex gap-4 pt-4">
+          <button type="submit" [disabled]="categoryForm.invalid || selectedAddonIds().length === 0|| isLoading()"
+            class="flex-1 py-4 bg-[#2D1B0D] text-white font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed">
+            @if (isLoading()) {
+       <span>Saving...</span> 
+    } @else {
+       <span>{{ isEditMode ? 'Update' : 'Add' }} Category</span>
+    }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>

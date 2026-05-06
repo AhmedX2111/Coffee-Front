@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { signal } from '@angular/core';
+import { CartService } from '../../../features/customer/services/cart-service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,10 +12,11 @@ import { signal } from '@angular/core';
   styleUrl: './navbar.css',
 })
 export class Navbar {
+  private cartService = inject(CartService);
+
   isMobileMenuOpen = signal(false);
   
-  // Mock cart count - replace with actual CartService
-  cartCount = signal(0);
+  cartCount = this.cartService.count;
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen.update(v => !v);

@@ -2,6 +2,7 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart-service';
 import { BranchService } from '../../services/branch-service';
 import { OrderService } from '../../services/order-service';
@@ -10,7 +11,7 @@ import { Branch, CartItem, PlaceOrderRequest } from '../../models';
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [RouterLink, MatIconModule, FormsModule],
+  imports: [RouterLink, MatIconModule, FormsModule, CommonModule],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css'
 })
@@ -54,6 +55,8 @@ export class CheckoutPage implements OnInit {
     const request: PlaceOrderRequest = {
       branchId: this.selectedBranch()!.id,
       notes: this.notes,
+      type: this.cart.orderType(),
+      pickupTime: this.cart.pickupTime() || undefined,
       items: this.cart.toOrderItems()
     };
 

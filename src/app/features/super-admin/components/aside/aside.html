@@ -1,33 +1,33 @@
-<button (click)="toggleMenu()" [class.active]="isMenuOpen()"
-  class="fixed top-4 left-4 z-[60] w-10 h-10 flex flex-col items-center justify-center gap-1.5 bg-[#2D1B0D] text-[#EAD8C3] rounded-lg min-[800px]:hidden group transition-all active:scale-90">
-  <span class="w-6 h-0.5 bg-current rounded-full transition-all duration-300 origin-center group-[.active]:rotate-45 group-[.active]:translate-y-2"></span>
-  <span class="w-6 h-0.5 bg-current rounded-full transition-all duration-300 group-[.active]:opacity-0 group-[.active]:translate-x-4"></span>
-  <span class="w-6 h-0.5 bg-current rounded-full transition-all duration-300 origin-center group-[.active]:-rotate-45 group-[.active]:-translate-y-2"></span>
-  
-</button>
-@if (isMenuOpen()) {
-  <div 
-    (click)="toggleMenu()"
-    class="fixed inset-0 bg-black/50 z-40 min-[800px]:hidden transition-opacity">
-  </div>
-}
-<aside 
-  [class.translate-x-0]="isMenuOpen()"
-  class="fixed min-[800px]:static inset-y-0 left-0 z-50 w-64 h-screen bg-[#2D1B0D] text-[#EAD8C3] flex flex-col p-4 
-         transition-transform duration-300 ease-in-out -translate-x-full min-[800px]:translate-x-0">
-    <div class="flex items-center gap-3 mb-10 px-2">
-    <div class="bg-[#EAD8C3] p-2 rounded-lg">
-      <i class="ph-coffee text-[#2D1B0D] text-xl"></i>
-    </div>
-    <span class="text-xl font-bold">BrewMaster</span>
-  </div>
-  <nav class="flex-1 space-y-2 overflow-y-auto">
-    @for(menu of menuItems; track menu.label){
-      <div
-          (click)="isMenuOpen.set(false)"
-          [class.bg-[#FDF6E9]]="menu.active" 
-          [class.text-[#2D1B0D]]="menu.active"
-          class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer hover:bg-[#3d2918] transition-all">
+<aside class="w-64 h-screen bg-[#2D1B0D] text-[#EAD8C3] flex flex-col p-4">
+      <div class="flex items-center gap-3 mb-10 px-2">
+        <div class="bg-[#EAD8C3] p-2 rounded-lg">
+          <i class="ph-coffee text-[#2D1B0D] text-xl"></i>
+        </div>
+        <span class="text-xl font-bold">BrewMaster</span>
+      </div>
+
+      <nav class="flex-1 space-y-2">
+        @for(menu of menuItems; track menu.label){
+          <!--  [class.bg-[#FDF6E9]]="menu.active" 
+             [class.text-[#2D1B0D]]="menu.active" 
+              [class.hover:bg-[#FDF6E9]]="menu.active"-->
+        <a
+        [routerLink]="menu.link"
+            routerLinkActive="bg-[#FDF6E9] text-[#2D1B0D]"
+           
+             class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer hover:bg-[#3d2918] hover:text-[#FDF6E9] transition-all"
+            >
+          <div class="flex items-center gap-3">
+            <i [class]="menu.icon + ' text-lg'"></i>
+            <span class="font-medium">{{ menu.label }}</span>
+          </div>
+        </a>}
+        @empty{
+            <h1 class="text-danger">No Data Found</h1>
+        }
+      </nav>
+
+      <div class="bg-[#3d2918] rounded-2xl p-3 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <i [class]="menu.icon + ' text-lg'"></i>
           <span class="font-medium">{{ menu.label }}</span>

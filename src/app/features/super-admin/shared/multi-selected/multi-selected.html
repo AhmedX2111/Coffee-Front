@@ -1,0 +1,42 @@
+ <div class="multi-select-container" (click)="$event.stopPropagation()">
+      <div class="select-trigger" (click)="toggleDropdown()">
+        <div class="selected-items">
+          @if (selectedValues().length === 0) {
+            <span class="placeholder">{{ placeholder() }}</span>
+          } @else {
+            @for (item of selectedValues(); track item) {
+              <span class="chip">
+                {{ getLabel(item) }}
+                <button (click)="removeItem(item, $event)">&times;</button>
+              </span>
+            }
+          }
+        </div>
+        <span class="arrow" [class.open]="isOpen()">▼</span>
+      </div>
+
+      @if (isOpen()) {
+        <div class="dropdown">
+          <input 
+            type="text" 
+            [value]="searchTerm()" 
+            (input)="updateSearch($event)" 
+            placeholder="Search..." 
+            class="search-input"
+          />
+          <ul class="options-list">
+            @for (option of filteredOptions(); track option.value) {
+              <li 
+                (click)="toggleOption(option.value)" 
+                [class.selected]="isSelected(option.value)"
+              >
+                <input type="checkbox" [checked]="isSelected(option.value)" readOnly />
+                {{ option.label }}
+              </li>
+            } @empty {
+              <li class="no-results">No results found</li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
