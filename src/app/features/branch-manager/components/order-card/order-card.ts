@@ -47,7 +47,6 @@ export class OrderCard implements OnInit {
 
 changeStatus(id: number, status: OrderStatus) {
     this.processingIds.update(set => new Set(set).add(id));
-
     this.orderService.changeStatus(id, status)
       .pipe(
         finalize(() => {
@@ -77,8 +76,8 @@ changeStatus(id: number, status: OrderStatus) {
     return this.processingIds().has(id);
   }
 
-onSearch(event:Event){
+/* onSearch(event:Event){
   const value = (event.target as HTMLInputElement).value
   this.getOrdersForOneBranch(value)
-}
+} */
 }

@@ -12,7 +12,7 @@ export class StaffService {
   private apiUrl = environment.apiBaseUrl;
   constructor(private http:HttpClient){}
 
-  getAllStaff():Observable<ApiResponse<StaffResponse[]>>{
-    return this.http.get<ApiResponse<StaffResponse[]>>(`${this.apiUrl}/api/staff`)
+  getAllStaff(search?:string):Observable<ApiResponse<StaffResponse[]>>{
+    return this.http.get<ApiResponse<StaffResponse[]>>(`${this.apiUrl}/api/staff?search=${search || ''}`)
   }
 }

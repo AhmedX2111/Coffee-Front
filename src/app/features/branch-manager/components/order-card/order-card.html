@@ -2,7 +2,7 @@
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
     <div class="mb-6 sm:mb-8">
       <app-search-orders (searchChange)="getOrdersForOneBranch($event)"></app-search-orders>
-    </div>
+    </div> 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mt-3">
       @for(order of orders(); track order.id){
       <div

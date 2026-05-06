@@ -8,7 +8,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class SearchOrders {
 @Output() searchChange = new EventEmitter<string>();
-
+ 
   onSearch(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.searchChange.emit(value);

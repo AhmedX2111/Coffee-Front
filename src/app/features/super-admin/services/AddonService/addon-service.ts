@@ -17,8 +17,8 @@ export class AddonService {
     return this.http.post<ApiResponse<AddonRequest>>(`${this.apiUrl}/api/addon`,addAddonRequest);
   }
 
-  getAllAddons():Observable<ApiResponse<AddonResponse[]>>{
-    return this.http.get<ApiResponse<AddonResponse[]>>(`${this.apiUrl}/api/addon`)
+  getAllAddons(search?: string):Observable<ApiResponse<AddonResponse[]>>{
+    return this.http.get<ApiResponse<AddonResponse[]>>(`${this.apiUrl}/api/addon/search?search=${search || ''}`)
   }
 
   deleteAddon(id:number):Observable<ApiResponse<void>>{

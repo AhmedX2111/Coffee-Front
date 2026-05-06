@@ -1,63 +1,12 @@
-<main class="p-4 md:p-6 lg:p-8 bg-[#F8F8F8] min-h-screen">
+<main class="p-4 md:p-6 lg:p-8 bg-[#F8F8F8] min-h-screen flex flex-col gap-6">
 
   <app-search-branches-order 
     [branches]="branches()"
     (branchChanged)="onBranchChange($event)"
     (searchChanged)="onSearch($event)">
   </app-search-branches-order>
-
-
-  <div class="md:hidden space-y-4 mt-4">
-
-    @for(order of orders(); track order.orderNumber){
-
-      <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-
-        <div class="flex justify-between items-center mb-2">
-          <span class="font-bold text-[#2D1B0D] text-sm">
-            #{{order.orderNumber}}
-          </span>
-
-          <span class="px-2 py-1 rounded-lg text-[10px] font-black uppercase"
-                [ngClass]="{
-                  'bg-green-100 text-green-600': order.status === 'COMPLETED',
-                  'bg-orange-100 text-orange-600': order.status === 'PENDING',
-                  'bg-red-100 text-red-600': order.status === 'CANCELLED'
-                }">
-            {{ order.status }}
-          </span>
-        </div>
-
-        <div class="text-sm font-semibold text-[#2D1B0D]">
-          {{order.userName}}
-        </div>
-
-        <div class="text-xs text-gray-400">
-          {{order.branchName}}
-        </div>
-
-        <div class="flex justify-between items-center mt-3">
-          <span class="font-bold text-[#2D1B0D]">
-            {{order.totalPrice}} EGP
-          </span>
-
-          <span class="text-xs text-gray-400">
-            {{order.createdAt | date:'short'}}
-          </span>
-        </div>
-
-        <div class="mt-2 text-xs text-gray-500">
-          Type: {{order.type}}
-        </div>
-
-      </div>
-    }
-
-  </div>
-
-  <!-- 💻 Desktop View (Table) -->
-  <div class="hidden md:block mt-6 bg-white rounded-[24px] shadow-sm border border-gray-100 overflow-x-auto">
-
+ <app-date-filter (dateChanged)="onDateChange($event)"></app-date-filter>
+  <div class="bg-white rounded-[24px] shadow-sm border border-gray-100 overflow-x-auto">
     <table class="w-full text-left border-collapse min-w-[700px]">
       <thead>
         <tr class="text-xs font-bold text-gray-400 uppercase tracking-widest">
@@ -68,30 +17,23 @@
           <th class="px-4 md:px-6 lg:px-8 py-4 md:py-5 text-center">Status</th>
           <th class="px-4 md:px-6 lg:px-8 py-4 md:py-5 text-center">Type</th>
           <th class="px-4 md:px-6 lg:px-8 py-4 md:py-5">Date</th>
-        </tr>
+         </tr>
       </thead>
       <tbody class="divide-y divide-gray-50">
-
-        @for(order of orders(); track order.orderNumber){
-
+        @for(order of orders(); track order.orderNumber) {
           <tr class="hover:bg-gray-50/50 transition-colors">
-
             <td class="px-4 md:px-6 lg:px-8 py-4 md:py-5 font-bold text-[#2D1B0D] text-sm">
-              {{order.orderNumber}}
+              {{ order.orderNumber }}
             </td>
-
             <td class="px-4 md:px-6 lg:px-8 py-4 md:py-5 font-bold text-[#2D1B0D]">
-              {{order.userName}}
+              {{ order.userName }}
             </td>
-
             <td class="px-4 md:px-6 lg:px-8 py-4 md:py-5 text-gray-400 font-medium">
-              {{order.branchName}}
+              {{ order.branchName }}
             </td>
-
             <td class="px-4 md:px-6 lg:px-8 py-4 md:py-5 font-bold text-[#2D1B0D]">
-              {{order.totalPrice}} EGP
+              {{ order.totalPrice }} EGP
             </td>
-
             <td class="px-4 md:px-6 lg:px-8 py-4 md:py-5 text-center">
               <span class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider"
                     [ngClass]="{
@@ -102,21 +44,32 @@
                 {{ order.status }}
               </span>
             </td>
-
             <td class="px-4 md:px-6 lg:px-8 py-4 md:py-5 text-center">
-              {{order.type}}
+              {{ order.type }}
             </td>
-
             <td class="px-4 md:px-6 lg:px-8 py-4 md:py-5 text-gray-400 text-sm font-medium">
-              {{order.createdAt | date:'short'}}
+              {{ order.createdAt | date:'short' }}
             </td>
-
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="text-center py-12 text-gray-500">
+              No orders found.
+            </td>
           </tr>
         }
-
       </tbody>
     </table>
-
   </div>
+
+   <app-pagination
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    [totalElements]="totalElements()"
+    [itemsCount]="orders().length"
+    (prev)="prevPage()"
+    (next)="nextPage()"
+    (goToPage)="goToPage($event)">
+  </app-pagination>
 
 </main>
