@@ -1,4 +1,3 @@
-import { Component, signal } from '@angular/core';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -19,10 +18,4 @@ menuItems = [
     { label: 'Staff & Roles', icon: 'ph-users', active: false , link :'/super-admin/staff-roles' },
     { label: 'Orders', icon: 'ph-receipt', active: false , link :'/super-admin/orders' },
   ];
-
-  isMenuOpen = signal(false);
-
-  toggleMenu() {
-    this.isMenuOpen.set(!this.isMenuOpen());
-  }
 }

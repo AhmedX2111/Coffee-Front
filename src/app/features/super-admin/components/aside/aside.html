@@ -29,22 +29,14 @@
 
       <div class="bg-[#3d2918] rounded-2xl p-3 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <i [class]="menu.icon + ' text-lg'"></i>
-          <span class="font-medium">{{ menu.label }}</span>
+          <div class="w-10 h-10 rounded-full bg-[#EAD8C3] text-[#2D1B0D] flex items-center justify-center font-bold">
+            AD
+          </div>
+          <div class="flex flex-col overflow-hidden">
+            <span class="text-sm font-semibold truncate">Super Admin</span>
+            <span class="text-xs opacity-60 truncate">admin&#64;brewmaster.com</span>
+          </div>
         </div>
+        <i class="ph-sign-out text-lg cursor-pointer"></i>
       </div>
-    }
-  </nav>
-  <div class="bg-[#3d2918] rounded-2xl p-3 flex items-center justify-between mt-auto">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-full bg-[#EAD8C3] text-[#2D1B0D] flex items-center justify-center font-bold">
-        AD
-      </div>
-      <div class="flex flex-col overflow-hidden">
-        <span class="text-sm font-semibold truncate">Super Admin</span>
-        <span class="text-xs opacity-60 truncate">admin&#64;brewmaster.com</span>
-      </div>
-    </div>
-    <i class="ph-sign-out text-lg cursor-pointer"></i>
-  </div>
-</aside>
+    </aside>
