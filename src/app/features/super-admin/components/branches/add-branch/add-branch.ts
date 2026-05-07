@@ -46,8 +46,8 @@ export class AddBranch implements OnInit {
         // 1. Fill the form with data
         this.branchForm.patchValue(response.data);
 
-        // 2. Disable the branchAdmin nested group
-       // this.branchForm.get('branchAdmin')?.disable();
+      //   2. Disable the branchAdmin nested group
+        this.branchForm.get('branchAdmin')?.disable();
       }
     })
   }

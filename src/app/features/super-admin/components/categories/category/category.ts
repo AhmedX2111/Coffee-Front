@@ -15,7 +15,7 @@ import { AddonService } from '../../../services/AddonService/addon-service';
   styleUrl: './category.css',
 })
 export class Category implements OnInit {
-   selectedAddonIds = signal([]);
+   selectedAddonIds = signal<number[]>([]);
 // ... existing signals
 isLoading = signal(false);
   categoryId !: String;
@@ -27,7 +27,7 @@ isLoading = signal(false);
    addonOptions =  computed(() => 
   this.availableAddons().map(a => ({ label: a.name, value: a.id }))
 );;
-  
+  // constructor
    constructor(private fb: FormBuilder, private categoryService: CategoryService, private toastr: ToastrService, private router: ActivatedRoute , private addonService : AddonService) {
     this.categoryForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -36,7 +36,7 @@ isLoading = signal(false);
      
     });
 
-  }// end od constructor 
+  }// end of constructor 
   ngOnInit(): void {
     this.getAllAddons();
     const id = this.router.snapshot.paramMap.get('id');
@@ -59,9 +59,8 @@ isLoading = signal(false);
          console.log('get one category' , response);
         // 1. Fill the form with data
         this.categoryForm.patchValue(response.data);
-
-        // 2. Disable the branchAdmin nested group
-       // this.branchForm.get('branchAdmin')?.disable();
+this.selectedAddonIds.set(response.data.addonList.map(a => a.id)); // Set the selected addon IDs in the signal
+        
       }
     })
   }

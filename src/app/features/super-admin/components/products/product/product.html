@@ -1,0 +1,231 @@
+<div class="bg-[#FAF6F1] min-h-screen flex items-start justify-center p-6 font-serif">
+
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl p-8">
+
+    <form [formGroup]="productForm" (ngSubmit)="onSave()" novalidate>
+
+      <!-- ── Product Name ───────────────────────────────── -->
+      <div class="flex flex-col gap-1.5 mb-5">
+        <label class="text-[13px] font-semibold text-[#1A0F0A] tracking-wide" style="font-family:'Trebuchet MS',sans-serif">
+          Product Name
+        </label>
+        <input
+          type="text"
+          placeholder="e.g. Signature Espresso"
+          formControlName="name"
+          class="h-12 px-3.5 rounded-lg border-[1.5px] bg-[#FAF6F1] text-[14px] text-[#1A0F0A] outline-none transition-all
+                 placeholder:text-[#9C7B68]
+                 border-[#E8DDD4]
+                 focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/10 focus:bg-white"
+          [class.border-red-400]="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+          [class.bg-red-50]="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+        />
+        <span
+          class="text-[12px] text-red-500"
+          *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+        >
+          Product name is required
+        </span>
+      </div>
+
+      <!-- ── Category + Image Row ───────────────────────── -->
+      <div class="grid grid-cols-2 gap-4 mb-5">
+
+        <!-- Category -->
+        <div class="flex flex-col gap-1.5">
+          <label class="text-[13px] font-semibold text-[#1A0F0A]" style="font-family:'Trebuchet MS',sans-serif">
+            Category
+          </label>
+          <div class="relative">
+            <select
+              formControlName="category"
+              class="w-full h-12 pl-3.5 pr-10 rounded-lg border-[1.5px] border-[#E8DDD4] bg-[#FAF6F1]
+                     text-[14px] text-[#1A0F0A] appearance-none outline-none cursor-pointer transition-all
+                     focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/10 focus:bg-white"
+            >
+              @for (cat of categories(); track cat) {
+                <option [value]="cat.id">{{ cat.name }}</option>
+              }
+            </select>
+            <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#9C7B68]">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="flex flex-col gap-1.5">
+          <label class="text-[13px] font-semibold text-[#1A0F0A]" style="font-family:'Trebuchet MS',sans-serif">
+            Product Image
+          </label>
+
+          <!-- Preview -->
+          <div class="relative h-[110px] rounded-lg overflow-hidden border-[1.5px] border-[#E8DDD4] group" *ngIf="imagePreview()">
+            <img [src]="imagePreview()" alt="Preview" class="w-full h-full object-cover block" />
+            <div class="absolute inset-0 bg-[#2C1810]/45 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <button
+                type="button"
+                (click)="removeImage()"
+                class="flex items-center gap-1.5 bg-red-500/90 hover:bg-red-500 text-white text-[12px] font-semibold px-3 py-1.5 rounded-md transition-colors"
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M1 1L11 11M11 1L1 11" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+                Remove
+              </button>
+            </div>
+            <span class="absolute bottom-0 left-0 right-0 bg-[#2C1810]/60 text-white/90 text-[10px] px-2 py-1 truncate">
+              {{ fileName() }}
+            </span>
+          </div>
+
+          <!-- Drop zone -->
+          <div
+            *ngIf="!imagePreview()"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onDrop($event)"
+            (click)="fileInput.click()"
+            class="h-[110px] rounded-lg border-2 border-dashed border-[#E8DDD4] bg-[#FAF6F1]
+                   flex flex-col items-center justify-center gap-1 cursor-pointer transition-all
+                   hover:border-[#8B4513] hover:bg-white"
+            [class.border-[#8B4513]]="isDragging()"
+            [class.bg-white]="isDragging()"
+            [class.ring-2]="isDragging()"
+            [class.ring-[#8B4513]/10]="isDragging()"
+          >
+            <input #fileInput type="file" accept="image/*" class="hidden" (change)="onImageSelected($event)" />
+            <span class="text-[#C68642]">
+              <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+                <path d="M14 4V18M14 4L9 9M14 4L19 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 20V23C4 23.55 4.45 24 5 24H23C23.55 24 24 23.55 24 23V20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <p class="text-[13px] text-[#6B4C3B] m-0">
+              Drop image or <span class="text-[#8B4513] font-semibold underline underline-offset-2">browse</span>
+            </p>
+            <p class="text-[11px] text-[#9C7B68] m-0">PNG, JPG, WEBP up to 10MB</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Pricing & Sizing ───────────────────────────── -->
+      <div class="bg-[#FAF6F1] border-[1.5px] border-[#E8DDD4] rounded-xl p-5 mb-6">
+
+        <h3 class="text-[11px] font-bold tracking-[0.12em] uppercase text-[#9C7B68] m-0 mb-4"
+            style="font-family:'Trebuchet MS',sans-serif">
+          Pricing &amp; Sizing
+        </h3>
+
+        <div formArrayName="productSizes" class="flex flex-col gap-3">
+          @for (pricing of productSizes.controls; track pricing; let i = $index) {
+            <div
+              [formGroupName]="i"
+              class="grid grid-cols-[1fr_1fr_auto] gap-3 items-end bg-white border-[1.5px] border-[#E8DDD4] rounded-lg p-3.5 transition-shadow hover:shadow-sm"
+            >
+
+            <!-- Size -->
+            <div class="flex flex-col gap-1">
+              <label class="text-[10px] font-bold tracking-[0.1em] uppercase text-[#9C7B68]"
+                     style="font-family:'Trebuchet MS',sans-serif">Size</label>
+              <div class="relative">
+                <select
+                  formControlName="size"
+                  class="w-full h-11 pl-3 pr-9 rounded-lg border-[1.5px] border-[#E8DDD4] bg-[#FAF6F1]
+                         text-[14px] text-[#1A0F0A] appearance-none outline-none cursor-pointer transition-all
+                         focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/10 focus:bg-white"
+                >
+                  @for (opt of sizeOptions; track opt.value) {
+                    <option [value]="opt.value">{{ opt.label }}</option>
+                  }
+                </select>
+                <span class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[#9C7B68]">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <!-- Price -->
+            <div class="flex flex-col gap-1">
+              <label class="text-[10px] font-bold tracking-[0.1em] uppercase text-[#9C7B68]"
+                     style="font-family:'Trebuchet MS',sans-serif">Price ($)</label>
+              <input
+                type="number"
+                formControlName="price"
+                min="0"
+                step="0.1"
+                class="h-11 px-3 rounded-lg border-[1.5px] border-[#E8DDD4] bg-[#FAF6F1]
+                       text-[14px] text-[#1A0F0A] outline-none transition-all
+                       focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/10 focus:bg-white"
+              />
+            </div>
+
+            <!-- +/- Buttons -->
+            <div class="flex gap-1.5 items-center pb-0.5">
+              <button
+                type="button"
+                (click)="removePricing(i)"
+                [disabled]="productSizes.length === 1"
+                title="Remove"
+                class="w-9 h-9 rounded-lg flex items-center justify-center transition-all
+                       bg-red-50 text-red-400
+                       hover:bg-red-500 hover:text-white
+                       disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-red-50 disabled:hover:text-red-400
+                       active:scale-90"
+              >
+                <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 7H12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <button
+                type="button"
+                (click)="addPricing()"
+                title="Add size"
+                class="w-9 h-9 rounded-lg flex items-center justify-center transition-all
+                       bg-[#2C1810] text-white
+                       hover:bg-[#5C3317]
+                       active:scale-90"
+              >
+                <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+                  <path d="M7 2V12M2 7H12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+
+          </div>
+          } <!-- end @for pricings -->
+        </div>
+      </div>
+
+      <!-- ── Footer ─────────────────────────────────────── -->
+      <div class="grid grid-cols-[1fr_2fr] gap-3">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="h-13 rounded-lg border-[1.5px] border-[#E8DDD4] bg-white text-[#6B4C3B] text-[14px] font-semibold
+                 transition-all cursor-pointer
+                 hover:bg-[#FAF6F1] hover:border-[#C68642] hover:text-[#1A0F0A]"
+          style="font-family:'Trebuchet MS',sans-serif"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="h-13 rounded-lg border-none bg-[#2C1810] text-white text-[14px] font-bold tracking-wide
+                 transition-all cursor-pointer
+                 hover:bg-[#5C3317] hover:shadow-lg hover:shadow-[#2C1810]/25
+                 active:translate-y-px"
+          style="font-family:'Trebuchet MS',sans-serif"
+        >
+          Save Product
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
