@@ -7,14 +7,14 @@ import { CategoryService } from '../../../services/CategoryService/category-serv
 import { ProductSize } from '../../../models/product';
 import { ProductService } from '../../../services/ProductService/product-service';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 
 
 
 @Component({
   selector: 'app-product',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule , RouterLink],
   templateUrl: './product.html',
   styleUrl: './product.css',
 })
@@ -184,10 +184,10 @@ isEditMode = false;
     formData.append('category.id', this.productForm.value.category);
 
     // image file
-   // const file = this.productForm.value.image;
-  /*   if (file) {
+   const file = this.productForm.value.image;
+    if (file instanceof File) {
       formData.append('imageUrl', file); // must match backend field name
-    } */
+    }
 
     // productSizes (IMPORTANT PART)
     this.productSizes.controls.forEach((group, index) => {

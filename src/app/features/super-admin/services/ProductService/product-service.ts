@@ -26,12 +26,12 @@ export class ProductService {
   getOneProduct(id : String):Observable<ApiResponse<AdminProductResponse>>{
     return this.http.get<ApiResponse<AdminProductResponse>>(`${this.apiUrl}/api/admin/product/${id}`)
   }
- /* 
-// delete category
-  deleteCategory(id: String):Observable<ApiResponse<void>>{
-    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/api/category/${id}`)
+  
+// delete product
+  deleteProduct(id: String):Observable<ApiResponse<void>>{
+    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/api/admin/product/${id}`)
   }
-*/
+
 // update product
  updateProduct(id: String, productFormData: FormData): Observable<ApiResponse<AdminProductResponse>> {
   return this.http.put<ApiResponse<AdminProductResponse>>(

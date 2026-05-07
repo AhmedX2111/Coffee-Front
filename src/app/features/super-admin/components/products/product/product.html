@@ -204,16 +204,16 @@
 
       <!-- ── Footer ─────────────────────────────────────── -->
       <div class="grid grid-cols-[1fr_2fr] gap-3">
-        <button
-          type="button"
-          (click)="onCancel()"
+        <a
+        [routerLink]="['/super-admin/products']"
+        
           class="h-13 rounded-lg border-[1.5px] border-[#E8DDD4] bg-white text-[#6B4C3B] text-[14px] font-semibold
-                 transition-all cursor-pointer
+                 transition-all cursor-pointer flex items-center justify-center gap-1
                  hover:bg-[#FAF6F1] hover:border-[#C68642] hover:text-[#1A0F0A]"
           style="font-family:'Trebuchet MS',sans-serif"
         >
           Cancel
-        </button>
+      </a>
         <button
           type="submit"
           class="h-13 rounded-lg border-none bg-[#2C1810] text-white text-[14px] font-bold tracking-wide
