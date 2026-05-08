@@ -3,51 +3,20 @@
     <div class="flex items-center gap-3">
       <div class="bg-emerald-500 text-white p-2 rounded-full flex items-center justify-center">
         <span class="material-icons text-xl">check_circle</span>
-      </div> 
+      </div>
       <div>
         <h1 class="text-3xl font-bold text-primary">Completed Orders</h1>
         <p class="text-primary/70 text-sm">View your order history</p>
       </div>
     </div>
-
-<app-search-orders (searchChange)="getOrdersReadyForOneBranchById($event)"></app-search-orders>
-</div>
-
-  <div class="card">
-    <div class="overflow-x-auto">
-      <table class="w-full text-left border-collapse">
-        <thead class="bg-primary text-surface">
-            
-          <tr>
-            <th class="px-6 py-4 font-semibold uppercase text-xs tracking-wider">Order ID</th>
-            <th class="px-6 py-4 font-semibold uppercase text-xs tracking-wider">Total Price</th>
-            <th class="px-6 py-4 font-semibold uppercase text-xs tracking-wider">Completed At</th>
-            <th class="px-6 py-4 font-semibold uppercase text-xs tracking-wider text-center">Action</th>
-          </tr>
-        </thead>
-        
-        <tbody class="divide-y divide-black/5">
-            @for(order of orders();track order.id){
-          <tr  
-              class="hover:bg-secondary/10 transition-colors">
-            
-            <td class="px-6 py-4 font-medium">{{order.orderNumber}}</td>
-            <td class="px-6 py-4 font-semibold">{{order.totalPrice}}$</td>
-            <td class="px-6 py-4 text-primary/80"></td>
-            
-            <td class="px-6 py-4">
-              <div class="flex justify-center">
-                <button class="btn-primary text-xs py-2 px-4 rounded-lg shadow-sm" (click)="openModal(order)">
-                  <span class="material-icons text-sm">visibility</span>
-                  View Details
-                </button>
-              </div>
-            </td>
-          </tr>}
-        </tbody>
-      </table>
-    </div>
+    <app-search-orders (searchChange)="getOrdersCompletedForOneBranchById($event)"></app-search-orders>
   </div>
+
+  <app-orders-table [orders]="orders()"
+                    [showCompleteButton]="false"
+                    (viewOrder)="openModal($event)">
+  </app-orders-table>
 </div>
+
 <app-order-details-modal [order]="selectedOrder()!" [isOpen]="isModalOpen()" [close]="closeModal">
-</app-order-details-modal> 
+</app-order-details-modal>

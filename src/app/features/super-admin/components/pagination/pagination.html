@@ -1,0 +1,27 @@
+  <div class="flex flex-col sm:flex-row justify-between items-center gap-3 px-4 py-3 bg-white rounded-lg shadow-sm">
+      <div class="text-sm text-gray-600 order-2 sm:order-1">
+        Showing {{ itemsCount }} of {{ totalElements }} orders
+      </div>
+      <div class="flex flex-wrap justify-center gap-2 order-1 sm:order-2">
+        <button (click)="prev.emit()" [disabled]="currentPage === 0"
+                class="px-3 py-1 rounded-md border border-gray-300 bg-white text-gray-700 text-sm font-medium
+                       disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50">
+          Previous
+        </button>
+        
+        @for (page of pages; track $index) {
+          <button (click)="goToPage.emit(page)" 
+                  [class.bg-[#2D1B0D]]="currentPage === page"
+                  [class.text-white]="currentPage === page"
+                  class="px-3 py-1 rounded-md border border-gray-300 text-sm font-medium hover:bg-gray-50">
+            {{ page + 1 }}
+          </button>
+        }
+        
+        <button (click)="next.emit()" [disabled]="currentPage + 1 >= totalPages"
+                class="px-3 py-1 rounded-md border border-gray-300 bg-white text-gray-700 text-sm font-medium
+                       disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50">
+          Next
+        </button>
+      </div>
+    </div>

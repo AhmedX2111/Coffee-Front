@@ -12,6 +12,7 @@ export interface OrderResponse {
   orderNumber: string;
   totalPrice: number;
   createdAt: string;
+  updatedAt:string;
   type: OrderType;
   status: OrderStatus;
   pickupTime: string | null;

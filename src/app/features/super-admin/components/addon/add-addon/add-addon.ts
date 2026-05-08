@@ -79,6 +79,7 @@ export class AddAddon implements OnInit {
           if (res.success) {
             this.toastr.success(res.message);
             this.addonForm.reset();
+            this.goBack()
           } else {
             this.toastr.error(res.message);
           }

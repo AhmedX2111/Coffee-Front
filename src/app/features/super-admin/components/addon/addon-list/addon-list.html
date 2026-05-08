@@ -1,83 +1,87 @@
-<div class="space-y-6">
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-            <h2 class="text-2xl font-bold">Addons</h2>
-            <p class="text-primary/60">
-                Manage extras and customizations for your products.
-            </p>
-        </div>
-
-        <div class="flex items-center gap-3">
-
-            <div class="relative">
-                <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-primary/40">
-                    search
-                </span>
-
-                <input type="text" placeholder="Search addons..."
-                    class="pl-10 pr-4 py-2 bg-surface border border-secondary rounded-xl text-sm focus:ring-2 focus:ring-primary w-64" />
+<div class="space-y-6 md:space-y-8">
+    <div class="card">
+        <div class="p-4 md:p-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+                <h2 class="text-xl md:text-2xl font-bold">Addons</h2>
+                <p class="text-sm md:text-base text-primary/60 mt-1">
+                    Manage extras and customizations for your products.
+                </p>
             </div>
-
-
-            <button class="btn-primary whitespace-nowrap">
-                <span class="material-icons text-sm">add</span>
-                Add Addon
-            </button>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <div class="relative w-full sm:w-auto">
+                    <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-primary/40 text-base">
+                        search
+                    </span>
+                    <input type="text" placeholder="Search addons..." (input)="onSearch($event)"
+                        class="w-full sm:w-64 pl-10 pr-4 py-2 bg-surface border border-secondary rounded-xl text-sm focus:ring-2 focus:ring-primary outline-none transition" />
+                </div>
+                <button class="btn-primary whitespace-nowrap flex items-center justify-center gap-2 px-4 py-2 rounded-xl" routerLink="/super-admin/addon">
+                    <span class="material-icons text-sm">add</span>
+                    Add Addon
+                </button> 
+            </div>
         </div>
     </div>
 
-
-    <div class="card">
-        <table class="w-full text-left">
-
-            <thead class="bg-secondary/50 border-b border-secondary/30">
-                <tr>
-                    <th class="px-6 py-4 text-xs font-bold text-primary/50 uppercase tracking-wider">
-                        Addon Name
-                    </th>
-                    <th class="px-6 py-4 text-xs font-bold text-primary/50 uppercase tracking-wider">
-                        Price
-                    </th>
-                    <th class="px-6 py-4 text-xs font-bold text-primary/50 uppercase tracking-wider">
-                        Connected to Categories
-                    </th>
-                    <th class="px-6 py-4 text-xs font-bold text-primary/50 uppercase tracking-wider text-center">
-                        Actions
-                    </th>
-                </tr>
-            </thead>
-
-
-            <tbody class="divide-y divide-secondary/40">
-                @for(addon of addons(); track addon.id){
-                <tr class="hover:bg-secondary/20 transition-colors">
-                    <td class="px-6 py-4 font-bold text-sm">{{addon.name}}</td>
-                    <td class="px-6 py-4 text-sm font-bold text-primary/70">{{addon.price}}</td>
-                    <td class="px-6 py-4 text-sm font-bold text-primary/70"></td>
-                    <td class="px-6 py-4 text-center">
-                        <div class="flex items-center justify-center gap-2">
-                            <button class="p-2 hover:bg-secondary/20 rounded-full transition-colors text-primary/70"
-                                (click)="editAddon(addon)">
-                                <span class="material-icons text-sm">edit</span>
-                            </button>
-
-                            <button class="p-2 hover:bg-red-50 rounded-full transition-colors text-danger"
-                                (click)="deleteAddon(addon.id)">
-                                <span class="material-icons text-sm">delete</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>}@empty{
-                <div class="p-12 text-center">
-                    <span class="material-icons text-5xl mx-auto text-secondary mb-4 block">
-                        add
-                    </span>
-                    <p class="text-primary/50 font-medium">
-                        No addons found matching your search.
-                    </p>
-                </div>
-                }
-            </tbody>
-        </table>
+    <div class="card overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left min-w-[640px] md:min-w-0">
+                <thead class="bg-secondary/50 border-b border-secondary/30">
+                    <tr>
+                        <th class="px-4 py-3 md:px-6 md:py-4 text-xs font-bold text-primary/50 uppercase tracking-wider">
+                            Addon Name
+                        </th>
+                        <th class="px-4 py-3 md:px-6 md:py-4 text-xs font-bold text-primary/50 uppercase tracking-wider">
+                            Price
+                        </th>
+                        <th class="px-4 py-3 md:px-6 md:py-4 text-xs font-bold text-primary/50 uppercase tracking-wider">
+                            Connected to Categories
+                        </th>
+                        <th class="px-4 py-3 md:px-6 md:py-4 text-xs font-bold text-primary/50 uppercase tracking-wider text-center">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-secondary/40">
+                    @for(addon of addons(); track addon.id){
+                    <tr class="hover:bg-secondary/20 transition-colors">
+                        <td class="px-4 py-3 md:px-6 md:py-4 font-semibold text-sm break-words">
+                            {{addon.name}}
+                        </td>
+                        <td class="px-4 py-3 md:px-6 md:py-4 text-sm font-bold text-primary/70 whitespace-nowrap">
+                            {{addon.price}}
+                        </td>
+                        <td class="px-4 py-3 md:px-6 md:py-4 text-sm text-primary/70">
+                        </td>
+                        <td class="px-4 py-3 md:px-6 md:py-4 text-center">
+                            <div class="flex items-center justify-center gap-1.5 md:gap-2">
+                                <button class="p-1.5 md:p-2 hover:bg-secondary/20 rounded-full transition-colors text-primary/70"
+                                    (click)="editAddon(addon)">
+                                    <span class="material-icons text-sm md:text-base">edit</span>
+                                </button>
+                                <button class="p-1.5 md:p-2 hover:bg-red-50 rounded-full transition-colors text-danger"
+                                    (click)="deleteAddon(addon.id)">
+                                    <span class="material-icons text-sm md:text-base">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="4" class="px-4 py-12 md:px-6 text-center">
+                            <div class="flex flex-col items-center justify-center">
+                                <span class="material-icons text-4xl md:text-5xl text-secondary mb-3">
+                                    add
+                                </span>
+                                <p class="text-primary/50 font-medium">
+                                    No addons found matching your search.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

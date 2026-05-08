@@ -6,9 +6,14 @@ export const SUPER_ADMIN_ROUTES: Routes = [
     loadComponent: () => import('../super-admin/layout-admin/layout-admin').then((m) => m.Layout),
     children: [
       {
-        path: '',
+        path: 'dashboard',
         loadComponent: () =>
           import('../super-admin/components/dashboard/dashboard').then((m) => m.Dashboard),
+      },
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
       },
       {
         path: 'addon-list',
@@ -38,17 +43,17 @@ export const SUPER_ADMIN_ROUTES: Routes = [
 
       // branches routes
        {
-        path: 'branchs',
+        path: 'branches',
         loadComponent: () =>
           import('./components/branches/list-branch/list-branch').then((m) => m.ListBranch),
       },
        { // add new branch
-        path: 'branchs/add',
+        path: 'branches/add',
         loadComponent: () =>
           import('./components/branches/add-branch/add-branch').then((m) => m.AddBranch),
       },// edit branch
        {
-        path: 'branchs/update/:id',
+        path: 'branches/update/:id',
         loadComponent: () =>
           import('./components/branches/add-branch/add-branch').then((m) => m.AddBranch),
       },
