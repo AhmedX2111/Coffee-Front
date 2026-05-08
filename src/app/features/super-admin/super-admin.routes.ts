@@ -75,6 +75,24 @@ export const SUPER_ADMIN_ROUTES: Routes = [
         loadComponent: () =>
           import('./components/categories/category/category').then((m) => m.Category),
       },
+      // products routes
+        // products routes
+     
+       {
+        path: 'products',
+        loadComponent: () =>
+          import('./components/products/product-list/product-list').then((m) => m.ProductList),
+      },
+       { // add new product
+        path: 'products/add',
+        loadComponent: () =>
+          import('./components/products/product/product').then((m) => m.Product),
+      },// edit product
+       {
+        path: 'products/update/:id',
+        loadComponent: () =>
+          import('./components/products/product/product').then((m) => m.Product),
+      },
     ],
   },
 ];
