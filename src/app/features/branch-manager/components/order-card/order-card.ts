@@ -31,7 +31,6 @@ export class OrderCard implements OnInit {
 
   getOrdersForOneBranch(search : string = ''){
     this.orderService.getOrdersForOneBranch(search).subscribe((res)=>{
-      console.log(res)
       this.orders.set(res.data)
     })
   }

@@ -19,7 +19,7 @@ export const CUSTOMER_ROUTES: Routes = [
       {
         path: 'menu',
         loadComponent: () =>
-          import('../customer/components/product-catalog/product-catalog').then(m => m.ProductCatalog),
+          import('../customer/components/menu-page/menu-page').then(m => m.MenuPage),
       },
       {
         path: 'cart',

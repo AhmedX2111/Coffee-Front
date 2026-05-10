@@ -20,7 +20,6 @@ products = signal<AdminProductResponse[] | undefined>(undefined);
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe({
       next: (res) => {
-        console.log('get all products' , res);
          if (res.success) {
           this.products.set(res.data);
         }

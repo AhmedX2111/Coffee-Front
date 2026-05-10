@@ -21,7 +21,6 @@ categories = signal<AdminCategoryResponse[] | undefined>(undefined);
   ngOnInit(): void {
     this.categoryService.getAllCategories().subscribe({
       next: (res) => {
-        console.log('get all categories' , res);
          if (res.success) {
           this.categories.set(res.data);
         }

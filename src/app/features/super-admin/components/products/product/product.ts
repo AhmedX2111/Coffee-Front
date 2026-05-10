@@ -48,7 +48,6 @@ isEditMode = false;
   ngOnInit(): void {
     this.categoryService.getAllCategories().subscribe({
       next: (res) => {
-        //  console.log('get all categories' , res);
         this.categories.set(res.data);
       }
     });
@@ -65,7 +64,6 @@ isEditMode = false;
   editData(productId: String) {
     this.productService.getOneProduct(productId).subscribe({
       next: (response) => {
-         console.log('get one product' , response);
         // 1. Fill the form with data
         this.productForm.setControl('productSizes', this.fb.array(response.data.productSizes.map(ps => this.fb.group({
           
@@ -195,7 +193,6 @@ isEditMode = false;
       formData.append(`productSizes[${index}].price`, group.value.price);
     });
 
-     console.log('Saving product:', formData.get('imageUrl'));
      if (this.isEditMode) {
  this.productService.updateProduct(this.productId, formData).subscribe({
         next: (res) => {

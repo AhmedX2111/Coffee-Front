@@ -90,8 +90,8 @@
           <div class="loader"></div>
         </div>
       } @else if (categories().length > 0) {
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          @for (category of categories(); track category.id) {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          @for (category of categories().slice(0, 4); track category.id) {
             <button 
               class="card p-8 text-center hover:shadow-lg transition-all hover:-translate-y-1"
               (click)="navigateToMenu()">
@@ -107,9 +107,11 @@
   <!-- Featured Delights Section -->
   <div class="featured-section py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-4xl font-display font-bold text-primary mb-2">Featured Delights</h2>
-        <p class="text-primary/70">Handpicked favorites from our expert baristas.</p>
+      <div class="flex justify-between items-center mb-12">
+        <div>
+          <h2 class="text-4xl font-display font-bold text-primary mb-2">Featured Delights</h2>
+          <p class="text-primary/70">Handpicked favorites from our expert baristas.</p>
+        </div>
       </div>
 
       @if (isLoadingProducts()) {

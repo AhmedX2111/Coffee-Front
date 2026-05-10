@@ -111,10 +111,9 @@ export class ProductBrowsingService {
   /**
    * Get all categories
    */
-  getAllCategories(): Observable<CategoryResponse[]> {
-    return this.http.get<CategoryResponse[]>(
-      `${this.apiUrl}/api/category`,
-      { headers: this.getHeaders() }
+  getAllCategories(): Observable<ApiResponse<CategoryResponse[]>> {
+    return this.http.get<ApiResponse<CategoryResponse[]>>(
+      `${this.apiUrl}/api/category`
     );
   }
 

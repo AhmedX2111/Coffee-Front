@@ -1,24 +1,31 @@
-<div class="space-y-24">
-  <!-- Hero Section -->
-  <section class="hero-section relative h-[80vh] min-h-[600px] flex items-center overflow-hidden rounded-3xl mx-4 sm:mx-6 lg:mx-8 mt-4">
-    <div class="absolute inset-0 z-0">
-      <img src="https://picsum.photos/seed/coffee-hero/1920/1080?blur=2" alt="Coffee Hero" class="w-full h-full object-cover brightness-50" referrerpolicy="no-referrer">
+<div class="landing-container">
+
+  <!-- ── Hero ── -->
+  <section class="hero-section">
+    <div class="hero-background">
+      <img
+        src="https://picsum.photos/seed/coffee-hero/1920/1080?blur=2"
+        alt="Coffee Hero"
+        class="hero-image"
+        referrerpolicy="no-referrer"
+      />
     </div>
-    
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-surface">
-      <div class="max-w-2xl space-y-8">
-        <h1 class="text-6xl md:text-8xl font-display font-bold leading-tight">
-          Crafting <span class="text-secondary">Perfect</span> Moments
+
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          Crafting <span class="highlight-text">Perfect</span> Moments
         </h1>
-        <p class="text-xl md:text-2xl text-surface/80 leading-relaxed">
-          Experience the finest coffee and freshest bites in a warm, minimal space designed for your comfort.
+        <p class="hero-description">
+          Experience the finest coffee and freshest bites in a warm, minimal
+          space designed for your comfort.
         </p>
-        <div class="flex flex-wrap gap-4 pt-4">
-          <button (click)="navigateToMenu()" class="btn-secondary text-lg px-8 py-4 inline-flex items-center gap-2">
+        <div class="hero-buttons">
+          <button (click)="navigateToMenu()" class="btn-secondary btn-large">
             Order Now
-            <span class="material-icons">arrow_forward</span>
+            <mat-icon>arrow_forward</mat-icon>
           </button>
-          <button (click)="showTimePicker.set(true)" class="bg-surface/10 border border-surface/20 text-surface hover:bg-surface/20 text-lg px-8 py-4 rounded-xl font-semibold transition-all inline-flex items-center gap-2">
+          <button (click)="showTimePicker.set(true)" class="btn-preorder btn-large">
             Pre-order
           </button>
         </div>
@@ -27,43 +34,43 @@
 
     <!-- Time Picker Modal -->
     @if (showTimePicker()) {
-      <div class="absolute inset-0 z-50 flex items-center justify-center bg-primary/40 backdrop-blur-sm">
-        <div class="card p-8 max-w-md w-full mx-4 space-y-8">
-          <div class="flex justify-between items-center">
-            <h3 class="text-2xl font-display font-bold">Select Pre-order Time</h3>
-            <button (click)="showTimePicker.set(false)" class="p-2 hover:bg-black/5 rounded-full transition-colors">
-              <span class="material-icons">close</span>
+      <div class="modal-overlay">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Select Pre-order Time</h3>
+            <button (click)="showTimePicker.set(false)" class="modal-close">
+              <mat-icon>close</mat-icon>
             </button>
           </div>
 
-          <div class="flex justify-center items-center gap-4">
-            <div class="flex flex-col items-center gap-2">
-              <span class="text-xs font-bold text-primary/40 uppercase">Hour</span>
-              <select [(ngModel)]="selectedHour" class="bg-background border border-secondary rounded-xl px-4 py-3 text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-primary/20">
+          <div class="time-selector">
+            <div class="time-select-group">
+              <span class="time-label">Hour</span>
+              <select [(ngModel)]="selectedHour" class="time-select">
                 @for (h of hours; track h) {
                   <option [value]="h">{{ h }}</option>
                 }
               </select>
             </div>
-            <span class="text-3xl font-bold mt-6">:</span>
-            <div class="flex flex-col items-center gap-2">
-              <span class="text-xs font-bold text-primary/40 uppercase">Minute</span>
-              <select [(ngModel)]="selectedMinute" class="bg-background border border-secondary rounded-xl px-4 py-3 text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-primary/20">
+            <span class="time-separator">:</span>
+            <div class="time-select-group">
+              <span class="time-label">Minute</span>
+              <select [(ngModel)]="selectedMinute" class="time-select">
                 @for (m of minutes; track m) {
                   <option [value]="m">{{ m }}</option>
                 }
               </select>
             </div>
-            <div class="flex flex-col items-center gap-2">
-              <span class="text-xs font-bold text-primary/40 uppercase">Period</span>
-              <select [(ngModel)]="selectedPeriod" class="bg-background border border-secondary rounded-xl px-4 py-3 text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-primary/20">
+            <div class="time-select-group">
+              <span class="time-label">Period</span>
+              <select [(ngModel)]="selectedPeriod" class="time-select">
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
               </select>
             </div>
           </div>
 
-          <button (click)="confirmPreOrder()" class="btn-primary w-full py-4 text-lg">
+          <button (click)="confirmPreOrder()" class="btn-primary btn-full">
             Continue to Menu
           </button>
         </div>
@@ -71,8 +78,84 @@
     }
   </section>
 
-  <!-- Product Catalog -->
-  <section id="featured" class="py-12">
-    <app-product-catalog></app-product-catalog>
+  <!-- ── Categories ── -->
+  <section class="content-section">
+    <div class="section-header">
+      <div class="section-title-wrapper">
+        <h2 class="section-title">Our Categories</h2>
+        <p class="section-subtitle">Explore our wide range of delicious offerings.</p>
+      </div>
+      <button (click)="navigateToMenu()" class="view-all-link">
+        View All Menu
+        <mat-icon class="link-icon">chevron_right</mat-icon>
+      </button>
+    </div>
+
+    <div class="categories-grid">
+      @for (category of categories(); track category.id) {
+        <button class="category-card" (click)="goToCategory(category.id)">
+          <div class="category-icon-wrapper">
+            <mat-icon class="category-icon">{{ iconForCategory(category) }}</mat-icon>
+          </div>
+          <h3 class="category-name">{{ category.name }}</h3>
+        </button>
+      }
+    </div>
   </section>
+
+  <!-- ── Featured Products ── -->
+  <section class="content-section">
+    <div class="section-header">
+      <div class="section-title-wrapper">
+        <h2 class="section-title">Featured Delights</h2>
+        <p class="section-subtitle">Handpicked favorites from our expert baristas.</p>
+      </div>
+    </div>
+
+    <div class="products-grid">
+      @for (product of featuredProducts(); track product.id) {
+        <div class="product-card">
+          <div class="product-image-wrapper">
+            <img
+              [src]="product.imageUrl"
+              [alt]="product.name"
+              class="product-image"
+              (error)="onImageError($event)"
+              referrerpolicy="no-referrer"
+            />
+            <div class="product-price-badge">
+              $ {{ product.basePrice.toFixed(2) }}
+            </div>
+          </div>
+          <div class="product-content">
+            <h3 class="product-title">{{ product.name }}</h3>
+            <p class="product-description">{{ product.description }}</p>
+            <button (click)="viewProduct(product.id)" class="btn-primary btn-full">
+              View Details
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section">
+    <div class="cta-container">
+      <div class="cta-background-effects" aria-hidden="true">
+        <div class="effect-1"></div>
+        <div class="effect-2"></div>
+      </div>
+      <div class="cta-content">
+        <h2 class="cta-title">Ready to take a sip?</h2>
+        <p class="cta-description">
+          Join thousands of coffee lovers and start your journey with Brew &amp; Bite today.
+        </p>
+        <div class="cta-buttons">
+          <button (click)="navigateToMenu()" class="btn-secondary btn-large">Order Now</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>

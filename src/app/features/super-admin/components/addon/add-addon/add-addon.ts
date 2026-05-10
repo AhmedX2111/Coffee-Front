@@ -68,7 +68,6 @@ export class AddAddon implements OnInit {
           }
         },
         error: (err) => {
-          console.log(err);
           const msg = err.error?.message || 'Something went wrong';
           this.toastr.error(msg);
         },
@@ -85,7 +84,6 @@ export class AddAddon implements OnInit {
           }
         },
         error: (err) => {
-          console.log(err);
           const msg = err.error?.message || 'Something went wrong';
           this.toastr.error(msg);
         },

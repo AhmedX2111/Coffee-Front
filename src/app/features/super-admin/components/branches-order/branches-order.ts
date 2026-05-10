@@ -50,7 +50,6 @@ loadOrders() {
         this.pageSize()
       )
       .subscribe(res => {
-        console.log(res);
         const pageData: PageResponse<BranchesOrderResponse> = res.data;
         this.orders.set(pageData.content);
         this.totalPages.set(pageData.totalPages);
