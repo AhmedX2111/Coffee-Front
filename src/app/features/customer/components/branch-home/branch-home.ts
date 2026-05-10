@@ -44,7 +44,7 @@ export class BranchHome implements OnInit {
     this.isLoadingCategories.set(true);
     this.productService.getAllCategories().subscribe({
       next: (data) => {
-        this.categories.set(data);
+        this.categories.set(data.data || []);
         this.isLoadingCategories.set(false);
       },
       error: () => {

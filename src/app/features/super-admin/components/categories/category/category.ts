@@ -56,7 +56,6 @@ isLoading = signal(false);
   editData(categoryId: String) {
     this.categoryService.getOneCategory(categoryId).subscribe({
       next: (response) => {
-         console.log('get one category' , response);
         // 1. Fill the form with data
         this.categoryForm.patchValue(response.data);
 this.selectedAddonIds.set(response.data.addonList.map(a => a.id)); // Set the selected addon IDs in the signal
@@ -96,7 +95,6 @@ this.selectedAddonIds.set(response.data.addonList.map(a => a.id)); // Set the se
           }
         },
         error: (err) => {
-          console.log(err);
           const msg = err.error?.message || 'Something went wrong';
           this.toastr.error(msg);
         },
@@ -116,7 +114,6 @@ this.selectedAddonIds.set(response.data.addonList.map(a => a.id)); // Set the se
           }
         },
         error: (err) => {
-         // console.log(err);
           const msg = err.error?.message || 'Something went wrong';
           this.toastr.error(msg);
           this.isLoading.set(false); // end loading
@@ -124,12 +121,6 @@ this.selectedAddonIds.set(response.data.addonList.map(a => a.id)); // Set the se
       });
     }
 
-
-    /*    if (this.branchForm.invalid) {
-         return;
-       } else {
-         console.log(this.branchForm.value);
-       } */
   }// end of submitBranch
 
 

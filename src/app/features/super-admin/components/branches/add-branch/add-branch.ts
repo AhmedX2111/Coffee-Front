@@ -42,7 +42,6 @@ export class AddBranch implements OnInit {
   editData(branchId: String) {
     this.branchService.getOneBranch(branchId).subscribe({
       next: (response) => {
-        // console.log('get one branch' , response);
         // 1. Fill the form with data
         this.branchForm.patchValue(response.data);
 
@@ -70,7 +69,6 @@ export class AddBranch implements OnInit {
           }
         },
         error: (err) => {
-          console.log(err);
           const msg = err.error?.message || 'Something went wrong';
           this.toastr.error(msg);
         },
@@ -86,19 +84,12 @@ export class AddBranch implements OnInit {
           }
         },
         error: (err) => {
-          console.log(err);
           const msg = err.error?.message || 'Something went wrong';
           this.toastr.error(msg);
         },
       });
     }
 
-
-    /*    if (this.branchForm.invalid) {
-         return;
-       } else {
-         console.log(this.branchForm.value);
-       } */
   }// end of submitBranch
   // Inside your component class
   get managerControls() {

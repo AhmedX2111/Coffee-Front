@@ -112,10 +112,8 @@ export class ProductDetail implements OnInit {
           if (productData.category?.id) {
             this.productService.getCategoryById(productData.category.id).subscribe({
               next: (catResponse) => {
-                console.log('Category response:', catResponse);
                 // If API returns wrapped response or direct:
                 const categoryData = catResponse.data || (catResponse as any);
-                console.log('Category Data extracted:', categoryData);
                 if (categoryData) {
                   // Fallback to addons array if addonList is missing
                   if (!categoryData.addonList && categoryData.addons) {

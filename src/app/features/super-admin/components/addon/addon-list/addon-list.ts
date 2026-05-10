@@ -23,8 +23,13 @@ searchValue = signal('');
   }
 
   getAllAddons() {
-    this.addonService.getAllAddons(this.searchValue()).subscribe((res) => {
-      this.addons.set(res.data);
+    this.addonService.getAllAddons(this.searchValue()).subscribe({
+      next: (res) => {
+          this.addons.set(res.data);
+      },
+      error: (error) => {
+        this.toastr.error(error.error);
+      }
     });
   }
 
