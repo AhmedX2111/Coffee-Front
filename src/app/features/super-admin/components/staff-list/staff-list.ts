@@ -25,7 +25,6 @@ export class StaffList implements OnInit {
  
 getAllStaff(search: string = '') {
   this.staffService.getAllStaff(search).subscribe((res: any) => {
-    console.log(res);
 
     const dataWithInitials = res.data.map((staff: StaffResponse) => {
 

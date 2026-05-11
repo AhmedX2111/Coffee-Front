@@ -24,7 +24,7 @@
   [class.-translate-x-full]="isSmallScreen() && !isOpen()"
   [class.w-0]="isSmallScreen()"
   [class.w-64]="!isSmallScreen()"
-  class="h-screen bg-[#2D1B0D] text-[#EAD8C3] flex flex-col p-4 transition-all duration-300 ease-in-out md:relative md:flex-shrink-0"
+  class="h-screen bg-[#2D1B0D] text-[#EAD8C3] flex flex-col p-4 transition-all duration-300 ease-in-out md:relative md:flex-shrink-0 overflow-hidden"
 >
   <div class="flex items-center justify-between mb-10 px-2">
     <div class="flex items-center gap-3">
@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <nav class="flex-1 space-y-2">
+  <nav class="flex-1 space-y-2 overflow-y-auto">
     @for(menu of menuItems; track menu.label){
       <a
         (click)="isSmallScreen() && closeSidebar()"
@@ -49,35 +49,33 @@
         </div>
       </a>
     }
-    @empty{
-      <h1 class="text-danger">No Data Found</h1>
+    @empty {
+      <h1 class="text-red-500">No Data Found</h1>
     }
   </nav>
 
-  <div class="bg-[#3d2918] rounded-2xl p-3 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-full bg-[#EAD8C3] text-[#2D1B0D] flex items-center justify-center font-bold">
-        AD
-      </div>
-      <div class="flex flex-col overflow-hidden">
-        <span class="text-sm font-semibold truncate">Super Admin</span>
-        <span class="text-xs opacity-60 truncate">admin&#64;brewmaster.com</span>
-          <div class="w-10 h-10 rounded-full bg-[#EAD8C3] text-[#2D1B0D] flex items-center justify-center font-bold">
+  <div class="mt-auto pt-4">
+    <div class="bg-gradient-to-r from-[#3d2918] to-[#2D1B0D] rounded-2xl p-3 flex items-center justify-between gap-3 border border-[#4a3622] shadow-lg transition-all duration-200 hover:shadow-xl">
+      <div class="flex items-center gap-3 min-w-0 flex-1">
+        <div class="relative flex-shrink-0">
+          <div class="w-10 h-10 rounded-full bg-[#EAD8C3] text-[#2D1B0D] flex items-center justify-center font-bold shadow-md ring-2 ring-[#EAD8C3]/30">
             AD
           </div>
-          <div class="flex flex-row overflow-hidden">
-            <div>
-            <span class="text-sm font-semibold truncate">Super Admin</span>
-            <!-- <span class="text-xs opacity-60 truncate">admin&#64;brewmaster.com</span> -->
-            </div>
-          <app-logout buttonClass="w-10 h-10 text-[#EAD8C3] hover:text-white bg-red-500/20 hover:bg-red-500 rounded-xl transition-all flex items-center justify-center" title="Logout">
-          <span class="material-icons">logout</span>
-        </app-logout>
-          </div>
+          <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-[#3d2918] rounded-full"></span>
         </div>
-
+        <div class="flex flex-col overflow-hidden">
+          <span class="text-sm font-semibold truncate text-[#FDF6E9]">Super Admin</span>
+          <span class="text-xs opacity-80 truncate">admin@brewmaster.com</span>
+        </div>
+      </div>
+      <div class="flex-shrink-0">
+        <app-logout
+          buttonClass="group w-9 h-9 flex items-center justify-center rounded-full bg-[#EAD8C3]/10 text-[#EAD8C3] hover:bg-red-600 hover:text-white transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 focus:ring-offset-[#3d2918]"
+          title="Logout"
+        >
+          <span class="material-icons text-xl group-hover:scale-105 transition-transform">logout</span>
+        </app-logout>
       </div>
     </div>
-    <i class="ph-sign-out text-lg cursor-pointer"></i>
   </div>
 </aside>

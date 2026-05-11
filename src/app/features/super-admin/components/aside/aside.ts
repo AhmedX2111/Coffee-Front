@@ -1,17 +1,12 @@
-import { Component, OnInit, OnDestroy, signal, computed, ChangeDetectionStrategy } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, OnInit, OnDestroy, signal, computed, ChangeDetectionStrategy , inject} from '@angular/core';
+import { RouterLink, RouterLinkActive , Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
-@Component({
-  selector: 'app-aside',
-  imports: [RouterLink, RouterLinkActive, CommonModule],
-import { Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { Logout } from '../../../auth/components/logout/logout';
+
 
 @Component({
   selector: 'app-aside',
