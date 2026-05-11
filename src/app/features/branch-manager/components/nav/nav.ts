@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Logout } from '../../../auth/components/logout/logout';
 
 @Component({
   selector: 'app-nav',
-  imports: [RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet, Logout],
   templateUrl: './nav.html',
   styleUrl: './nav.css',
 })

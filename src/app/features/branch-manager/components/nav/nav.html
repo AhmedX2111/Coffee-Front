@@ -25,6 +25,9 @@
           <span>{{ item.label }}</span>
         </a>
       }
+      <app-logout buttonClass="text-surface px-4 py-2 rounded-xl font-medium flex items-center gap-2 transition-all hover:bg-red-500 hover:text-white" title="Logout">
+        <span class="material-icons text-sm">logout</span>
+      </app-logout>
     </div>
   </div>
   @if (isMenuOpen) {
@@ -39,6 +42,10 @@
           <span>{{ item.label }}</span>
         </a>
       }
+      <app-logout buttonClass="text-surface px-4 py-2 rounded-xl font-medium flex items-center gap-2 transition-all hover:bg-red-500 hover:text-white mt-2 border border-red-500/30" title="Logout">
+        <span class="material-icons text-sm">logout</span>
+        <span>Logout</span>
+      </app-logout>
     </div>
   }
 </nav>

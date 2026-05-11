@@ -41,7 +41,8 @@ isEditMode = false;
       name: ['', Validators.required],
       category: ['', Validators.required],
       image: [null],
-      description: ['Hot cappuccino with milk foam', Validators.required],
+      description: ['', Validators.required],
+      isAvailable: [true],
       productSizes: this.fb.array([this.createPricing()])
     });
   }
@@ -75,6 +76,7 @@ isEditMode = false;
           name: response.data.name,
           category: response.data.category.id,
           description: response.data.description,
+          isAvailable: response.data.isAvailable !== false,
           image:response.data.imageUrl
         });
         this.imagePreview.set(response.data.imageUrl);
@@ -154,7 +156,8 @@ isEditMode = false;
       name: '',
       category: '',
       image: null,
-      description: 'Hot cappuccino with milk foam',
+      description: '',
+      isAvailable: true,
       productSizes: [this.createPricing().value]
     });
     this.imagePreview.set(null);
@@ -177,6 +180,13 @@ isEditMode = false;
     // basic fields
     formData.append('name', this.productForm.value.name);
     formData.append('description', this.productForm.value.description);
+    
+    // Some backends expect 'available' or 'is_available' instead of 'isAvailable'
+    // due to boolean naming conventions (e.g. Spring Boot mapping)
+    const isAvailStr = String(this.productForm.value.isAvailable);
+    formData.append('isAvailable', isAvailStr);
+    formData.append('available', isAvailStr);
+    formData.append('is_available', isAvailStr);
 
     // category (nested)
     formData.append('category.id', this.productForm.value.category);
@@ -184,7 +194,7 @@ isEditMode = false;
     // image file
    const file = this.productForm.value.image;
     if (file instanceof File) {
-      formData.append('imageUrl', file); // must match backend field name
+      formData.append('imageUrl', file); // changed to match MultipartFile imageUrl in DTO
     }
 
     // productSizes (IMPORTANT PART)

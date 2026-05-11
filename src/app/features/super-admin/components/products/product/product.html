@@ -112,6 +112,24 @@
 
       </div>
 
+      <!-- ── Description & Availability ─────────────────── -->
+      <div class="flex flex-col gap-1.5 mb-5">
+        <label class="text-[13px] font-semibold text-[#1A0F0A] tracking-wide" style="font-family:'Trebuchet MS',sans-serif">
+          Description
+        </label>
+        <textarea
+          rows="3"
+          placeholder="Enter product description"
+          formControlName="description"
+          class="p-3.5 rounded-lg border-[1.5px] bg-[#FAF6F1] text-[14px] text-[#1A0F0A] outline-none transition-all
+                 placeholder:text-[#9C7B68]
+                 border-[#E8DDD4]
+                 focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/10 focus:bg-white resize-none"
+          [class.border-red-400]="productForm.get('description')?.invalid && productForm.get('description')?.touched"
+          [class.bg-red-50]="productForm.get('description')?.invalid && productForm.get('description')?.touched"
+        ></textarea>
+      </div>
+
       <!-- ── Pricing & Sizing ───────────────────────────── -->
       <div class="bg-[#FAF6F1] border-[1.5px] border-[#E8DDD4] rounded-xl p-5 mb-6">
 

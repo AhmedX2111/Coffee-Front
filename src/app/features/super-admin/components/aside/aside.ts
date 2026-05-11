@@ -9,6 +9,13 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-aside',
   imports: [RouterLink, RouterLinkActive, CommonModule],
+import { Component, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { Logout } from '../../../auth/components/logout/logout';
+
+@Component({
+  selector: 'app-aside',
+  imports: [RouterLink ,RouterLinkActive, Logout],
   templateUrl: './aside.html',
   styleUrl: './aside.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
