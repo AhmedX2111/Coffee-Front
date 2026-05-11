@@ -68,7 +68,6 @@ export class AddAddon implements OnInit {
           }
         },
         error: (err) => {
-          console.log(err);
           const msg = err.error?.message || 'Something went wrong';
           this.toastr.error(msg);
         },
@@ -79,12 +78,12 @@ export class AddAddon implements OnInit {
           if (res.success) {
             this.toastr.success(res.message);
             this.addonForm.reset();
+            this.goBack()
           } else {
             this.toastr.error(res.message);
           }
         },
         error: (err) => {
-          console.log(err);
           const msg = err.error?.message || 'Something went wrong';
           this.toastr.error(msg);
         },

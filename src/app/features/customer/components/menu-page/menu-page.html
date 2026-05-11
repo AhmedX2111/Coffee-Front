@@ -1,0 +1,79 @@
+<div class="menu-container">
+  <div class="header-section">
+    <h1 class="main-title">Our Menu</h1>
+    <p class="subtitle">From classic brews to seasonal specialties, find your perfect match here.</p>
+  </div>
+
+  <div class="categories-filter">
+    <button
+      (click)="selectCategory('all')"
+      [class.active]="selectedCategory() === 'all'"
+      class="filter-btn">
+      All Items
+    </button>
+
+    @for (category of categories(); track category.id) {
+      <button
+        (click)="selectCategory(category.id)"
+        [class.active]="selectedCategory() === category.id.toString()"
+        class="filter-btn">
+        <mat-icon class="btn-icon">{{ iconForCategory(category) }}</mat-icon>
+        {{ category.name }}
+      </button>
+    }
+  </div>
+
+  @if (isLoading()) {
+    <div class="empty-state">
+      <div class="empty-icon-wrapper">
+        <mat-icon class="empty-icon spin">progress_activity</mat-icon>
+      </div>
+      <h3 class="empty-title">Loading menu...</h3>
+    </div>
+  } @else {
+    <div class="products-grid">
+      @for (product of filteredProducts(); track product.id) {
+        <div class="product-card">
+          <div class="card-image-wrapper">
+            <img
+              [src]="product.imageUrl"
+              [alt]="product.name"
+              class="product-image"
+              (error)="onImageError($event)"
+              referrerpolicy="no-referrer">
+            <div class="price-badge">
+              $ {{ product.basePrice.toFixed(2) }}
+            </div>
+          </div>
+
+          <div class="card-content">
+            <div class="card-header">
+              <h3 class="product-title">{{ product.name }}</h3>
+            </div>
+
+            <p class="product-description">
+              {{ product.description }}
+            </p>
+
+            <div class="card-footer">
+              <a [routerLink]="['/customer/product', product.id]" class="customize-btn">
+                Customize & Add
+              </a>
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <div class="empty-icon-wrapper">
+            <mat-icon class="empty-icon">search_off</mat-icon>
+          </div>
+          <h3 class="empty-title">No items found</h3>
+          <p class="empty-subtitle">Try selecting a different category.</p>
+          <button (click)="selectCategory('all')" class="reset-btn">
+            Show All Menu
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

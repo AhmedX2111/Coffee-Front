@@ -10,7 +10,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class Aside {
   
 menuItems = [
-    { label: 'Dashboard', icon: 'ph-squares-four', active: false , link :'/dashboard' },
+    { label: 'Dashboard', icon: 'ph-squares-four', active: false , link :'/super-admin/dashboard' },
     { label: 'Branches', icon: 'ph-map-pin', active: false , link :'/super-admin/branches' },
     { label: 'Products', icon: 'ph-package', active: false , link :'/super-admin/products' },
     { label: 'Categories', icon: 'ph-coffee', active: false , link :'/super-admin/categories' },

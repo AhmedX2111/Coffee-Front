@@ -2,6 +2,7 @@ import { Component, inject, OnInit, ChangeDetectionStrategy, signal, output } fr
 import { CommonModule } from '@angular/common';
 import { ProductBrowsingService } from '../../../../core/services/product-browsing.service';
 import { CategoryResponse } from '../../../../core/models/product.model';
+import { createGlobalPositionStrategy } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-category-browsing',
@@ -103,14 +104,8 @@ export class CategoryBrowsing implements OnInit {
   private loadCategories(): void {
     this.isLoading.set(true);
     this.productService.getAllCategories().subscribe({
-      next: (response) => {
-        if (response.data) {
-          this.categories.set(response.data);
-          // Select first category by default
-          if (response.data.length > 0) {
-            this.selectCategory(response.data[0].id);
-          }
-        }
+      next: (categories) => {
+        this.categories.set(categories.data || []);
         this.isLoading.set(false);
       },
       error: () => {

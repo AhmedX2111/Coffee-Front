@@ -29,16 +29,13 @@ constructor(private fb: FormBuilder, private authService: AuthService ,  private
 signupSubmit() {
 
    if (!this.signupForm.invalid) {
-  //console.log('Signup form submitted:', this.signupForm.value);
   this.authService.register(this.signupForm.value).subscribe({
-    next: (response) => {
-      //console.log('Registration successful:', response);
+    next: () => {
        this.toastService.success('Registration successful! Please log in.', 'Success');
         this.router.navigate(['/login']);
      this.signupForm.reset();
       },
-    error: (error) => {
-     console.log(error);
+    error: () => {
       this.toastService.error('Registration failed. Please try again.', 'Error');
     },
   });

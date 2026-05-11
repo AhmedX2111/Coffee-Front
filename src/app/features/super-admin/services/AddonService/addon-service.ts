@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../../core/models/auth.model';
@@ -17,8 +17,8 @@ export class AddonService {
     return this.http.post<ApiResponse<AddonRequest>>(`${this.apiUrl}/api/addon`,addAddonRequest);
   }
 
-  getAllAddons():Observable<ApiResponse<AddonResponse[]>>{
-    return this.http.get<ApiResponse<AddonResponse[]>>(`${this.apiUrl}/api/addon`)
+  getAllAddons(search?: string):Observable<ApiResponse<AddonResponse[]>>{
+    return this.http.get<ApiResponse<AddonResponse[]>>(`${this.apiUrl}/api/addon/search?search=${search || ''}`)
   }
 
   deleteAddon(id:number):Observable<ApiResponse<void>>{

@@ -48,7 +48,6 @@ export class Login implements OnInit {
             // Delay navigation by 3 seconds
             setTimeout(() => {
               const userRole = this.authService.getUserRole();
-              console.log(userRole);
               if (userRole === 'ADMIN') {
                 this.router.navigate(['/super-admin/']);
               } else if (userRole === 'MANAGER') {
@@ -58,10 +57,8 @@ export class Login implements OnInit {
               }
             }, 1000);
           }
-          console.log('Login successful:', response);
         },
         error: (error) => {
-          console.log(error);
           this.toastr.success('Login failed 🎉', 'Failed');
           this.errorMessage = error.error?.message || 'Invalid email or password';
           this.isLoading = false;

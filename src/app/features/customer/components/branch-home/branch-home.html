@@ -1,1 +1,166 @@
-<p>branch-home works!</p>
+<div class="branch-home">
+  <!-- Hero Section -->
+  <div class="hero-section min-h-96 relative overflow-hidden rounded-3xl mx-4 md:mx-8 my-8"
+       style="background: linear-gradient(135deg, rgba(63, 35, 5, 0.8), rgba(223, 215, 191, 0.6)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 400%22%3E%3Crect fill=%22%233F2305%22 width=%221200%22 height=%22400%22/%3E%3C/svg%3E'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+      <h1 class="text-6xl font-display font-bold text-secondary mb-4">Crafting Perfect Moments</h1>
+      <p class="text-xl text-secondary/90 mb-8 max-w-2xl">
+        Experience the finest coffee and freshest bites in a warm, minimal space designed for your comfort.
+      </p>
+      <div class="flex gap-4 flex-wrap justify-center">
+        <button 
+          class="btn-secondary px-8 py-3 text-lg font-semibold flex items-center gap-2"
+          (click)="navigateToMenu()">
+          <span class="material-icons">shopping_cart</span>
+          <span>Order Now</span>
+        </button>
+        <button 
+          class="bg-surface/80 text-primary px-8 py-3 rounded-xl font-semibold transition-all hover:bg-surface flex items-center gap-2"
+          (click)="preOrder()">
+          <span class="material-icons">schedule</span>
+          <span>Pre-order</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Time Picker Modal -->
+    @if (showTimePicker()) {
+      <div class="absolute inset-0 z-50 flex items-center justify-center bg-primary/40 backdrop-blur-sm">
+        <div class="card p-8 max-w-md w-full mx-4 space-y-8">
+          <div class="flex justify-between items-center">
+            <h3 class="text-2xl font-display font-bold">Select Pre-order Time</h3>
+            <button (click)="showTimePicker.set(false)" class="p-2 hover:bg-black/5 rounded-full transition-colors">
+              <span class="material-icons">close</span>
+            </button>
+          </div>
+
+          <div class="flex justify-center items-center gap-4">
+            <div class="flex flex-col items-center gap-2">
+              <span class="text-xs font-bold text-primary/40 uppercase">Hour</span>
+              <select [(ngModel)]="selectedHour" class="bg-background border border-secondary rounded-xl px-4 py-3 text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-primary/20">
+                @for (h of hours; track h) {
+                  <option [value]="h">{{ h }}</option>
+                }
+              </select>
+            </div>
+            <span class="text-3xl font-bold mt-6">:</span>
+            <div class="flex flex-col items-center gap-2">
+              <span class="text-xs font-bold text-primary/40 uppercase">Minute</span>
+              <select [(ngModel)]="selectedMinute" class="bg-background border border-secondary rounded-xl px-4 py-3 text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-primary/20">
+                @for (m of minutes; track m) {
+                  <option [value]="m">{{ m }}</option>
+                }
+              </select>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+              <span class="text-xs font-bold text-primary/40 uppercase">Period</span>
+              <select [(ngModel)]="selectedPeriod" class="bg-background border border-secondary rounded-xl px-4 py-3 text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+            </div>
+          </div>
+
+          <button (click)="confirmPreOrder()" class="btn-primary w-full py-4 text-lg">
+            Continue to Menu
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Categories Section -->
+  <div class="categories-section py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center mb-12">
+        <div>
+          <h2 class="text-4xl font-display font-bold text-primary mb-2">Our Categories</h2>
+          <p class="text-primary/70">Explore our wide range of delicious offerings.</p>
+        </div>
+        <button 
+          class="btn-primary flex items-center gap-2"
+          (click)="navigateToMenu()">
+          View All Menu
+          <span class="material-icons">arrow_forward</span>
+        </button>
+      </div>
+
+      @if (isLoadingCategories()) {
+        <div class="flex justify-center py-8">
+          <div class="loader"></div>
+        </div>
+      } @else if (categories().length > 0) {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          @for (category of categories().slice(0, 4); track category.id) {
+            <button 
+              class="card p-8 text-center hover:shadow-lg transition-all hover:-translate-y-1"
+              (click)="navigateToMenu()">
+              <div class="text-5xl mb-4">{{ getCategoryEmoji(category.name) }}</div>
+              <h3 class="text-lg font-semibold text-primary">{{ category.name }}</h3>
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Featured Delights Section -->
+  <div class="featured-section py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center mb-12">
+        <div>
+          <h2 class="text-4xl font-display font-bold text-primary mb-2">Featured Delights</h2>
+          <p class="text-primary/70">Handpicked favorites from our expert baristas.</p>
+        </div>
+      </div>
+
+      @if (isLoadingProducts()) {
+        <div class="flex justify-center py-12">
+          <div class="loader"></div>
+        </div>
+      } @else if (featuredProducts().length > 0) {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          @for (product of featuredProducts(); track product.id) {
+            <div class="card hover:shadow-lg transition-shadow cursor-pointer"
+                 (click)="viewProduct(product.id)">
+              <div class="aspect-video bg-gradient-to-br from-primary/10 to-secondary/10 relative overflow-hidden">
+                <img 
+                  [src]="product.imageUrl" 
+                  [alt]="product.name"
+                  class="w-full h-full object-cover"
+                  (error)="onImageError($event)"
+                />
+                <div class="absolute top-3 right-3 bg-secondary text-primary px-3 py-1 rounded-full text-sm font-medium">
+                  $ {{ product.basePrice.toFixed(2) }}
+                </div>
+              </div>
+
+              <div class="p-5">
+                <h3 class="text-lg font-semibold text-primary mb-2">{{ product.name }}</h3>
+                <p class="text-sm text-primary/70 mb-4 line-clamp-2">{{ product.description }}</p>
+                <button 
+                  class="btn-secondary w-full"
+                  (click)="viewProduct(product.id); $event.stopPropagation()">
+                  View Details
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Call to Action Section -->
+  <div class="cta-section bg-primary rounded-3xl py-16 mx-4 md:mx-8 my-8 text-center">
+    <h2 class="text-4xl font-display font-bold text-surface mb-4">Ready to take a sip?</h2>
+    <p class="text-lg text-surface/90 mb-8 max-w-2xl mx-auto">
+      Join thousands of coffee lovers and start your journey with Brew & Bite today.
+    </p>
+    <button 
+      class="bg-secondary text-primary px-8 py-3 rounded-xl font-semibold text-lg hover:bg-secondary/90 transition-all"
+      (click)="navigateToMenu()">
+      Order Now
+    </button>
+  </div>
+</div>

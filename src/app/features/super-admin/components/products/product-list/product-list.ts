@@ -25,7 +25,6 @@ products = signal<AdminProductResponse[] | undefined>(undefined);
    this.productService.getAllProducts(  this.currentPage,
         this.itemsPerPage).subscribe({
       next: (res) => {
-        
          if (res.success) {
           console.log('get all products' , res.data.number);
           this.products.set(res.data.content);

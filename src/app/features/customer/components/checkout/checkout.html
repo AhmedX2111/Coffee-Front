@@ -1,6 +1,26 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
   <h1 class="text-5xl font-display font-bold mb-12">Checkout</h1>
 
+  <!-- Order Type Display -->
+  <!--
+  <div class="mb-12 p-6 rounded-xl border-2" [ngClass]="cart.orderType() === 'ORDER_NOW' ? 'bg-green-50 border-green-500' : 'bg-orange-50 border-orange-500'">
+    <div class="flex items-center gap-4">
+      @if (cart.orderType() === 'ORDER_NOW') {
+        <mat-icon class="text-green-600 text-3xl">bolt</mat-icon>
+        <div>
+          <h3 class="text-lg font-bold text-green-700">Pickup Now</h3>
+          <p class="text-sm text-green-600">Your order will be ready immediately</p>
+        </div>
+      } @else {
+        <mat-icon class="text-orange-600 text-3xl">schedule</mat-icon>
+        <div>
+          <h3 class="text-lg font-bold text-orange-700">Pre-order</h3>
+          <p class="text-sm text-orange-600">Pickup time: <span class="font-semibold">{{ cart.pickupTime() }}</span></p>
+        </div>
+      }
+    </div>
+  </div>
+  -->
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
     <!-- Left: Form -->

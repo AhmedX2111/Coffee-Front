@@ -1,13 +1,12 @@
-// addon-list.ts
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { AddonService } from '../../../services/AddonService/addon-service';
 import { AddonResponse } from '../../../models/addon-response';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-addon-list',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './addon-list.html',
   styleUrl: './addon-list.css',
 })
@@ -15,6 +14,7 @@ export class AddonList implements OnInit {
   addons = signal<AddonResponse[]>([]);
   private toastr = inject(ToastrService);
   private router = inject(Router);
+searchValue = signal('');
 
   constructor(private addonService: AddonService) {}
 
@@ -23,8 +23,13 @@ export class AddonList implements OnInit {
   }
 
   getAllAddons() {
-    this.addonService.getAllAddons().subscribe((res) => {
-      this.addons.set(res.data);
+    this.addonService.getAllAddons(this.searchValue()).subscribe({
+      next: (res) => {
+          this.addons.set(res.data);
+      },
+      error: (error) => {
+        this.toastr.error(error.error);
+      }
     });
   }
 
@@ -49,4 +54,11 @@ editAddon(addon: AddonResponse) {
     state: { addonData: addon }
   });
 }
+
+onSearch(event:Event){
+  const value = (event.target as HTMLInputElement).value
+  this.searchValue.set(value)
+  this.getAllAddons()
+}
+
 }

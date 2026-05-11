@@ -19,7 +19,7 @@
             </div>
 
 
-            <a [routerLink]="['/super-admin/branchs/add']" class="btn-primary whitespace-nowrap">
+            <a routerLink="/super-admin/branches/add" class="btn-primary whitespace-nowrap">
                 <span class="material-icons text-sm">add</span>
                 Add Branch
             </a>
@@ -60,7 +60,7 @@
                              (click)="editBranch(branch.id)"   > 
                                 <span class="material-icons text-sm">edit</span>
                             </button> -->
-                            <a [routerLink]="['/super-admin/branchs/update/', branch.id]"
+                            <a [routerLink]="['/super-admin/branches/update/', branch.id]"
                                 class="p-2 hover:bg-secondary/20 rounded-full transition-colors text-primary/70 inline-block">
                                 <span class="material-icons text-sm">edit</span>
                             </a>

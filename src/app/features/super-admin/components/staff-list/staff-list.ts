@@ -14,6 +14,7 @@ export class StaffList implements OnInit {
 
   firstSecondLetter:any
   staffMembers = signal<StaffResponse[]>([])
+  staffList=signal('')
   constructor(private staffService:StaffService){}
 
   ngOnInit(): void {
@@ -22,8 +23,8 @@ export class StaffList implements OnInit {
 
 
 
-getAllStaff() {
-  this.staffService.getAllStaff().subscribe((res: any) => {
+getAllStaff(search: string = '') {
+  this.staffService.getAllStaff(search).subscribe((res: any) => {
 
     const dataWithInitials = res.data.map((staff: StaffResponse) => {
 

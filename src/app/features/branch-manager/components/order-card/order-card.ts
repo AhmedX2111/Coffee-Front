@@ -1,10 +1,12 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { OrderService } from '../../services/OrderService/order-service';
 import { OrderResponse, OrderStatus } from '../../models/OrderItem';
 import { PickupTime } from '../pickup-time/pickup-time';
 import { OrderDetailsModal } from '../order-details-modal/order-details-modal';
 import { CommonModule } from '@angular/common';
 import { SearchOrders } from '../search-orders/search-orders';
+import { finalize } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-order-card',
@@ -18,14 +20,17 @@ export class OrderCard implements OnInit {
   selectedOrder = signal<OrderResponse | null>(null);
   isModalOpen = signal(false);
   OrderStatus = OrderStatus;
+  processingIds = signal<Set<number>>(new Set());
+  private toastr = inject(ToastrService)
+
   constructor(private orderService:OrderService){}
+  
   ngOnInit(): void {
     this.getOrdersForOneBranch()
   }
 
   getOrdersForOneBranch(search : string = ''){
     this.orderService.getOrdersForOneBranch(search).subscribe((res)=>{
-      console.log(res)
       this.orders.set(res.data)
     })
   }
@@ -40,23 +45,38 @@ export class OrderCard implements OnInit {
   };
 
 changeStatus(id: number, status: OrderStatus) {
-  this.orderService.changeStatus(id, status).subscribe({
-    next: (res) => {
-      console.log(res.message);
-      this.orders.update(list =>
-        list.map(o =>
-          o.id === id ? { ...o, status } : o
-        )
-      );
-    },
-    error: (err) => {
-      console.error(err);
-    }
-  });
-}
+    this.processingIds.update(set => new Set(set).add(id));
+    this.orderService.changeStatus(id, status)
+      .pipe(
+        finalize(() => {
+          this.processingIds.update(set => {
+            const newSet = new Set(set);
+            newSet.delete(id);
+            return newSet;
+          });
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this.orders.update(list => 
+            list
+              .map(order => order.id === id ? { ...order, status } : order)
+              .filter(order => order.status !== OrderStatus.READY)
+          );
+          this.toastr.success(res.message)
+        },
+        error: (err) => {
+          console.error('Transaction failed, button re-enabled:', err);
+        }
+      });
+  }
+  
+  isProcessing(id: number): boolean {
+    return this.processingIds().has(id);
+  }
 
-onSearch(event:Event){
+/* onSearch(event:Event){
   const value = (event.target as HTMLInputElement).value
   this.getOrdersForOneBranch(value)
+} */
 }
-} 

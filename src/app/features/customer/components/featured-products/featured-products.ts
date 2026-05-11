@@ -2,7 +2,7 @@ import { Component, inject, OnInit, ChangeDetectionStrategy, signal } from '@ang
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProductBrowsingService } from '../../../../core/services/product-browsing.service';
-import { ProductResponse } from '../../../../core/models/product.model';
+import { ProductCardResponse } from '../../../../core/models/product.model';
 
 @Component({
   selector: 'app-featured-products',
@@ -16,7 +16,7 @@ export class FeaturedProducts implements OnInit {
   private productService = inject(ProductBrowsingService);
   private router = inject(Router);
 
-  featuredProducts = signal<ProductResponse[]>([]);
+  featuredProducts = signal<ProductCardResponse[]>([]);
   isLoading = signal(false);
 
   ngOnInit(): void {
@@ -28,7 +28,8 @@ export class FeaturedProducts implements OnInit {
     this.productService.getFeaturedProducts().subscribe({
       next: (response) => {
         if (response.data) {
-          this.featuredProducts.set(response.data);
+          // Show first 4 products as featured
+          this.featuredProducts.set(response.data.slice(0, 4));
         }
         this.isLoading.set(false);
       },

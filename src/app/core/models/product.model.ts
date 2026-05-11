@@ -1,29 +1,49 @@
-// API Response Types
+// API Response Types - Actual Backend Structure
 export interface ProductResponse {
   id: number;
   name: string;
   description: string;
-  basePrice: number;
-  categoryId: number;
   imageUrl: string;
-  isFeatured: boolean;
+  category: CategoryResponse;
+  productSizes: ProductSizeResponse[];
+}
+
+export interface ProductSizeResponse {
+  id: number;
+  size: string;
+  price: number;
 }
 
 export interface CategoryResponse {
   id: number;
   name: string;
-  description: string;
+  imageUrl?: string;
+  addonList?: any[];
+  isDeleted?: boolean;
+  description?: string;
   icon?: string;
+}
+
+// Mapped/Normalized Types for Frontend Use
+export interface ProductCardResponse {
+  id: number;
+  name: string;
+  description: string;
+  basePrice: number; // smallest size price
+  categoryId: number;
+  imageUrl: string;
+  isFeatured: boolean; // always false for now, unless API provides it
 }
 
 export interface ProductDetailResponse {
   id: number;
   name: string;
   description: string;
-  basePrice: number;
+  basePrice: number; // smallest size price
   imageUrl: string;
   sizes: ProductSize[];
   addOns: AddOn[];
+  category: CategoryResponse;
 }
 
 export interface ProductSize {

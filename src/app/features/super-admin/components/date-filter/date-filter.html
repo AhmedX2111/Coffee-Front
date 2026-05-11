@@ -1,0 +1,13 @@
+ <div class="flex gap-4 items-center bg-white p-3 rounded-xl shadow-sm">
+      <label class="text-sm font-medium text-gray-600">Filter by Date:</label>
+      <input type="date" 
+             [value]="selectedDate()"
+             (change)="onDateChange($event)"
+             class="px-3 py-2 border border-gray-300 rounded-lg text-sm" />
+      @if(selectedDate()){
+             <button 
+              (click)="clearDate()"
+              class="text-red-500 text-sm hover:underline">
+        Clear
+      </button>}
+    </div>
