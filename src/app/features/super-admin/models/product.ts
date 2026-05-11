@@ -10,14 +10,31 @@ export interface AdminProductRequest {
   
 }
 
+export interface AdminProductResponsePagination {
+content :AdminProductResponse[],
+size:number,
+totalElements: number,
+totalPages: number,
+number: number
+
+ 
+ 
+  
+}
+
 export interface AdminProductResponse {
-   id: string,
+
+  id: string,
         name: string,
         description: string,
         imageUrl: string,
         category: AdminCategoryResponse,
 
         productSizes: ProductSize[]
+
+ 
+ 
+  
 }
 
 export interface ProductSize {

@@ -50,15 +50,18 @@
         </div>
 
         <div class="space-y-2">
+                    <label class="text-sm font-bold text-primary/60 mb-2 block ml-1">Select Addons</label>
+
          <app-multi-selected 
+        
       [options]="addonOptions()"
       [(selectedValues)]="selectedAddonIds"
       placeholder="Pick Addons"
     />
 
-    <div style="margin-top: 20px;">
+  <!--   <div style="margin-top: 20px;">
       <strong>Current Selection:</strong> {{ selectedAddonIds() | json }}
-    </div>
+    </div> -->
             </div>
            
 

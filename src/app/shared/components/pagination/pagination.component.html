@@ -1,0 +1,16 @@
+<ul class="pagination flex mt-2 justify-end items-center ">
+    @if (pageNumber > 1) {
+<!--         <fa-icon [icon]="faAngleLeft" class="text-slate-500 text-sm mr-2 cursor-pointer " (click)="goToPrevPage()"></fa-icon>
+ -->
+    }
+  @for (page of pages; track $index) {
+  <li (click)="goToPage(page)" [ngClass]="{ 'bg-[#ecfdf5] ': page === pageNumber }"  class="w-8 h-8 flex items-center justify-center rounded-full text-[#047857] p-2 cursor-pointer hover:bg-slate-100 ">
+    {{ page }}
+  </li>
+  }
+  @if (pageNumber < totalPage){
+<!--     <fa-icon [icon]="faAngleRight" class="text-slate-500  text-sm ml-2 cursor-pointer" (click)="goToNextPage()"></fa-icon>
+ -->
+  }
+
+</ul>

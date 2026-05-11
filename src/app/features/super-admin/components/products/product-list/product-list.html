@@ -92,5 +92,12 @@
                 }
             </tbody>
         </table>
+         <app-pagination
+  [pageNumber]="currentPage"
+  [totalItem]="totalItems"
+  [itemsPerPage]="itemsPerPage"
+  [showItem]="4"
+  (pageChanged)="onPageChange($event)"
+></app-pagination>
     </div>
 </div>

@@ -1,6 +1,6 @@
- <div class="multi-select-container" (click)="$event.stopPropagation()">
-      <div class="select-trigger" (click)="toggleDropdown()">
-        <div class="selected-items">
+ <div class="multi-select-container input-field border-secondary" (click)="$event.stopPropagation()">
+      <div class="select-trigger " (click)="toggleDropdown()">
+        <div class="selected-items ">
           @if (selectedValues().length === 0) {
             <span class="placeholder">{{ placeholder() }}</span>
           } @else {
@@ -22,7 +22,7 @@
             [value]="searchTerm()" 
             (input)="updateSearch($event)" 
             placeholder="Search..." 
-            class="search-input"
+            class="search-input input-field"
           />
           <ul class="options-list">
             @for (option of filteredOptions(); track option.value) {
