@@ -36,5 +36,9 @@ export class BranchService {
     request
   );
 } 
-
+getMyBranch(): Observable<ApiResponse<AdminBranchResponse>> {
+  return this.http.get<ApiResponse<AdminBranchResponse>>(
+    `${this.apiUrl}/api/branch/my-branch`
+  );
+}
 } 

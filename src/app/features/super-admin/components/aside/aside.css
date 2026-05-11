@@ -1,5 +1,34 @@
-aside{
-    position: sticky;
+/* Small screens - fixed positioning, slides in/out */
+@media (max-width: 767px) {
+  aside {
+    position: fixed;
+    left: 0;
     top: 0;
+    z-index: 40;
+    width: 256px; /* w-64 */
+  }
+
+  aside.translate-x-0 {
+    transform: translateX(0);
+  }
+
+  aside.-translate-x-full {
+    transform: translateX(-100%);
+  }
 }
+
+/* Large screens - relative positioning, always visible */
+@media (min-width: 768px) {
+  aside {
+    position: relative;
+    width: 256px !important;
+    transform: translateX(0) !important;
+  }
+}
+
+/* Smooth transitions */
+aside {
+  will-change: transform;
+}
+
 

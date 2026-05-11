@@ -13,6 +13,7 @@ navItems = [
     { label: 'Active Orders', path: 'active', icon: 'shopping_bag', exact: true },
     { label: 'Ready Orders', path: 'ready-orders', icon: 'check_circle', exact: false },
     { label: 'Completed Orders', path: 'completed-orders', icon: 'verified', exact: false },
+    { label: 'Profile', path: 'profile', icon: 'account_circle', exact: false },
   ];
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;

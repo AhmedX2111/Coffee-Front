@@ -73,9 +73,9 @@
 }
 
 nav a {
-  font-weight: 400; /* normal weight */
+  font-weight: 400;
 }
 
 nav a:hover {
-  font-weight: 600; /* semibold */
+  font-weight: 600;
 }

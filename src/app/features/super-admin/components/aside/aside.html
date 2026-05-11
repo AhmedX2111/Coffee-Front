@@ -1,42 +1,69 @@
-<aside class="w-64 h-screen bg-[#2D1B0D] text-[#EAD8C3] flex flex-col p-4">
-      <div class="flex items-center gap-3 mb-10 px-2">
-        <div class="bg-[#EAD8C3] p-2 rounded-lg">
-          <i class="ph-coffee text-[#2D1B0D] text-xl"></i>
-        </div>
-        <span class="text-xl font-bold">BrewMaster</span>
+@if(isSmallScreen()){
+  <button 
+    (click)="toggleSidebar()"
+    class="fixed top-4 left-4 z-50 p-2 rounded-lg bg-[#2D1B0D] text-[#EAD8C3] hover:bg-[#3d2918] transition-all flex flex-col justify-center gap-1.5 w-10 h-10"
+    aria-label="Toggle Sidebar">
+    @if(!isOpen()){
+      <span class="w-6 h-0.5 bg-[#EAD8C3] block"></span>
+      <span class="w-6 h-0.5 bg-[#EAD8C3] block"></span>
+      <span class="w-6 h-0.5 bg-[#EAD8C3] block"></span>
+    }@else{
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    }
+  </button>
+}
+@if(isSmallScreen() && isOpen()){
+  <div 
+    (click)="closeSidebar()"
+    class="fixed inset-0 z-30 bg-black opacity-50"></div>
+}
+<aside 
+  [class.translate-x-0]="!isSmallScreen() || isOpen()"
+  [class.-translate-x-full]="isSmallScreen() && !isOpen()"
+  [class.w-0]="isSmallScreen()"
+  [class.w-64]="!isSmallScreen()"
+  class="h-screen bg-[#2D1B0D] text-[#EAD8C3] flex flex-col p-4 transition-all duration-300 ease-in-out md:relative md:flex-shrink-0"
+>
+  <div class="flex items-center justify-between mb-10 px-2">
+    <div class="flex items-center gap-3">
+      <div class="bg-[#EAD8C3] p-2 rounded-lg">
+        <i class="ph-coffee text-[#2D1B0D] text-xl"></i>
       </div>
+      <span class="text-xl font-bold">BrewMaster</span>
+    </div>
+  </div>
 
-      <nav class="flex-1 space-y-2">
-        @for(menu of menuItems; track menu.label){
-          <!--  [class.bg-[#FDF6E9]]="menu.active" 
-             [class.text-[#2D1B0D]]="menu.active" 
-              [class.hover:bg-[#FDF6E9]]="menu.active"-->
-        <a
+  <nav class="flex-1 space-y-2">
+    @for(menu of menuItems; track menu.label){
+      <a
+        (click)="isSmallScreen() && closeSidebar()"
         [routerLink]="menu.link"
-            routerLinkActive="bg-[#FDF6E9] text-[#2D1B0D]"
-           
-             class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer hover:bg-[#3d2918] hover:text-[#FDF6E9] transition-all"
-            >
-          <div class="flex items-center gap-3">
-            <i [class]="menu.icon + ' text-lg'"></i>
-            <span class="font-medium">{{ menu.label }}</span>
-          </div>
-        </a>}
-        @empty{
-            <h1 class="text-danger">No Data Found</h1>
-        }
-      </nav>
-
-      <div class="bg-[#3d2918] rounded-2xl p-3 flex items-center justify-between">
+        routerLinkActive="bg-[#FDF6E9] text-[#2D1B0D]"
+        class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer hover:bg-[#3d2918] hover:text-[#FDF6E9] transition-all"
+      >
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-[#EAD8C3] text-[#2D1B0D] flex items-center justify-center font-bold">
-            AD
-          </div>
-          <div class="flex flex-col overflow-hidden">
-            <span class="text-sm font-semibold truncate">Super Admin</span>
-            <span class="text-xs opacity-60 truncate">admin&#64;brewmaster.com</span>
-          </div>
+          <i [class]="menu.icon + ' text-lg'"></i>
+          <span class="font-medium">{{ menu.label }}</span>
         </div>
-        <i class="ph-sign-out text-lg cursor-pointer"></i>
+      </a>
+    }
+    @empty{
+      <h1 class="text-danger">No Data Found</h1>
+    }
+  </nav>
+
+  <div class="bg-[#3d2918] rounded-2xl p-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-[#EAD8C3] text-[#2D1B0D] flex items-center justify-center font-bold">
+        AD
       </div>
-    </aside>
+      <div class="flex flex-col overflow-hidden">
+        <span class="text-sm font-semibold truncate">Super Admin</span>
+        <span class="text-xs opacity-60 truncate">admin&#64;brewmaster.com</span>
+      </div>
+    </div>
+    <i class="ph-sign-out text-lg cursor-pointer"></i>
+  </div>
+</aside>
