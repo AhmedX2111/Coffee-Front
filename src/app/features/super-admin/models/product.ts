@@ -28,6 +28,7 @@ export interface AdminProductResponse {
         name: string,
         description: string,
         imageUrl: string,
+        isAvailable?: boolean,
         category: AdminCategoryResponse,
 
         productSizes: ProductSize[]
