@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {  Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { LoginRequest, LoginResponse, RegisterRequest, UserResponse } from '../models/auth.model';
+  import {  Observable, tap } from 'rxjs';
+  import { environment } from '../../../environments/environment';
+  import { LoginRequest, LoginResponse, RegisterRequest, UserResponse } from '../models/auth.model';
 import { ApiResponse } from '../models/response.model';
 
 @Injectable({
@@ -56,7 +56,19 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  logout(): void {
+  logout(): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(`${this.apiUrl}/api/logout`, {}, {
+      withCredentials: true,
+    }).pipe(
+      tap(() => {
+        localStorage.removeItem(this.tokenKey);
+        localStorage.removeItem(this.userKey);
+      })
+    );
+  }
+
+  // Force local logout if api fails
+  localLogout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
   }

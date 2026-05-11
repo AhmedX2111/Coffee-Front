@@ -37,9 +37,12 @@
                     </span>
                     }
                 </a>
-                <a routerLink="/customer/profile" class="p-2 text-primary/80 hover:text-primary transition-colors">
+                <a routerLink="/customer/profile" class="p-2 text-primary/80 hover:text-primary transition-colors flex items-center justify-center">
                     <span class="material-icons">person</span>
                 </a>
+                <app-logout buttonClass="p-2 text-primary/80 hover:text-white hover:bg-red-500 rounded-xl transition-all flex items-center justify-center" title="Logout">
+                    <span class="material-icons">logout</span>
+                </app-logout>
 
                 <!-- Mobile Menu Toggle -->
                 <button class="md:hidden p-2 text-primary/80" (click)="toggleMobileMenu()">
