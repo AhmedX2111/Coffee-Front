@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Aside } from '../components/aside/aside';
 import { Nav } from '../components/nav/nav';
@@ -8,6 +8,7 @@ import { Nav } from '../components/nav/nav';
   imports: [RouterOutlet , Aside , Nav],
   templateUrl: './layout-admin.html',
   styleUrl: './layout-admin.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Layout {
 

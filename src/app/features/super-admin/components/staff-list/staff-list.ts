@@ -22,7 +22,7 @@ export class StaffList implements OnInit {
   }
 
 
-
+ 
 getAllStaff(search: string = '') {
   this.staffService.getAllStaff(search).subscribe((res: any) => {
 
