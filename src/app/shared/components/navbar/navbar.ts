@@ -1,13 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { signal } from '@angular/core';
 import { CartService } from '../../../features/customer/services/cart-service';
+import { Logout } from '../../../features/auth/components/logout/logout';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule],
+  imports: [RouterLink, RouterLinkActive, CommonModule, Logout],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
