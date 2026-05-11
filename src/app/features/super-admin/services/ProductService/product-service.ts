@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ApiResponse } from '../../../customer/models';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
-import { AdminProductRequest, AdminProductResponse } from '../../models/product';
+import { AdminProductRequest, AdminProductResponse, AdminProductResponsePagination } from '../../models/product';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +18,9 @@ export class ProductService {
 
   
  //get all products
-  getAllProducts():Observable<ApiResponse<AdminProductResponse[]>>{
-    return this.http.get<ApiResponse<AdminProductResponse[]>>(`${this.apiUrl}/api/admin/product`)
+  getAllProducts( pageNumber : number , pageSize :number):Observable<ApiResponse<AdminProductResponsePagination>>{
+   pageNumber=pageNumber-1;
+    return this.http.get<ApiResponse<AdminProductResponsePagination>>(`${this.apiUrl}/api/admin/product?pageNumber=${pageNumber}&&pageSize=${pageSize}`)
   }
  
 // get one product by id
