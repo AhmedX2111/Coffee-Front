@@ -7,8 +7,8 @@
         <i class="ph-caret-left font-bold"></i>
       </button>
       <h1 class="text-2xl font-bold text-[#2D1B0D]">
-        {{  'Add New Category' }} <!-- isEditMode ? 'Edit Branch' : -->
-      </h1>
+        {{ isEditMode ? 'Edit Category' :  'Add New Category' }} 
+        </h1>
     </div>
 
     <div class="bg-white rounded-[32px] p-10 shadow-sm border border-gray-100">
@@ -16,7 +16,7 @@
         <!--category Name field   -->
         <div class="space-y-2">
           <label class="text-sm font-bold text-primary/60 mb-2 block ml-1">Category Name</label>
-          <input type="text" placeholder="e.g. Downtown Location" class="input-field " formControlName="name" [ngClass]="{
+          <input type="text" placeholder="Category Name" class="input-field " formControlName="name" [ngClass]="{
               'border-red-500': ( categoryForm.controls['name'].invalid && (categoryForm.controls['name'].dirty || categoryForm.controls['name'].touched)),
               'border-secondary': !( categoryForm.controls['name'].invalid && (categoryForm.controls['name'].dirty || categoryForm.controls['name'].touched))
             }">
@@ -29,51 +29,125 @@
           }
           }
         </div>
+        <!-- Image Upload -->
+<div class="flex flex-col gap-1.5">
+  <label class="text-[13px] font-semibold text-[#1A0F0A]"
+    style="font-family:'Trebuchet MS',sans-serif">
+    Product Image
+  </label>
 
-        <!-- category image url field -->
+  @if (imagePreview()) {
+
+  <!-- Preview -->
+  <div
+    class="relative h-[110px] rounded-lg overflow-hidden border-[1.5px] border-[#E8DDD4] group">
+
+    <img
+      [src]="imagePreview()"
+      alt="Preview"
+      class="w-full h-full object-cover block" />
+
+    <div
+      class="absolute inset-0 bg-[#2C1810]/45 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+
+      <button
+        type="button"
+        (click)="removeImage()"
+        class="flex items-center gap-1.5 bg-red-500/90 hover:bg-red-500 text-white text-[12px] font-semibold px-3 py-1.5 rounded-md transition-colors">
+
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path
+            d="M1 1L11 11M11 1L1 11"
+            stroke="white"
+            stroke-width="1.8"
+            stroke-linecap="round" />
+        </svg>
+
+        Remove
+      </button>
+    </div>
+
+    <span
+      class="absolute bottom-0 left-0 right-0 bg-[#2C1810]/60 text-white/90 text-[10px] px-2 py-1 truncate">
+      {{ fileName() }}
+    </span>
+  </div>
+
+  } @else {
+
+  <!-- Drop zone -->
+  <div
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+    (click)="fileInput.click()"
+    class="h-[110px] rounded-lg border-2 border-dashed border-[#E8DDD4] bg-[#FAF6F1]
+           flex flex-col items-center justify-center gap-1 cursor-pointer transition-all
+           hover:border-[#8B4513] hover:bg-white"
+    [class.border-[#8B4513]]="isDragging()"
+    [class.bg-white]="isDragging()"
+    [class.ring-2]="isDragging()"
+    [class.ring-[#8B4513]/10]="isDragging()">
+
+    <input
+      #fileInput
+      type="file"
+      accept="image/*"
+      class="hidden"
+      (change)="onImageSelected($event)" />
+
+    <span class="text-[#C68642]">
+      <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+        <path
+          d="M14 4V18M14 4L9 9M14 4L19 9"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
+        <path
+          d="M4 20V23C4 23.55 4.45 24 5 24H23C23.55 24 24 23.55 24 23V20"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round" />
+      </svg>
+    </span>
+
+    <p class="text-[13px] text-[#6B4C3B] m-0">
+      Drop image or
+      <span class="text-[#8B4513] font-semibold underline underline-offset-2">
+        browse
+      </span>
+    </p>
+
+    <p class="text-[11px] text-[#9C7B68] m-0">
+      PNG, JPG, WEBP up to 10MB
+    </p>
+  </div>
+
+  }
+</div>
+
         <div class="space-y-2">
-          <label class="text-sm font-bold text-primary/60 ml-1 mb-2 block">Category Image URL</label>
-          <input type="text" placeholder="e.g. https://example.com/image.jpg" class="input-field " formControlName="imageUrl" [ngClass]="{
-              'border-red-500': ( categoryForm.controls['imageUrl'].invalid && (categoryForm.controls['imageUrl'].dirty || categoryForm.controls['imageUrl'].touched)),
-              'border-secondary': !( categoryForm.controls['imageUrl'].invalid && (categoryForm.controls['imageUrl'].dirty || categoryForm.controls['imageUrl'].touched))
-            }">
-          @if(categoryForm.controls['imageUrl'].invalid && categoryForm.controls['imageUrl'].touched){
-          @if(categoryForm.controls['imageUrl'].errors?.['required']){
+          <label class="text-sm font-bold text-primary/60 mb-2 block ml-1">Select Addons</label>
 
-          <p class="text-danger">Image URL Required</p>
-          }
-          @if(categoryForm.controls['description'].errors?.['minlength']){
-          <p class="text-danger">Description must be at least 5 characters</p>
-          }
-          }
+          <app-multi-selected [options]="addonOptions()" [(selectedValues)]="selectedAddonIds"
+            placeholder="Pick Addons" />
 
-        </div>
-
-        <div class="space-y-2">
-                    <label class="text-sm font-bold text-primary/60 mb-2 block ml-1">Select Addons</label>
-
-         <app-multi-selected 
-        
-      [options]="addonOptions()"
-      [(selectedValues)]="selectedAddonIds"
-      placeholder="Pick Addons"
-    />
-
-  <!--   <div style="margin-top: 20px;">
+          <!--   <div style="margin-top: 20px;">
       <strong>Current Selection:</strong> {{ selectedAddonIds() | json }}
     </div> -->
-            </div>
-           
+        </div>
+
 
 
         <div class="flex gap-4 pt-4">
           <button type="submit" [disabled]="categoryForm.invalid || selectedAddonIds().length === 0|| isLoading()"
             class="flex-1 py-4 bg-[#2D1B0D] text-white font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed">
             @if (isLoading()) {
-       <span>Saving...</span> 
-    } @else {
-       <span>{{ isEditMode ? 'Update' : 'Add' }} Category</span>
-    }
+            <span>Saving...</span>
+            } @else {
+            <span>{{ isEditMode ? 'Update' : 'Add' }} Category</span>
+            }
           </button>
         </div>
       </form>
