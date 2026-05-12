@@ -13,7 +13,7 @@ export class CategoryService {
   private apiUrl = environment.apiBaseUrl;
   constructor(private http:HttpClient){}
 
-  addCategory(Category:AdminCategoryRequest):Observable<ApiResponse<AdminCategoryResponse>>{
+  addCategory(Category:FormData):Observable<ApiResponse<AdminCategoryResponse>>{
     return this.http.post<ApiResponse<AdminCategoryResponse>>(`${this.apiUrl}/api/category`,Category);
   }
 
@@ -33,7 +33,7 @@ export class CategoryService {
   }
 
 // update category
- updateCategory(id: String, request: AdminCategoryRequest): Observable<ApiResponse<AdminCategoryResponse>> {
+ updateCategory(id: String, request: FormData): Observable<ApiResponse<AdminCategoryResponse>> {
   return this.http.put<ApiResponse<AdminCategoryResponse>>(
     `${this.apiUrl}/api/category/${id}`,
     request

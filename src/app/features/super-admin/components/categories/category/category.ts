@@ -10,30 +10,32 @@ import { AddonService } from '../../../services/AddonService/addon-service';
 
 @Component({
   selector: 'app-category',
-  imports: [MultiSelected , ReactiveFormsModule , CommonModule],
+  imports: [MultiSelected, ReactiveFormsModule, CommonModule],
   templateUrl: './category.html',
   styleUrl: './category.css',
 })
 export class Category implements OnInit {
-   selectedAddonIds = signal<number[]>([]);
-// ... existing signals
-isLoading = signal(false);
+  selectedAddonIds = signal<number[]>([]);
+  // ... existing signals
+  isLoading = signal(false);
   categoryId !: String;
- categoryForm: FormGroup;
+  categoryForm: FormGroup;
   isEditMode = false;
- // 1. Initialize the signal with an empty array
+  imagePreview = signal<string | null>(null);
+  isDragging = signal(false);
+  fileName = signal<string | null>(null);
+  // 1. Initialize the signal with an empty array
   availableAddons = signal<AddonResponse[]>([]);
 
-   addonOptions =  computed(() => 
-  this.availableAddons().map(a => ({ label: a.name, value: a.id }))
-);;
+  addonOptions = computed(() =>
+    this.availableAddons().map(a => ({ label: a.name, value: a.id }))
+  );;
   // constructor
-   constructor(private fb: FormBuilder, private categoryService: CategoryService, private toastr: ToastrService, private router: ActivatedRoute , private addonService : AddonService) {
+  constructor(private fb: FormBuilder, private categoryService: CategoryService, private toastr: ToastrService, private router: ActivatedRoute, private addonService: AddonService) {
     this.categoryForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      imageUrl: ['', [Validators.required, Validators.minLength(5)]],
-     
-     
+      imageUrl: [null],
+
     });
 
   }// end of constructor 
@@ -47,19 +49,27 @@ isLoading = signal(false);
     }
   }
 
-   getAllAddons() {
+  getAllAddons() {
     this.addonService.getAllAddons().subscribe((res) => {
       this.availableAddons.set(res.data);
     });
   }
-// get one category from db
+  // get one category from db
   editData(categoryId: String) {
     this.categoryService.getOneCategory(categoryId).subscribe({
       next: (response) => {
         // 1. Fill the form with data
-        this.categoryForm.patchValue(response.data);
-this.selectedAddonIds.set(response.data.addonList.map(a => a.id)); // Set the selected addon IDs in the signal
-        
+       // this.categoryForm.patchValue(response.data);
+        this.selectedAddonIds.set(response.data.addonList.map(a => a.id)); // Set the selected addon IDs in the signal
+this.categoryForm.patchValue({
+          name: response.data.name,
+         
+          imageUrl:response.data.imageUrl
+        });
+        this.imagePreview.set(response.data.imageUrl);
+         this.fileName.set(response.data.imageUrl.split('/').pop() || null);  
+      
+      
       }
     })
   }
@@ -72,20 +82,29 @@ this.selectedAddonIds.set(response.data.addonList.map(a => a.id)); // Set the se
     }
 
     // 2. Validate the Signal (selectedAddonIds) is NOT empty
-  if (this.selectedAddonIds().length === 0) {
-    this.toastr.error('Please select at least one addon');
-    return;
-  }
- //   const formValue = this.categoryForm.value;
- this.isLoading.set(true); // Start loading
-    // Construct the payload according to your requirement
-    const payload = {
-      name: this.categoryForm.value.name,
-      imageUrl: this.categoryForm.value.imageUrl,
-      addonList: this.selectedAddonIds(), // Get values from the signal
-    };
+    if (this.selectedAddonIds().length === 0) {
+      this.toastr.error('Please select at least one addon');
+      return;
+    }
+    //   const formValue = this.categoryForm.value;
+    this.isLoading.set(true); // Start loading
+
+    const formData = new FormData();
+
+    // basic fields
+    formData.append('name', this.categoryForm.value.name);
+
+    this.selectedAddonIds().forEach((addonId, index) => {
+      formData.append(`addonList[${index}]`, addonId.toString());
+    });
+    // image file
+    const file = this.categoryForm.value.imageUrl;
+    if (file instanceof File) {
+      formData.append('imageUrl', file); // changed to match MultipartFile imageUrl in DTO
+    }
+   // console.log('Form Data to be sent:', formData.get('imageUrl')); // Debug log
     if (this.isEditMode) {
-      this.categoryService.updateCategory(this.categoryId, payload).subscribe({
+      this.categoryService.updateCategory(this.categoryId, formData).subscribe({
         next: (res) => {
           if (res.success) {
             this.toastr.success(res.message);
@@ -100,14 +119,16 @@ this.selectedAddonIds.set(response.data.addonList.map(a => a.id)); // Set the se
         },
       });
     } else {
-      this.categoryService.addCategory(payload).subscribe({
+      this.categoryService.addCategory(formData).subscribe({
         next: (res) => {
           if (res.success) {
             this.toastr.success(res.message);
-            
+
             this.categoryForm.reset();
-             this.selectedAddonIds.set([]); 
-             this.isLoading.set(false); // end loading
+            this.selectedAddonIds.set([]);
+            this.imagePreview.set(null);
+            this.fileName.set(null);
+            this.isLoading.set(false); // end loading
           } else {
             this.toastr.error(res.message);
             this.isLoading.set(false); // end loading
@@ -123,6 +144,49 @@ this.selectedAddonIds.set(response.data.addonList.map(a => a.id)); // Set the se
 
   }// end of submitBranch
 
+  /* images handling */
+  onImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.processFile(input.files[0]);
+    }
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    this.isDragging.set(true);
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    this.isDragging.set(false);
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    this.isDragging.set(false);
+    const files = event.dataTransfer?.files;
+    if (files && files[0]) {
+      this.processFile(files[0]);
+    }
+  }
+
+  private processFile(file: File) {
+    if (!file.type.startsWith('image/')) return;
+    this.fileName.set(file.name);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.imagePreview.set(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+    this.categoryForm.patchValue({ imageUrl: file });
+  }
+
+  removeImage() {
+    this.imagePreview.set(null);
+    this.fileName.set(null);
+    this.categoryForm.patchValue({ imageUrl: null });
+  }
 
 
 }

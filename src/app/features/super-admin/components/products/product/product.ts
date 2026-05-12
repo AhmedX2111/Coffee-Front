@@ -4,7 +4,6 @@ import { Component, OnInit, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdminCategoryResponse } from '../../../models/category';
 import { CategoryService } from '../../../services/CategoryService/category-service.ts';
-import { ProductSize } from '../../../models/product';
 import { ProductService } from '../../../services/ProductService/product-service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -107,7 +106,7 @@ isEditMode = false;
       this.productSizes.removeAt(index);
     }
   }
-
+/* images handling */
   onImageSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
