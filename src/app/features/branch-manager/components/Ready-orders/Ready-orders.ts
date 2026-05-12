@@ -58,12 +58,8 @@ changeStatus(id: number, status: OrderStatus) {
       )
       .subscribe({
         next: (res) => {
-          this.orders.update(list => 
-            list
-              .map(order => order.id === id ? { ...order, status } : order)
-              .filter(order => order.status !== OrderStatus.READY)
-          );
-          this.toastr.success(res.message)
+          this.orders.update(list => list.filter(order => order.id !== id));
+          this.toastr.success(res.message);
         },
         error: (err) => {
           console.error('Transaction failed, button re-enabled:', err);

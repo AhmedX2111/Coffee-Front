@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-order-card',
-  imports: [PickupTime , OrderDetailsModal , CommonModule , SearchOrders],
+  imports: [PickupTime , OrderDetailsModal , CommonModule , SearchOrders ],
   templateUrl: './order-card.html',
   styleUrl: './order-card.css',
 })

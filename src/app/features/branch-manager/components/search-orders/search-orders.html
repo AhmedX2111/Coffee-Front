@@ -1,11 +1,11 @@
 <div class="relative w-full md:w-72">
-  <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
-    search
-  </span>
+  <div class="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-2 text-gray-400">
+    <span class="material-icons text-lg">search</span>
+    <span class="text-sm pointer-events-none">Search...</span>
+  </div>
   <input 
     type="text" 
-    placeholder="Search..."
-    class="input-field pl-10 py-2 text-sm border-gray-200"
+    class="input-field pl-28 py-2 text-sm border-gray-200 w-full"
     (input)="onSearch($event)"
   >
-</div>  
+</div>
